@@ -1,23 +1,14 @@
-import { redirect } from "next/navigation";
+import { requireAuth } from "@/lib/auth-utils";
 import Dashboard from "./dashboard";
-import { headers } from "next/headers";
-import { auth } from "@consultoria-financiera/auth";
-import { authClient } from "@/lib/auth-client";
 
 export default async function DashboardPage() {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+  const session = await requireAuth();
 
-	if (!session?.user) {
-		redirect("/login");
-	}
-
-	return (
-		<div>
-			<h1>Dashboard</h1>
-			<p>Welcome {session.user.name}</p>
-			<Dashboard session={session} />
-		</div>
-	);
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome {session.user.name}</p>
+      <Dashboard session={session} />
+    </div>
+  );
 }

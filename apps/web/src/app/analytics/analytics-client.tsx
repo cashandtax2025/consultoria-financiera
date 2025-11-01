@@ -2,6 +2,16 @@
 
 import { useMemo, useState } from "react";
 import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -10,21 +20,12 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { productionSalesData } from "@/lib/dummy-data";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 
 export default function AnalyticsPage() {
   // Filters state
   const [selectedFinca, setSelectedFinca] = useState<string>("all");
-  const [selectedTipoProducto, setSelectedTipoProducto] = useState<string>("all");
+  const [selectedTipoProducto, setSelectedTipoProducto] =
+    useState<string>("all");
   const [selectedProducto, setSelectedProducto] = useState<string>("all");
 
   // Get unique values for filters
@@ -49,31 +50,40 @@ export default function AnalyticsPage() {
   // Filter data based on selections
   const filteredData = useMemo(() => {
     return productionSalesData.filter((record) => {
-      if (selectedFinca !== "all" && record.finca !== selectedFinca) return false;
-      if (selectedTipoProducto !== "all" && record.tipoProducto !== selectedTipoProducto) return false;
-      if (selectedProducto !== "all" && record.producto !== selectedProducto) return false;
+      if (selectedFinca !== "all" && record.finca !== selectedFinca)
+        return false;
+      if (
+        selectedTipoProducto !== "all" &&
+        record.tipoProducto !== selectedTipoProducto
+      )
+        return false;
+      if (selectedProducto !== "all" && record.producto !== selectedProducto)
+        return false;
       return true;
     });
   }, [selectedFinca, selectedTipoProducto, selectedProducto]);
   // Calculate average price per product per month
   const priceEvolution = useMemo(() => {
-    const grouped = new Map<string, Map<string, { totalPrice: number; count: number }>>();
+    const grouped = new Map<
+      string,
+      Map<string, { totalPrice: number; count: number }>
+    >();
 
     filteredData.forEach((record) => {
       const month = new Date(record.fechaAlbaran).toLocaleDateString("es-ES", {
         year: "numeric",
         month: "short",
       });
-      
+
       if (!grouped.has(record.producto)) {
         grouped.set(record.producto, new Map());
       }
-      
+
       const productData = grouped.get(record.producto)!;
       if (!productData.has(month)) {
         productData.set(month, { totalPrice: 0, count: 0 });
       }
-      
+
       const monthData = productData.get(month)!;
       monthData.totalPrice += record.precio;
       monthData.count += 1;
@@ -122,25 +132,38 @@ export default function AnalyticsPage() {
   const chartData = useMemo(() => {
     return allMonths.map((month) => {
       const monthData: Record<string, any> = { month };
-      
+
       priceEvolution.forEach((product) => {
         const productMonthData = product.data.find((d) => d.month === month);
         if (productMonthData) {
           monthData[product.producto] = productMonthData.avgPrice;
         }
       });
-      
+
       return monthData;
     });
   }, [allMonths, priceEvolution]);
 
   // Calculate total volume and revenue per product
   const productStats = useMemo(() => {
-    const stats = new Map<string, { totalKgs: number; totalRevenue: number; avgPrice: number; count: number }>();
+    const stats = new Map<
+      string,
+      {
+        totalKgs: number;
+        totalRevenue: number;
+        avgPrice: number;
+        count: number;
+      }
+    >();
 
     filteredData.forEach((record) => {
       if (!stats.has(record.producto)) {
-        stats.set(record.producto, { totalKgs: 0, totalRevenue: 0, avgPrice: 0, count: 0 });
+        stats.set(record.producto, {
+          totalKgs: 0,
+          totalRevenue: 0,
+          avgPrice: 0,
+          count: 0,
+        });
       }
       const s = stats.get(record.producto)!;
       s.totalKgs += record.kgs;
@@ -170,23 +193,26 @@ export default function AnalyticsPage() {
 
   // Calculate production and revenue by month and product
   const monthlyProductionRevenue = useMemo(() => {
-    const grouped = new Map<string, Map<string, { totalKgs: number; totalRevenue: number }>>();
+    const grouped = new Map<
+      string,
+      Map<string, { totalKgs: number; totalRevenue: number }>
+    >();
 
     filteredData.forEach((record) => {
       const month = new Date(record.fechaAlbaran).toLocaleDateString("es-ES", {
         year: "numeric",
         month: "short",
       });
-      
+
       if (!grouped.has(month)) {
         grouped.set(month, new Map());
       }
-      
+
       const monthData = grouped.get(month)!;
       if (!monthData.has(record.producto)) {
         monthData.set(record.producto, { totalKgs: 0, totalRevenue: 0 });
       }
-      
+
       const productData = monthData.get(record.producto)!;
       productData.totalKgs += record.kgs;
       productData.totalRevenue += record.facturacionNeta;
@@ -195,13 +221,21 @@ export default function AnalyticsPage() {
     // Convert to array format
     const result: Array<{
       month: string;
-      products: Array<{ producto: string; totalKgs: number; totalRevenue: number }>;
+      products: Array<{
+        producto: string;
+        totalKgs: number;
+        totalRevenue: number;
+      }>;
       monthTotalKgs: number;
       monthTotalRevenue: number;
     }> = [];
 
     grouped.forEach((products, month) => {
-      const productArray: Array<{ producto: string; totalKgs: number; totalRevenue: number }> = [];
+      const productArray: Array<{
+        producto: string;
+        totalKgs: number;
+        totalRevenue: number;
+      }> = [];
       let monthTotalKgs = 0;
       let monthTotalRevenue = 0;
 
@@ -232,8 +266,12 @@ export default function AnalyticsPage() {
   }, [filteredData]);
 
   // Find max values for scaling charts
-  const maxKgs = Math.max(...monthlyProductionRevenue.map(m => m.monthTotalKgs));
-  const maxRevenue = Math.max(...monthlyProductionRevenue.map(m => m.monthTotalRevenue));
+  const maxKgs = Math.max(
+    ...monthlyProductionRevenue.map((m) => m.monthTotalKgs),
+  );
+  const maxRevenue = Math.max(
+    ...monthlyProductionRevenue.map((m) => m.monthTotalRevenue),
+  );
 
   // Calculate production breakdown by product type, farm, and month
   const productionBreakdown = useMemo(() => {
@@ -378,7 +416,9 @@ export default function AnalyticsPage() {
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Filtros</CardTitle>
-          <CardDescription>Filtrar datos por finca, tipo de producto y producto</CardDescription>
+          <CardDescription>
+            Filtrar datos por finca, tipo de producto y producto
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
@@ -433,10 +473,13 @@ export default function AnalyticsPage() {
               </select>
             </div>
           </div>
-          {(selectedFinca !== "all" || selectedTipoProducto !== "all" || selectedProducto !== "all") && (
+          {(selectedFinca !== "all" ||
+            selectedTipoProducto !== "all" ||
+            selectedProducto !== "all") && (
             <div className="mt-4 flex items-center gap-2">
               <span className="text-sm text-muted-foreground">
-                Filtros activos: {filteredData.length} de {productionSalesData.length} registros
+                Filtros activos: {filteredData.length} de{" "}
+                {productionSalesData.length} registros
               </span>
               <button
                 onClick={() => {
@@ -460,11 +503,14 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {filteredData.reduce((sum, r) => sum + r.kgs, 0).toLocaleString()} kg
+              {filteredData.reduce((sum, r) => sum + r.kgs, 0).toLocaleString()}{" "}
+              kg
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              {selectedFinca !== "all" || selectedTipoProducto !== "all" || selectedProducto !== "all" 
-                ? "Datos filtrados" 
+              {selectedFinca !== "all" ||
+              selectedTipoProducto !== "all" ||
+              selectedProducto !== "all"
+                ? "Datos filtrados"
                 : "Todos los productos"}
             </p>
           </CardContent>
@@ -472,15 +518,18 @@ export default function AnalyticsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Facturación Total</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Facturación Total
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              €{filteredData.reduce((sum, r) => sum + r.facturacionNeta, 0).toLocaleString("es-ES", { maximumFractionDigits: 2 })}
+              €
+              {filteredData
+                .reduce((sum, r) => sum + r.facturacionNeta, 0)
+                .toLocaleString("es-ES", { maximumFractionDigits: 2 })}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Importe neto
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Importe neto</p>
           </CardContent>
         </Card>
 
@@ -490,7 +539,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {new Set(filteredData.map(r => r.producto)).size}
+              {new Set(filteredData.map((r) => r.producto)).size}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Tipos diferentes
@@ -512,7 +561,9 @@ export default function AnalyticsPage() {
               {monthlyProductionRevenue.map((monthData, idx) => (
                 <div key={idx}>
                   <div className="flex justify-between items-baseline mb-2">
-                    <span className="text-sm font-semibold">{monthData.month}</span>
+                    <span className="text-sm font-semibold">
+                      {monthData.month}
+                    </span>
                     <span className="text-sm font-mono text-muted-foreground">
                       {monthData.monthTotalKgs.toLocaleString()} kg
                     </span>
@@ -522,12 +573,16 @@ export default function AnalyticsPage() {
                       <div key={pIdx}>
                         <div className="flex justify-between text-xs mb-1">
                           <span>{product.producto}</span>
-                          <span className="font-mono">{product.totalKgs} kg</span>
+                          <span className="font-mono">
+                            {product.totalKgs} kg
+                          </span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-2">
                           <div
                             className="bg-primary h-2 rounded-full transition-all"
-                            style={{ width: `${(product.totalKgs / maxKgs) * 100}%` }}
+                            style={{
+                              width: `${(product.totalKgs / maxKgs) * 100}%`,
+                            }}
                           />
                         </div>
                       </div>
@@ -551,9 +606,14 @@ export default function AnalyticsPage() {
               {monthlyProductionRevenue.map((monthData, idx) => (
                 <div key={idx}>
                   <div className="flex justify-between items-baseline mb-2">
-                    <span className="text-sm font-semibold">{monthData.month}</span>
+                    <span className="text-sm font-semibold">
+                      {monthData.month}
+                    </span>
                     <span className="text-sm font-mono text-muted-foreground">
-                      €{monthData.monthTotalRevenue.toLocaleString("es-ES", { maximumFractionDigits: 2 })}
+                      €
+                      {monthData.monthTotalRevenue.toLocaleString("es-ES", {
+                        maximumFractionDigits: 2,
+                      })}
                     </span>
                   </div>
                   <div className="space-y-2">
@@ -562,13 +622,18 @@ export default function AnalyticsPage() {
                         <div className="flex justify-between text-xs mb-1">
                           <span>{product.producto}</span>
                           <span className="font-mono">
-                            €{product.totalRevenue.toLocaleString("es-ES", { maximumFractionDigits: 2 })}
+                            €
+                            {product.totalRevenue.toLocaleString("es-ES", {
+                              maximumFractionDigits: 2,
+                            })}
                           </span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-2">
                           <div
                             className="bg-green-500 h-2 rounded-full transition-all"
-                            style={{ width: `${(product.totalRevenue / maxRevenue) * 100}%` }}
+                            style={{
+                              width: `${(product.totalRevenue / maxRevenue) * 100}%`,
+                            }}
                           />
                         </div>
                       </div>
@@ -591,24 +656,31 @@ export default function AnalyticsPage() {
         <CardContent>
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <BarChart
+                data={chartData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis 
-                  label={{ value: 'Precio (€/kg)', angle: -90, position: 'insideLeft' }}
-                  domain={[0, 'auto']}
+                <YAxis
+                  label={{
+                    value: "Precio (€/kg)",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                  domain={[0, "auto"]}
                 />
-                <Tooltip 
-                  formatter={(value: number) => [`€${value.toFixed(2)}/kg`, '']}
-                  labelStyle={{ color: '#000' }}
+                <Tooltip
+                  formatter={(value: number) => [`€${value.toFixed(2)}/kg`, ""]}
+                  labelStyle={{ color: "#000" }}
                 />
                 <Legend />
                 {priceEvolution.map((product, idx) => {
                   const colors = ["#3b82f6", "#10b981", "#a855f7", "#f97316"];
                   return (
-                    <Bar 
-                      key={idx} 
-                      dataKey={product.producto} 
+                    <Bar
+                      key={idx}
+                      dataKey={product.producto}
                       fill={colors[idx % colors.length]}
                       name={product.producto}
                     />
@@ -636,10 +708,18 @@ export default function AnalyticsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-3 px-4 font-semibold">Producto</th>
-                  <th className="text-right py-3 px-4 font-semibold">Volumen Total (kg)</th>
-                  <th className="text-right py-3 px-4 font-semibold">Facturación Total</th>
-                  <th className="text-right py-3 px-4 font-semibold">Precio Medio/kg</th>
+                  <th className="text-left py-3 px-4 font-semibold">
+                    Producto
+                  </th>
+                  <th className="text-right py-3 px-4 font-semibold">
+                    Volumen Total (kg)
+                  </th>
+                  <th className="text-right py-3 px-4 font-semibold">
+                    Facturación Total
+                  </th>
+                  <th className="text-right py-3 px-4 font-semibold">
+                    Precio Medio/kg
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -650,7 +730,10 @@ export default function AnalyticsPage() {
                       {stat.totalKgs.toLocaleString()}
                     </td>
                     <td className="text-right py-3 px-4 font-mono">
-                      €{stat.totalRevenue.toLocaleString("es-ES", { maximumFractionDigits: 2 })}
+                      €
+                      {stat.totalRevenue.toLocaleString("es-ES", {
+                        maximumFractionDigits: 2,
+                      })}
                     </td>
                     <td className="text-right py-3 px-4 font-mono">
                       €{stat.avgPrice.toFixed(2)}
@@ -664,11 +747,13 @@ export default function AnalyticsPage() {
       </Card>
 
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Production Quality & Origin Breakdown</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Production Quality & Origin Breakdown
+        </h2>
         <p className="text-muted-foreground mb-6">
           Percentage distribution by product type and farm
         </p>
-        
+
         <div className="space-y-6">
           {productionBreakdown.map((product, idx) => (
             <Card key={idx}>
@@ -708,7 +793,9 @@ export default function AnalyticsPage() {
                       {product.byFinca.map((finca, fIdx) => (
                         <div key={fIdx}>
                           <div className="flex justify-between text-sm mb-1">
-                            <span className="font-medium">Finca {finca.finca}</span>
+                            <span className="font-medium">
+                              Finca {finca.finca}
+                            </span>
                             <span className="font-mono text-muted-foreground">
                               {finca.kgs} kg ({finca.percentage.toFixed(1)}%)
                             </span>
@@ -733,26 +820,38 @@ export default function AnalyticsPage() {
                         <h5 className="font-medium mb-3">{month.month}</h5>
                         <div className="grid gap-4 md:grid-cols-2">
                           <div>
-                            <div className="text-xs text-muted-foreground mb-2">By Type</div>
+                            <div className="text-xs text-muted-foreground mb-2">
+                              By Type
+                            </div>
                             <div className="space-y-2">
                               {month.byType.map((type, tIdx) => (
-                                <div key={tIdx} className="flex justify-between text-sm">
+                                <div
+                                  key={tIdx}
+                                  className="flex justify-between text-sm"
+                                >
                                   <span>{type.tipo}</span>
                                   <span className="font-mono">
-                                    {type.kgs} kg ({type.percentage.toFixed(1)}%)
+                                    {type.kgs} kg ({type.percentage.toFixed(1)}
+                                    %)
                                   </span>
                                 </div>
                               ))}
                             </div>
                           </div>
                           <div>
-                            <div className="text-xs text-muted-foreground mb-2">By Farm</div>
+                            <div className="text-xs text-muted-foreground mb-2">
+                              By Farm
+                            </div>
                             <div className="space-y-2">
                               {month.byFinca.map((finca, fIdx) => (
-                                <div key={fIdx} className="flex justify-between text-sm">
+                                <div
+                                  key={fIdx}
+                                  className="flex justify-between text-sm"
+                                >
                                   <span>Finca {finca.finca}</span>
                                   <span className="font-mono">
-                                    {finca.kgs} kg ({finca.percentage.toFixed(1)}%)
+                                    {finca.kgs} kg (
+                                    {finca.percentage.toFixed(1)}%)
                                   </span>
                                 </div>
                               ))}
@@ -771,4 +870,3 @@ export default function AnalyticsPage() {
     </div>
   );
 }
-

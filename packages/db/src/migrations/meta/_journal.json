@@ -8,6 +8,13 @@
       "when": 1762031312854,
       "tag": "0000_nifty_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1762032549273,
+      "tag": "0001_fine_violations",
+      "breakpoints": true
     }
   ]
 }

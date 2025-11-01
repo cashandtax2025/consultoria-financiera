@@ -9,16 +9,9 @@
   "orm": "drizzle",
   "backend": "self",
   "runtime": "none",
-  "frontend": [
-    "next"
-  ],
-  "addons": [
-    "turborepo"
-  ],
-  "examples": [
-    "ai",
-    "todo"
-  ],
+  "frontend": ["next"],
+  "addons": ["turborepo"],
+  "examples": ["ai", "todo"],
   "auth": "better-auth",
   "packageManager": "pnpm",
   "dbSetup": "neon",

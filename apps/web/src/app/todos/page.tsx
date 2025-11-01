@@ -1,16 +1,8 @@
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
-import { auth } from "@consultoria-financiera/auth";
+import { requireAuth } from "@/lib/auth-utils";
 import TodosClient from "./todos-client";
 
 export default async function TodosPage() {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	});
+  await requireAuth();
 
-	if (!session?.user) {
-		redirect("/login");
-	}
-
-	return <TodosClient />;
+  return <TodosClient />;
 }

@@ -4,13 +4,17 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "default": "./src/index.ts"
     },
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "default": "./src/*.ts"
+    "./schema/*": {
+      "types": "./dist/schema/*.d.ts",
+      "import": "./dist/schema/*.js",
+      "default": "./src/schema/*.ts"
     }
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsdown",
     "db:push": "drizzle-kit push",

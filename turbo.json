@@ -1,55 +1,55 @@
 {
-	"$schema": "https://turbo.build/schema.json",
-	"ui": "tui",
-	"globalEnv": [
-		"DATABASE_URL",
-		"DATABASE_URL_POOLER",
-		"PUBLIC_NEON_LAUNCHPAD_CLAIM_URL",
-		"BETTER_AUTH_SECRET",
-		"BETTER_AUTH_URL",
-		"CORS_ORIGIN",
-		"GOOGLE_GENERATIVE_AI_API_KEY"
-	],
-	"tasks": {
-		"build": {
-			"dependsOn": ["^build"],
-			"inputs": ["$TURBO_DEFAULT$", ".env*"],
-			"outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-			"env": [
-				"DATABASE_URL",
-				"DATABASE_URL_POOLER",
-				"PUBLIC_NEON_LAUNCHPAD_CLAIM_URL",
-				"BETTER_AUTH_SECRET",
-				"BETTER_AUTH_URL",
-				"CORS_ORIGIN",
-				"GOOGLE_GENERATIVE_AI_API_KEY"
-			]
-		},
-		"lint": {
-			"dependsOn": ["^lint"]
-		},
-		"check-types": {
-			"dependsOn": ["^check-types"]
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		},
-		"db:push": {
-			"cache": false,
-			"persistent": true
-		},
-		"db:studio": {
-			"cache": false,
-			"persistent": true
-		},
-		"db:migrate": {
-			"cache": false,
-			"persistent": true
-		},
-		"db:generate": {
-			"cache": false,
-			"persistent": true
-		}
-	}
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "DATABASE_URL",
+    "DATABASE_URL_POOLER",
+    "PUBLIC_NEON_LAUNCHPAD_CLAIM_URL",
+    "BETTER_AUTH_SECRET",
+    "BETTER_AUTH_URL",
+    "CORS_ORIGIN",
+    "GOOGLE_GENERATIVE_AI_API_KEY"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "env": [
+        "DATABASE_URL",
+        "DATABASE_URL_POOLER",
+        "PUBLIC_NEON_LAUNCHPAD_CLAIM_URL",
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_URL",
+        "CORS_ORIGIN",
+        "GOOGLE_GENERATIVE_AI_API_KEY"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:push": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:generate": {
+      "cache": false,
+      "persistent": true
+    }
+  }
 }
