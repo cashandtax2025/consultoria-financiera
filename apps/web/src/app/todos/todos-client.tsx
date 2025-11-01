@@ -61,8 +61,8 @@ export default function TodosPage() {
     <div className="mx-auto w-full max-w-md py-10">
       <Card>
         <CardHeader>
-          <CardTitle>Todo List</CardTitle>
-          <CardDescription>Manage your tasks efficiently</CardDescription>
+          <CardTitle>Lista de Tareas</CardTitle>
+          <CardDescription>Gestiona tus tareas de manera eficiente</CardDescription>
         </CardHeader>
         <CardContent>
           <form
@@ -72,7 +72,7 @@ export default function TodosPage() {
             <Input
               value={newTodoText}
               onChange={(e) => setNewTodoText(e.target.value)}
-              placeholder="Add a new task..."
+              placeholder="Agregar una nueva tarea..."
               disabled={createMutation.isPending}
             />
             <Button
@@ -82,7 +82,7 @@ export default function TodosPage() {
               {createMutation.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                "Add"
+                "Agregar"
               )}
             </Button>
           </form>
@@ -92,7 +92,7 @@ export default function TodosPage() {
               <Loader2 className="h-6 w-6 animate-spin" />
             </div>
           ) : todos.data?.length === 0 ? (
-            <p className="py-4 text-center">No todos yet. Add one above!</p>
+            <p className="py-4 text-center">No hay tareas aún. ¡Agrega una arriba!</p>
           ) : (
             <ul className="space-y-2">
               {todos.data?.map((todo) => (
@@ -115,12 +115,12 @@ export default function TodosPage() {
                       {todo.text}
                     </label>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDeleteTodo(todo.id)}
-                    aria-label="Delete todo"
-                  >
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDeleteTodo(todo.id)}
+                      aria-label="Eliminar tarea"
+                    >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </li>

@@ -35,7 +35,7 @@ export default function AIClient() {
       <div className="overflow-y-auto space-y-4 pb-4">
         {messages.length === 0 ? (
           <div className="text-center text-muted-foreground mt-8">
-            Ask me anything to get started!
+            ¡Pregúntame cualquier cosa para empezar!
           </div>
         ) : (
           messages.map((message) => (
@@ -48,7 +48,7 @@ export default function AIClient() {
               }`}
             >
               <p className="text-sm font-semibold mb-1">
-                {message.role === "user" ? "You" : "AI Assistant"}
+                {message.role === "user" ? "Tú" : "Asistente IA"}
               </p>
               {message.parts?.map((part, index) => {
                 if (part.type === "text") {
@@ -70,7 +70,7 @@ export default function AIClient() {
           name="prompt"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
+          placeholder="Escribe tu mensaje..."
           className="flex-1"
           autoComplete="off"
           autoFocus

@@ -32,7 +32,7 @@ export default function SignUpForm({
         {
           onSuccess: () => {
             router.push("/dashboard");
-            toast.success("Sign up successful");
+            toast.success("Registro exitoso");
           },
           onError: (error) => {
             toast.error(error.error.message || error.error.statusText);
@@ -42,9 +42,9 @@ export default function SignUpForm({
     },
     validators: {
       onSubmit: z.object({
-        name: z.string().min(2, "Name must be at least 2 characters"),
-        email: z.email("Invalid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters"),
+        name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+        email: z.email("Dirección de correo electrónico inválida"),
+        password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
       }),
     },
   });
@@ -55,7 +55,7 @@ export default function SignUpForm({
 
   return (
     <div className="mx-auto w-full mt-10 max-w-md p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold">Create Account</h1>
+      <h1 className="mb-6 text-center text-3xl font-bold">Crear cuenta</h1>
 
       <form
         onSubmit={(e) => {
@@ -69,7 +69,7 @@ export default function SignUpForm({
           <form.Field name="name">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Name</Label>
+                <Label htmlFor={field.name}>Nombre</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -91,7 +91,7 @@ export default function SignUpForm({
           <form.Field name="email">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Email</Label>
+                <Label htmlFor={field.name}>Correo electrónico</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -114,7 +114,7 @@ export default function SignUpForm({
           <form.Field name="password">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Password</Label>
+                <Label htmlFor={field.name}>Contraseña</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -140,7 +140,7 @@ export default function SignUpForm({
               className="w-full"
               disabled={!state.canSubmit || state.isSubmitting}
             >
-              {state.isSubmitting ? "Submitting..." : "Sign Up"}
+              {state.isSubmitting ? "Enviando..." : "Registrarse"}
             </Button>
           )}
         </form.Subscribe>
@@ -152,7 +152,7 @@ export default function SignUpForm({
           onClick={onSwitchToSignIn}
           className="text-indigo-600 hover:text-indigo-800"
         >
-          Already have an account? Sign In
+          ¿Ya tienes una cuenta? Inicia sesión
         </Button>
       </div>
     </div>

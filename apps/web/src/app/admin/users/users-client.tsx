@@ -295,7 +295,7 @@ export function UsersClient() {
   };
 
   if (loading) {
-    return <div className="text-center py-10">Loading users...</div>;
+    return <div className="text-center py-10">Cargando usuarios...</div>;
   }
 
   return (
@@ -306,19 +306,19 @@ export function UsersClient() {
           <DialogTrigger asChild>
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
-              Create User
+              Crear Usuario
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New User</DialogTitle>
+              <DialogTitle>Crear Nuevo Usuario</DialogTitle>
               <DialogDescription>
-                Add a new user to the system
+                Agregar un nuevo usuario al sistema
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="create-name">Name</Label>
+                <Label htmlFor="create-name">Nombre</Label>
                 <Input
                   id="create-name"
                   value={createForm.name}
@@ -328,7 +328,7 @@ export function UsersClient() {
                 />
               </div>
               <div>
-                <Label htmlFor="create-email">Email</Label>
+                <Label htmlFor="create-email">Correo electrónico</Label>
                 <Input
                   id="create-email"
                   type="email"
@@ -339,7 +339,7 @@ export function UsersClient() {
                 />
               </div>
               <div>
-                <Label htmlFor="create-password">Password</Label>
+                <Label htmlFor="create-password">Contraseña</Label>
                 <Input
                   id="create-password"
                   type="password"
@@ -350,7 +350,7 @@ export function UsersClient() {
                 />
               </div>
               <div>
-                <Label htmlFor="create-role">Role</Label>
+                <Label htmlFor="create-role">Rol</Label>
                 <Select
                   value={createForm.role}
                   onValueChange={(value: "user" | "admin") =>
@@ -361,8 +361,8 @@ export function UsersClient() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="user">User</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="user">Usuario</SelectItem>
+                    <SelectItem value="admin">Administrador</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -372,9 +372,9 @@ export function UsersClient() {
                 variant="outline"
                 onClick={() => setCreateDialogOpen(false)}
               >
-                Cancel
+                Cancelar
               </Button>
-              <Button onClick={handleCreateUser}>Create</Button>
+              <Button onClick={handleCreateUser}>Crear</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -385,12 +385,12 @@ export function UsersClient() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>Nombre</TableHead>
+              <TableHead>Correo electrónico</TableHead>
+              <TableHead>Rol</TableHead>
+              <TableHead>Estado</TableHead>
+              <TableHead>Creado</TableHead>
+              <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -407,9 +407,9 @@ export function UsersClient() {
                 </TableCell>
                 <TableCell>
                   {user.banned ? (
-                    <Badge variant="destructive">Banned</Badge>
+                    <Badge variant="destructive">Bloqueado</Badge>
                   ) : (
-                    <Badge variant="outline">Active</Badge>
+                    <Badge variant="outline">Activo</Badge>
                   )}
                 </TableCell>
                 <TableCell>
@@ -438,14 +438,14 @@ export function UsersClient() {
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Edit User</DialogTitle>
+                          <DialogTitle>Editar Usuario</DialogTitle>
                           <DialogDescription>
-                            Update user information
+                            Actualizar información del usuario
                           </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="edit-name">Name</Label>
+                            <Label htmlFor="edit-name">Nombre</Label>
                             <Input
                               id="edit-name"
                               value={editForm.name}
@@ -458,7 +458,7 @@ export function UsersClient() {
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-email">Email</Label>
+                            <Label htmlFor="edit-email">Correo electrónico</Label>
                             <Input
                               id="edit-email"
                               type="email"
@@ -477,9 +477,9 @@ export function UsersClient() {
                             variant="outline"
                             onClick={() => setEditDialogOpen(false)}
                           >
-                            Cancel
+                            Cancelar
                           </Button>
-                          <Button onClick={handleEditUser}>Save</Button>
+                          <Button onClick={handleEditUser}>Guardar</Button>
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
@@ -506,14 +506,14 @@ export function UsersClient() {
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Change Role</DialogTitle>
+                          <DialogTitle>Cambiar Rol</DialogTitle>
                           <DialogDescription>
-                            Update user role
+                            Actualizar rol del usuario
                           </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="role">Role</Label>
+                            <Label htmlFor="role">Rol</Label>
                             <Select
                               value={roleForm.role}
                               onValueChange={(value: "user" | "admin") =>
@@ -524,8 +524,8 @@ export function UsersClient() {
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="user">User</SelectItem>
-                                <SelectItem value="admin">Admin</SelectItem>
+                                <SelectItem value="user">Usuario</SelectItem>
+                                <SelectItem value="admin">Administrador</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
@@ -535,10 +535,10 @@ export function UsersClient() {
                             variant="outline"
                             onClick={() => setRoleDialogOpen(false)}
                           >
-                            Cancel
+                            Cancelar
                           </Button>
                           <Button onClick={handleChangeRole}>
-                            Change Role
+                            Cambiar Rol
                           </Button>
                         </DialogFooter>
                       </DialogContent>
@@ -562,14 +562,14 @@ export function UsersClient() {
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Change Password</DialogTitle>
+                          <DialogTitle>Cambiar Contraseña</DialogTitle>
                           <DialogDescription>
-                            Set a new password for {user.name}
+                            Establecer una nueva contraseña para {user.name}
                           </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="new-password">New Password</Label>
+                            <Label htmlFor="new-password">Nueva Contraseña</Label>
                             <Input
                               id="new-password"
                               type="password"
@@ -585,10 +585,10 @@ export function UsersClient() {
                             variant="outline"
                             onClick={() => setPasswordDialogOpen(false)}
                           >
-                            Cancel
+                            Cancelar
                           </Button>
                           <Button onClick={handleChangePassword}>
-                            Change Password
+                            Cambiar Contraseña
                           </Button>
                         </DialogFooter>
                       </DialogContent>
@@ -621,14 +621,14 @@ export function UsersClient() {
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Ban User</DialogTitle>
+                            <DialogTitle>Bloquear Usuario</DialogTitle>
                             <DialogDescription>
-                              Ban {user.name} from the system
+                              Bloquear a {user.name} del sistema
                             </DialogDescription>
                           </DialogHeader>
                           <div className="space-y-4">
                             <div>
-                              <Label htmlFor="ban-reason">Reason</Label>
+                              <Label htmlFor="ban-reason">Razón</Label>
                               <Textarea
                                 id="ban-reason"
                                 value={banForm.reason}
@@ -638,12 +638,12 @@ export function UsersClient() {
                                     reason: e.target.value,
                                   })
                                 }
-                                placeholder="Enter reason for ban"
+                                placeholder="Introduce la razón del bloqueo"
                               />
                             </div>
                             <div>
                               <Label htmlFor="ban-expires">
-                                Expires In (seconds, leave empty for permanent)
+                                Expira en (segundos, dejar vacío para permanente)
                               </Label>
                               <Input
                                 id="ban-expires"
@@ -655,7 +655,7 @@ export function UsersClient() {
                                     expiresIn: e.target.value,
                                   })
                                 }
-                                placeholder="e.g., 86400 for 1 day"
+                                placeholder="ej., 86400 para 1 día"
                               />
                             </div>
                           </div>
@@ -664,13 +664,13 @@ export function UsersClient() {
                               variant="outline"
                               onClick={() => setBanDialogOpen(false)}
                             >
-                              Cancel
+                              Cancelar
                             </Button>
                             <Button
                               variant="destructive"
                               onClick={handleBanUser}
                             >
-                              Ban User
+                              Bloquear Usuario
                             </Button>
                           </DialogFooter>
                         </DialogContent>
@@ -686,20 +686,19 @@ export function UsersClient() {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            This action cannot be undone. This will permanently
-                            delete {user.name}'s account and all associated
-                            data.
+                            Esta acción no se puede deshacer. Esto eliminará permanentemente
+                            la cuenta de {user.name} y todos los datos asociados.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => handleDeleteUser(user.id)}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                           >
-                            Delete
+                            Eliminar
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>

@@ -16,109 +16,109 @@ import { Label } from "@/components/ui/label";
 import { trpc } from "@/utils/trpc";
 
 const DOCUMENT_TYPES = [
-  { value: "invoices", label: "Invoices" },
-  { value: "expenses", label: "Expenses" },
-  { value: "bank_statements", label: "Bank Statements" },
-  { value: "cash_flow", label: "Cash Flow Reports" },
-  { value: "production_sales", label: "Production Sales (Agricultural)" },
-  { value: "other", label: "Other" },
+  { value: "invoices", label: "Facturas" },
+  { value: "expenses", label: "Gastos" },
+  { value: "bank_statements", label: "Extractos Bancarios" },
+  { value: "cash_flow", label: "Informes de Flujo de Caja" },
+  { value: "production_sales", label: "Ventas de Producción (Agrícola)" },
+  { value: "other", label: "Otro" },
 ] as const;
 
 const SCHEMAS = {
   invoices: [
-    { name: "date", type: "date", required: true, description: "Invoice date" },
+    { name: "date", type: "date", required: true, description: "Fecha de factura" },
     {
       name: "invoiceNumber",
       type: "string",
       required: true,
-      description: "Invoice number or reference",
+      description: "Número o referencia de factura",
     },
     {
       name: "clientName",
       type: "string",
       required: true,
-      description: "Client/customer name",
+      description: "Nombre del cliente",
     },
     {
       name: "description",
       type: "string",
       required: false,
-      description: "Service or product description",
+      description: "Descripción del servicio o producto",
     },
     {
       name: "amount",
       type: "number",
       required: true,
-      description: "Net amount (without VAT)",
+      description: "Importe neto (sin IVA)",
     },
     {
       name: "vatAmount",
       type: "number",
       required: false,
-      description: "VAT/tax amount",
+      description: "Importe de IVA",
     },
     {
       name: "totalAmount",
       type: "number",
       required: true,
-      description: "Total amount (including VAT)",
+      description: "Importe total (incluido IVA)",
     },
     {
       name: "dueDate",
       type: "date",
       required: false,
-      description: "Payment due date",
+      description: "Fecha de vencimiento del pago",
     },
     {
       name: "paymentStatus",
       type: "string",
       required: false,
-      description: "Payment status (paid, pending, overdue)",
+      description: "Estado del pago (pagado, pendiente, vencido)",
     },
   ],
   expenses: [
-    { name: "date", type: "date", required: true, description: "Expense date" },
+    { name: "date", type: "date", required: true, description: "Fecha del gasto" },
     {
       name: "category",
       type: "string",
       required: true,
-      description: "Expense category (e.g., office supplies, salaries, rent)",
+      description: "Categoría del gasto (ej., material de oficina, salarios, alquiler)",
     },
     {
       name: "description",
       type: "string",
       required: true,
-      description: "Expense description",
+      description: "Descripción del gasto",
     },
     {
       name: "supplier",
       type: "string",
       required: false,
-      description: "Supplier/vendor name",
+      description: "Nombre del proveedor",
     },
     {
       name: "amount",
       type: "number",
       required: true,
-      description: "Expense amount",
+      description: "Importe del gasto",
     },
     {
       name: "vatAmount",
       type: "number",
       required: false,
-      description: "VAT amount if applicable",
+      description: "Importe de IVA si aplica",
     },
     {
       name: "reference",
       type: "string",
       required: false,
-      description: "Invoice or reference number",
+      description: "Número de factura o referencia",
     },
     {
       name: "paymentMethod",
       type: "string",
       required: false,
-      description: "Payment method (cash, card, transfer)",
+      description: "Método de pago (efectivo, tarjeta, transferencia)",
     },
   ],
   bank_statements: [
@@ -126,43 +126,43 @@ const SCHEMAS = {
       name: "date",
       type: "date",
       required: true,
-      description: "Transaction date",
+      description: "Fecha de la transacción",
     },
     {
       name: "description",
       type: "string",
       required: true,
-      description: "Transaction description",
+      description: "Descripción de la transacción",
     },
     {
       name: "reference",
       type: "string",
       required: false,
-      description: "Transaction reference",
+      description: "Referencia de la transacción",
     },
     {
       name: "amount",
       type: "number",
       required: true,
-      description: "Transaction amount",
+      description: "Importe de la transacción",
     },
     {
       name: "transactionType",
       type: "string",
       required: true,
-      description: "Transaction type (debit, credit)",
+      description: "Tipo de transacción (débito, crédito)",
     },
     {
       name: "balance",
       type: "number",
       required: false,
-      description: "Account balance after transaction",
+      description: "Saldo de la cuenta después de la transacción",
     },
     {
       name: "category",
       type: "string",
       required: false,
-      description: "Transaction category",
+      description: "Categoría de la transacción",
     },
   ],
   cash_flow: [
@@ -170,49 +170,49 @@ const SCHEMAS = {
       name: "period",
       type: "string",
       required: true,
-      description: "Period (e.g., 2024-01, Q1 2024)",
+      description: "Período (ej., 2024-01, Q1 2024)",
     },
     {
       name: "startDate",
       type: "date",
       required: true,
-      description: "Period start date",
+      description: "Fecha de inicio del período",
     },
     {
       name: "endDate",
       type: "date",
       required: true,
-      description: "Period end date",
+      description: "Fecha de fin del período",
     },
     {
       name: "income",
       type: "number",
       required: true,
-      description: "Total income for the period",
+      description: "Ingresos totales del período",
     },
     {
       name: "expenses",
       type: "number",
       required: true,
-      description: "Total expenses for the period",
+      description: "Gastos totales del período",
     },
     {
       name: "netFlow",
       type: "number",
       required: true,
-      description: "Net cash flow (income - expenses)",
+      description: "Flujo de caja neto (ingresos - gastos)",
     },
     {
       name: "openingBalance",
       type: "number",
       required: false,
-      description: "Balance at period start",
+      description: "Saldo al inicio del período",
     },
     {
       name: "closingBalance",
       type: "number",
       required: false,
-      description: "Balance at period end",
+      description: "Saldo al final del período",
     },
   ],
   production_sales: [
@@ -220,124 +220,124 @@ const SCHEMAS = {
       name: "finca",
       type: "string",
       required: false,
-      description: "Farm/location identifier",
+      description: "Identificador de finca/ubicación",
     },
     {
       name: "fechaAlbaran",
       type: "date",
       required: true,
-      description: "Delivery note date",
+      description: "Fecha del albarán",
     },
     {
       name: "numeroAlbaran",
       type: "string",
       required: true,
-      description: "Delivery note number",
+      description: "Número de albarán",
     },
     {
       name: "fechaFactura",
       type: "date",
       required: false,
-      description: "Invoice date",
+      description: "Fecha de factura",
     },
     {
       name: "numeroFactura",
       type: "string",
       required: false,
-      description: "Invoice number",
+      description: "Número de factura",
     },
     {
       name: "fechaPago",
       type: "date",
       required: false,
-      description: "Payment date",
+      description: "Fecha de pago",
     },
     {
       name: "numeroProducto",
       type: "string",
       required: true,
-      description: "Product number/code",
+      description: "Número/código de producto",
     },
     {
       name: "producto",
       type: "string",
       required: true,
-      description: "Product name",
+      description: "Nombre del producto",
     },
     {
       name: "tipoProducto",
       type: "string",
       required: false,
-      description: "Product type/quality",
+      description: "Tipo/calidad del producto",
     },
     {
       name: "kgs",
       type: "number",
       required: true,
-      description: "Kilograms produced/sold",
+      description: "Kilogramos producidos/vendidos",
     },
     {
       name: "precio",
       type: "number",
       required: true,
-      description: "Price per kg",
+      description: "Precio por kg",
     },
     {
       name: "descuento",
       type: "number",
       required: false,
-      description: "Discount",
+      description: "Descuento",
     },
     {
       name: "facturacionAntesImpuestos",
       type: "number",
       required: true,
-      description: "Billing before taxes",
+      description: "Facturación antes de impuestos",
     },
     {
       name: "precioAntesImpuestos",
       type: "number",
       required: false,
-      description: "Price before taxes",
+      description: "Precio antes de impuestos",
     },
     {
       name: "retencionesPercent",
       type: "number",
       required: false,
-      description: "Withholdings %",
+      description: "Retenciones %",
     },
     {
       name: "retencionesEuros",
       type: "number",
       required: false,
-      description: "Withholdings €",
+      description: "Retenciones €",
     },
     {
       name: "ivaPercent",
       type: "number",
       required: false,
-      description: "VAT %",
+      description: "IVA %",
     },
-    { name: "ivaEuros", type: "number", required: false, description: "VAT €" },
+    { name: "ivaEuros", type: "number", required: false, description: "IVA €" },
     {
       name: "facturacionNeta",
       type: "number",
       required: true,
-      description: "Net billing",
+      description: "Facturación neta",
     },
     {
       name: "precioNeto",
       type: "number",
       required: false,
-      description: "Net price per kg",
+      description: "Precio neto por kg",
     },
   ],
   other: [
     {
-      name: "Custom fields",
+      name: "Campos personalizados",
       type: "mixed",
       required: false,
-      description: "Will attempt to extract all available data",
+      description: "Se intentará extraer todos los datos disponibles",
     },
   ],
 };
@@ -377,7 +377,7 @@ export default function ExtractPage() {
 
   const handleUpload = async () => {
     if (files.length === 0 || !clientName.trim()) {
-      toast.error("Please select files and enter client name");
+      toast.error("Por favor, selecciona archivos e introduce el nombre del cliente");
       return;
     }
 
@@ -386,7 +386,7 @@ export default function ExtractPage() {
     try {
       // Process each file
       for (const file of files) {
-        toast.info(`Processing ${file.name}...`);
+        toast.info(`Procesando ${file.name}...`);
 
         // Upload file to API for parsing
         const formData = new FormData();
@@ -401,7 +401,7 @@ export default function ExtractPage() {
 
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(error.error || "Upload failed");
+          throw new Error(error.error || "Error al subir el archivo");
         }
 
         const result = await response.json();
@@ -416,7 +416,7 @@ export default function ExtractPage() {
         });
 
         if (!upload) {
-          throw new Error("Failed to create upload record");
+          throw new Error("Error al crear el registro de carga");
         }
 
         // Store extracted data
@@ -440,7 +440,7 @@ export default function ExtractPage() {
         });
 
         toast.success(
-          `Successfully processed ${result.fileName} - ${result.recordCount} records extracted`,
+          `${result.fileName} procesado correctamente - ${result.recordCount} registros extraídos`,
         );
       }
 
@@ -453,7 +453,7 @@ export default function ExtractPage() {
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to upload file",
+        error instanceof Error ? error.message : "Error al cargar el archivo",
       );
     } finally {
       setUploading(false);
@@ -471,34 +471,34 @@ export default function ExtractPage() {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Data Extraction</h1>
+        <h1 className="text-3xl font-bold mb-2">Extracción de Datos</h1>
         <p className="text-muted-foreground">
-          Upload client financial documents for analysis
+          Sube documentos financieros de clientes para análisis
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Upload Files</CardTitle>
+            <CardTitle>Subir Archivos</CardTitle>
             <CardDescription>
-              Upload PDF, CSV, or Excel files containing financial data
+              Sube archivos PDF, CSV o Excel que contengan datos financieros
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="client-name">Client Name</Label>
+              <Label htmlFor="client-name">Nombre del Cliente</Label>
               <Input
                 id="client-name"
                 type="text"
-                placeholder="e.g., Acme Corp"
+                placeholder="ej., Empresa S.A."
                 value={clientName}
                 onChange={(e) => setClientName(e.target.value)}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="document-type">Document Type</Label>
+              <Label htmlFor="document-type">Tipo de Documento</Label>
               <select
                 id="document-type"
                 value={documentType}
@@ -514,7 +514,7 @@ export default function ExtractPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="file-upload">Select Files</Label>
+              <Label htmlFor="file-upload">Seleccionar Archivos</Label>
               <Input
                 id="file-upload"
                 type="file"
@@ -526,7 +526,7 @@ export default function ExtractPage() {
 
             {files.length > 0 && (
               <div className="space-y-2">
-                <Label>Selected Files ({files.length})</Label>
+                <Label>Archivos Seleccionados ({files.length})</Label>
                 <div className="rounded-md border p-4 space-y-2 max-h-48 overflow-y-auto">
                   {files.map((file, index) => (
                     <div
@@ -548,15 +548,15 @@ export default function ExtractPage() {
               disabled={files.length === 0 || !clientName.trim() || uploading}
               className="w-full"
             >
-              {uploading ? "Uploading..." : "Upload & Extract"}
+              {uploading ? "Subiendo..." : "Subir y Extraer"}
             </Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Recent Extractions</CardTitle>
-            <CardDescription>View recently processed files</CardDescription>
+            <CardTitle>Extracciones Recientes</CardTitle>
+            <CardDescription>Ver archivos procesados recientemente</CardDescription>
           </CardHeader>
           <CardContent>
             {recentUploads.data && recentUploads.data.length > 0 ? (
@@ -597,7 +597,7 @@ export default function ExtractPage() {
               </div>
             ) : (
               <div className="text-center text-muted-foreground py-8">
-                No extractions yet
+                No hay extracciones aún
               </div>
             )}
           </CardContent>
@@ -607,10 +607,10 @@ export default function ExtractPage() {
       {extractedData && (
         <Card className="mt-6">
           <CardHeader>
-            <CardTitle>Extracted Data Preview</CardTitle>
+            <CardTitle>Vista Previa de Datos Extraídos</CardTitle>
             <CardDescription>
-              Showing first 5 records from {extractedData.fileName} (
-              {extractedData.recordCount} total records)
+              Mostrando los primeros 5 registros de {extractedData.fileName} (
+              {extractedData.recordCount} registros totales)
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -646,26 +646,26 @@ export default function ExtractPage() {
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Supported File Types</CardTitle>
+            <CardTitle>Tipos de Archivo Soportados</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
               <div className="p-4 border rounded-lg">
-                <h3 className="font-semibold mb-2">PDF Documents</h3>
+                <h3 className="font-semibold mb-2">Documentos PDF</h3>
                 <p className="text-sm text-muted-foreground">
-                  Invoices, bank statements, financial reports
+                  Facturas, extractos bancarios, informes financieros
                 </p>
               </div>
               <div className="p-4 border rounded-lg">
-                <h3 className="font-semibold mb-2">Excel Files</h3>
+                <h3 className="font-semibold mb-2">Archivos Excel</h3>
                 <p className="text-sm text-muted-foreground">
-                  Accounting exports, spreadsheets (.xlsx, .xls)
+                  Exportaciones contables, hojas de cálculo (.xlsx, .xls)
                 </p>
               </div>
               <div className="p-4 border rounded-lg">
-                <h3 className="font-semibold mb-2">CSV Files</h3>
+                <h3 className="font-semibold mb-2">Archivos CSV</h3>
                 <p className="text-sm text-muted-foreground">
-                  Transaction data, accounting system exports
+                  Datos de transacciones, exportaciones de sistemas contables
                 </p>
               </div>
             </div>
@@ -674,9 +674,9 @@ export default function ExtractPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Expected Data Schema</CardTitle>
+            <CardTitle>Esquema de Datos Esperado</CardTitle>
             <CardDescription>
-              Fields we'll extract for{" "}
+              Campos que extraeremos para{" "}
               {DOCUMENT_TYPES.find((t) => t.value === documentType)?.label}
             </CardDescription>
           </CardHeader>
@@ -694,7 +694,7 @@ export default function ExtractPage() {
                     </div>
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {field.required ? "Required" : "Optional"}
+                    {field.required ? "Requerido" : "Opcional"}
                   </div>
                 </div>
               ))}

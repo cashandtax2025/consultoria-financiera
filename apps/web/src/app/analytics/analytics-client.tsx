@@ -698,9 +698,9 @@ export default function AnalyticsPage() {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Product Performance Summary</CardTitle>
+          <CardTitle>Resumen de Rendimiento por Producto</CardTitle>
           <CardDescription>
-            Total volume, revenue, and average price by product
+            Volumen total, facturación y precio medio por producto
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -748,10 +748,10 @@ export default function AnalyticsPage() {
 
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">
-          Production Quality & Origin Breakdown
+          Desglose de Calidad y Origen de Producción
         </h2>
         <p className="text-muted-foreground mb-6">
-          Percentage distribution by product type and farm
+          Distribución porcentual por tipo de producto y finca
         </p>
 
         <div className="space-y-6">
@@ -760,13 +760,13 @@ export default function AnalyticsPage() {
               <CardHeader>
                 <CardTitle>{product.producto}</CardTitle>
                 <CardDescription>
-                  Total production: {product.totalKgs.toLocaleString()} kg
+                  Producción total: {product.totalKgs.toLocaleString()} kg
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6 md:grid-cols-2 mb-6">
                   <div>
-                    <h4 className="font-semibold mb-3">By Product Type</h4>
+                    <h4 className="font-semibold mb-3">Por Tipo de Producto</h4>
                     <div className="space-y-3">
                       {product.byType.map((type, tIdx) => (
                         <div key={tIdx}>
@@ -788,7 +788,7 @@ export default function AnalyticsPage() {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold mb-3">By Farm</h4>
+                    <h4 className="font-semibold mb-3">Por Finca</h4>
                     <div className="space-y-3">
                       {product.byFinca.map((finca, fIdx) => (
                         <div key={fIdx}>
@@ -813,7 +813,7 @@ export default function AnalyticsPage() {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold mb-3">Monthly Breakdown</h4>
+                  <h4 className="font-semibold mb-3">Desglose Mensual</h4>
                   <div className="space-y-4">
                     {product.byMonth.map((month, mIdx) => (
                       <div key={mIdx} className="border rounded-lg p-4">
@@ -821,7 +821,7 @@ export default function AnalyticsPage() {
                         <div className="grid gap-4 md:grid-cols-2">
                           <div>
                             <div className="text-xs text-muted-foreground mb-2">
-                              By Type
+                              Por Tipo
                             </div>
                             <div className="space-y-2">
                               {month.byType.map((type, tIdx) => (
@@ -840,7 +840,7 @@ export default function AnalyticsPage() {
                           </div>
                           <div>
                             <div className="text-xs text-muted-foreground mb-2">
-                              By Farm
+                              Por Finca
                             </div>
                             <div className="space-y-2">
                               {month.byFinca.map((finca, fIdx) => (
