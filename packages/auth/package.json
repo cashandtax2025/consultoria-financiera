@@ -21,9 +21,10 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@consultoria-financiera/db": "workspace:*",
     "better-auth": "catalog:",
+    "better-auth-localization": "^2.2.1",
     "dotenv": "catalog:",
-    "zod": "catalog:",
-    "@consultoria-financiera/db": "workspace:*"
+    "zod": "catalog:"
   }
 }
