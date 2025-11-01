@@ -321,7 +321,7 @@ export default function Home() {
             <div className="space-y-4">
               <h3 className="font-bold text-lg">Consultoría Financiera</h3>
               <p className="text-sm text-muted-foreground">
-                Transformando datos en decisiones estratégicas desde 2024
+                Transformando datos en decisiones estratégicas desde 2025
               </p>
             </div>
             <div className="space-y-4">
@@ -353,22 +353,22 @@ export default function Home() {
               <h4 className="font-semibold">Empresa</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="#" className="hover:text-primary">
+                  <Link href="/acerca-de" className="hover:text-primary">
                     Acerca de
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary">
+                  <Link href="/blog" className="hover:text-primary">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary">
+                  <Link href="/casos-de-exito" className="hover:text-primary">
                     Casos de éxito
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary">
+                  <Link href="/contacto" className="hover:text-primary">
                     Contacto
                   </Link>
                 </li>
@@ -378,17 +378,17 @@ export default function Home() {
               <h4 className="font-semibold">Legal</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="#" className="hover:text-primary">
+                  <Link href="/privacidad" className="hover:text-primary">
                     Privacidad
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary">
+                  <Link href="/terminos-de-servicio" className="hover:text-primary">
                     Términos de servicio
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-primary">
+                  <Link href="/cookies" className="hover:text-primary">
                     Cookies
                   </Link>
                 </li>
@@ -396,7 +396,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-            <p>© 2024 Consultoría Financiera. Todos los derechos reservados.</p>
+            <p>© 2025 Consultoría Financiera. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
