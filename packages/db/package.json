@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.2",
-    "@types/ws": "^8.18.1",
     "tsdown": "catalog:"
   },
   "peerDependencies": {
@@ -29,7 +28,6 @@
   "dependencies": {
     "drizzle-orm": "catalog:",
     "@neondatabase/serverless": "^1.0.1",
-    "ws": "^8.18.3",
     "dotenv": "catalog:",
     "zod": "catalog:"
   }
