@@ -291,28 +291,23 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="px-4 py-20 bg-primary text-primary-foreground">
+      <section className="px-4 py-20 bg-gradient-to-b from-muted/50 to-background border-y">
         <div className="container mx-auto max-w-4xl text-center space-y-8">
           <h2 className="text-3xl md:text-4xl font-bold">
             ¿Listo para transformar tu gestión financiera?
           </h2>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Únete a cientos de empresas que ya están tomando mejores decisiones
             con nuestras herramientas y consultoría experta
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
+            <Button size="lg" asChild>
               <Link href="/login">
                 Comenzar gratis
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-              asChild
-            >
+            <Button size="lg" variant="outline" asChild>
               <Link href="#servicios">Agendar demostración</Link>
             </Button>
           </div>
