@@ -46,9 +46,11 @@ export default function ImportHistoryPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-10">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Historial de Importaciones</h1>
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Historial de Importaciones
+          </h1>
         </div>
         <Card>
           <CardContent className="pt-6">
@@ -60,10 +62,12 @@ export default function ImportHistoryPage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Historial de Importaciones</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Historial de Importaciones
+        </h1>
+        <p className="text-muted-foreground mt-2">
           Revisa el historial de tus importaciones de datos
         </p>
       </div>

@@ -404,16 +404,16 @@ export default function AnalyticsPage() {
   }, [filteredData]);
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Análisis de Producción</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Análisis de Producción</h1>
+        <p className="text-muted-foreground mt-2">
           Análisis de ventas y evolución de precios por producto
         </p>
       </div>
 
       {/* Filters */}
-      <Card className="mb-8">
+      <Card>
         <CardHeader>
           <CardTitle>Filtros</CardTitle>
           <CardDescription>
@@ -496,7 +496,7 @@ export default function AnalyticsPage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 mb-8 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle className="text-sm font-medium">Volumen Total</CardTitle>
@@ -548,7 +548,7 @@ export default function AnalyticsPage() {
         </Card>
       </div>
 
-      <div className="grid gap-6 mb-8 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Volumen de Producción por Mes</CardTitle>
@@ -646,7 +646,7 @@ export default function AnalyticsPage() {
         </Card>
       </div>
 
-      <Card className="mb-8">
+      <Card>
         <CardHeader>
           <CardTitle>Precio Medio por Producto y Mes</CardTitle>
           <CardDescription>
@@ -696,7 +696,7 @@ export default function AnalyticsPage() {
         </CardContent>
       </Card>
 
-      <Card className="mb-8">
+      <Card>
         <CardHeader>
           <CardTitle>Resumen de Rendimiento por Producto</CardTitle>
           <CardDescription>
@@ -746,7 +746,7 @@ export default function AnalyticsPage() {
         </CardContent>
       </Card>
 
-      <div className="mb-8">
+      <div>
         <h2 className="text-2xl font-bold mb-4">
           Desglose de Calidad y Origen de Producción
         </h2>

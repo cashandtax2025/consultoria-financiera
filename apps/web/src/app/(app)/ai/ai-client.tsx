@@ -31,23 +31,28 @@ export default function AIClient() {
   };
 
   return (
-    <div className="grid grid-rows-[1fr_auto] overflow-hidden w-full mx-auto p-4">
-      <div className="overflow-y-auto space-y-4 pb-4">
+    <div className="grid grid-rows-[1fr_auto] overflow-hidden h-full">
+      <div className="overflow-y-auto space-y-4 pb-4 px-1">
         {messages.length === 0 ? (
-          <div className="text-center text-muted-foreground mt-8">
-            ¡Pregúntame cualquier cosa para empezar!
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center text-muted-foreground space-y-2">
+              <p className="text-lg font-medium">¿En qué puedo ayudarte?</p>
+              <p className="text-sm">
+                Pregunta sobre análisis, informes o cualquier consulta financiera
+              </p>
+            </div>
           </div>
         ) : (
           messages.map((message) => (
             <div
               key={message.id}
-              className={`p-3 rounded-lg ${
+              className={`p-4 rounded-lg ${
                 message.role === "user"
-                  ? "bg-primary/10 ml-8"
-                  : "bg-secondary/20 mr-8"
+                  ? "bg-primary text-primary-foreground ml-12"
+                  : "bg-muted mr-12"
               }`}
             >
-              <p className="text-sm font-semibold mb-1">
+              <p className="text-xs font-semibold mb-2 opacity-70">
                 {message.role === "user" ? "Tú" : "Asistente IA"}
               </p>
               {message.parts?.map((part, index) => {
@@ -64,7 +69,7 @@ export default function AIClient() {
 
       <form
         onSubmit={handleSubmit}
-        className="w-full flex items-center space-x-2 pt-2 border-t"
+        className="flex items-center space-x-2 pt-4 border-t"
       >
         <Input
           name="prompt"
@@ -75,8 +80,8 @@ export default function AIClient() {
           autoComplete="off"
           autoFocus
         />
-        <Button type="submit" size="icon">
-          <Send size={18} />
+        <Button type="submit" size="icon" disabled={!input.trim()}>
+          <Send className="h-4 w-4" />
         </Button>
       </form>
     </div>

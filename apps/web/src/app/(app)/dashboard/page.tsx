@@ -5,9 +5,13 @@ export default async function DashboardPage() {
   const session = await requireAuth();
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome {session.user.name}</p>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground mt-2">
+          Bienvenido, {session.user.name}
+        </p>
+      </div>
       <Dashboard session={session} />
     </div>
   );

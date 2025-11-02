@@ -177,11 +177,11 @@ export default function ImportPage() {
   };
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Importar Datos</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-3xl font-bold tracking-tight">Importar Datos</h1>
+          <p className="text-muted-foreground mt-2">
             Importe datos financieros desde archivos Excel o CSV
           </p>
         </div>

@@ -58,11 +58,17 @@ export default function TodosPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md py-10">
-      <Card>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Tareas</h1>
+        <p className="text-muted-foreground mt-2">
+          Gestiona tus tareas de manera eficiente
+        </p>
+      </div>
+      <Card className="max-w-2xl">
         <CardHeader>
           <CardTitle>Lista de Tareas</CardTitle>
-          <CardDescription>Gestiona tus tareas de manera eficiente</CardDescription>
+          <CardDescription>Agrega y gestiona tus tareas pendientes</CardDescription>
         </CardHeader>
         <CardContent>
           <form

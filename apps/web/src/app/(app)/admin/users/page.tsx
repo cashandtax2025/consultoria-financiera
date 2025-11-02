@@ -6,11 +6,11 @@ export default async function AdminUsersPage() {
   await requireAdmin();
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">User Management</h1>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Gestión de Usuarios</h1>
         <p className="text-muted-foreground mt-2">
-          Manage users, roles, and permissions
+          Administra usuarios, roles y permisos
         </p>
       </div>
       <UsersClient />
