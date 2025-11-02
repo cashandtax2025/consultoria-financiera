@@ -1,0 +1,6 @@
+finca,fechaAlbaran,numeroAlbaran,fechaFactura,numeroFactura,fechaPago,numeroProducto,producto,tipoProducto,kgs,precio,descuento,facturacionAntesImpuestos,precioAntesImpuestos,retencionesPercent,retencionesEuros,ivaPercent,ivaEuros,facturacionNeta,precioNeto
+Finca 1,15/08/2024,P24 - 24661,20/08/2024,P25A - 14,25/08/2024,800,Berenjena Violeta,Extra,500,1.50,0,750.00,1.48,0.02,15.00,0.10,73.50,808.50,1.62
+Finca 1,16/08/2024,P24 - 24662,20/08/2024,P25A - 14,25/08/2024,808,Judia Larga Verde,Primera,300,2.00,0.05,570.00,1.90,0.02,11.40,0.10,55.86,614.46,2.05
+Finca 2,17/08/2024,P24 - 24663,21/08/2024,P25A - 15,26/08/2024,800,Berenjena Violeta,Bueno,450,1.30,0.10,526.50,1.17,0.02,10.53,0.10,51.60,567.57,1.26
+Finca 2,18/08/2024,P24 - 24664,21/08/2024,P25A - 15,26/08/2024,805,Calabacin Verde,Extra,600,1.80,0,1080.00,1.78,0.02,21.60,0.10,105.84,1164.24,1.94
+

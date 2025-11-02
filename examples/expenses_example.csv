@@ -1,0 +1,9 @@
+fecha,categoria,descripcion,proveedor,importe,iva,moneda,referencia,metodoPago
+01/01/2024,Oficina,Material de oficina - papelería,Office Supplies SA,150,31.50,EUR,FAC-2024-001,Transferencia
+02/01/2024,Servicios,Internet y telefonía - Enero,Telecom Plus,85,17.85,EUR,FAC-2024-002,Domiciliación
+05/01/2024,Salarios,Salario consultor senior,,,3000,0,EUR,,Transferencia
+10/01/2024,Alquiler,Alquiler oficina - Enero,Inmobiliaria Centro,1200,252,EUR,RENT-2024-01,Transferencia
+15/01/2024,Software,Licencias software contable,SoftFinance Ltd,450,94.50,EUR,INV-2024-123,Tarjeta
+20/01/2024,Transporte,Combustible vehículo empresa,Gasolinera Sol,120,25.20,EUR,,Tarjeta
+25/01/2024,Marketing,Campaña publicidad online,AdTech Agency,800,168,EUR,FACT-2024-050,Transferencia
+

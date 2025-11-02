@@ -11,6 +11,7 @@ export default function Header() {
   const authenticatedLinks = [
     { to: "/dashboard", label: "Dashboard" },
     { to: "/extract", label: "Extracción" },
+    { to: "/import", label: "Importar" },
     { to: "/analytics", label: "Análisis" },
     { to: "/todos", label: "Tareas" },
     { to: "/ai", label: "IA" },

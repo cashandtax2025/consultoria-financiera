@@ -1,0 +1,6 @@
+fecha,numeroFactura,cliente,descripcion,importe,iva,total,moneda,fechaVencimiento,estado
+01/01/2024,F-2024-001,Acme Corp,Servicios de consultoría financiera - Enero,1000,210,1210,EUR,31/01/2024,paid
+05/01/2024,F-2024-002,TechStart SL,Asesoría fiscal y contable - Q1,1500,315,1815,EUR,04/02/2024,paid
+15/01/2024,F-2024-003,Green Foods SA,Análisis de costes de producción,800,168,968,EUR,14/02/2024,pending
+20/01/2024,F-2024-004,Retail Plus,Optimización de procesos financieros,2000,420,2420,EUR,19/02/2024,pending
+

@@ -1,0 +1,10 @@
+fecha,descripcion,referencia,importe,tipo,saldo,moneda,categoria
+01/01/2024,Cobro factura F-2024-001,TRF20240101001,1210,credit,25610,EUR,Ingresos
+02/01/2024,Pago alquiler oficina,TRF20240102001,-1452,debit,24158,EUR,Gastos fijos
+05/01/2024,Cobro factura F-2023-125,TRF20240105001,968,credit,25126,EUR,Ingresos
+05/01/2024,Pago salarios,TRF20240105002,-6500,debit,18626,EUR,Nóminas
+10/01/2024,Pago licencias software,DOM20240110001,-544.50,debit,18081.50,EUR,Software
+15/01/2024,Cobro factura F-2024-002,TRF20240115001,1815,credit,19896.50,EUR,Ingresos
+20/01/2024,Comisión bancaria,COM20240120001,-15,debit,19881.50,EUR,Comisiones
+25/01/2024,Pago proveedor material,TRF20240125001,-181.50,debit,19700,EUR,Compras
+
