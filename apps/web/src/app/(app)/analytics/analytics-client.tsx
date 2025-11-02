@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
+/** biome-ignore-all lint/suspicious/useIterableCallbackReturn: <explanation> */
 "use client";
 
 import { useMemo, useState } from "react";
@@ -19,7 +21,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { productionSalesData } from "@/lib/dummy-data";
+import { Button } from "@/components/ui/button";
 
 export default function AnalyticsPage() {
   // Filters state
@@ -424,53 +434,53 @@ export default function AnalyticsPage() {
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
               <Label htmlFor="filter-finca">Finca</Label>
-              <select
-                id="filter-finca"
-                value={selectedFinca}
-                onChange={(e) => setSelectedFinca(e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value="all">Todas las Fincas</option>
-                {filterOptions.fincas.map((finca) => (
-                  <option key={finca} value={finca}>
-                    Finca {finca}
-                  </option>
-                ))}
-              </select>
+              <Select value={selectedFinca} onValueChange={setSelectedFinca}>
+                <SelectTrigger id="filter-finca" className="w-full">
+                  <SelectValue placeholder="Todas las Fincas" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas las Fincas</SelectItem>
+                  {filterOptions.fincas.map((finca) => (
+                    <SelectItem key={finca} value={finca}>
+                      Finca {finca}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="filter-tipo">Tipo de Producto</Label>
-              <select
-                id="filter-tipo"
-                value={selectedTipoProducto}
-                onChange={(e) => setSelectedTipoProducto(e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value="all">Todos los Tipos</option>
-                {filterOptions.tiposProducto.map((tipo) => (
-                  <option key={tipo} value={tipo}>
-                    {tipo}
-                  </option>
-                ))}
-              </select>
+              <Select value={selectedTipoProducto} onValueChange={setSelectedTipoProducto}>
+                <SelectTrigger id="filter-tipo" className="w-full">
+                  <SelectValue placeholder="Todos los Tipos" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos los Tipos</SelectItem>
+                  {filterOptions.tiposProducto.map((tipo) => (
+                    <SelectItem key={tipo} value={tipo}>
+                      {tipo}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="filter-producto">Producto</Label>
-              <select
-                id="filter-producto"
-                value={selectedProducto}
-                onChange={(e) => setSelectedProducto(e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value="all">Todos los Productos</option>
-                {filterOptions.productos.map((producto) => (
-                  <option key={producto} value={producto}>
-                    {producto}
-                  </option>
-                ))}
-              </select>
+              <Select value={selectedProducto} onValueChange={setSelectedProducto}>
+                <SelectTrigger id="filter-producto" className="w-full">
+                  <SelectValue placeholder="Todos los Productos" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos los Productos</SelectItem>
+                  {filterOptions.productos.map((producto) => (
+                    <SelectItem key={producto} value={producto}>
+                      {producto}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           {(selectedFinca !== "all" ||
@@ -481,7 +491,7 @@ export default function AnalyticsPage() {
                 Filtros activos: {filteredData.length} de{" "}
                 {productionSalesData.length} registros
               </span>
-              <button
+              <Button
                 onClick={() => {
                   setSelectedFinca("all");
                   setSelectedTipoProducto("all");
@@ -490,7 +500,7 @@ export default function AnalyticsPage() {
                 className="text-sm text-primary hover:underline"
               >
                 Limpiar todo
-              </button>
+              </Button>
             </div>
           )}
         </CardContent>
