@@ -29,7 +29,7 @@ export default function Home() {
           <div className="grid gap-12 lg:grid-cols-2 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                Transformamos datos financieros en
+                Convertimos datos financieros en
                 <span className="text-primary"> decisiones estratégicas</span>
               </h1>
               <p className="text-xl text-muted-foreground">
