@@ -66,12 +66,12 @@ export default function ImportPage() {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       // Validate file type
-      const validExtensions = [".xlsx", ".xls", ".csv"];
+      const validExtensions = [".xlsx", ".xls", ".csv", ".pdf"];
       const fileExtension = selectedFile.name.toLowerCase().match(/\.[^.]*$/)?.[0];
       
       if (!validExtensions.includes(fileExtension || "")) {
         toast.error("Tipo de archivo no válido", {
-          description: "Solo se aceptan archivos Excel (.xlsx, .xls) y CSV (.csv)",
+          description: "Solo se aceptan archivos Excel (.xlsx, .xls), CSV (.csv) y PDF (.pdf)",
         });
         return;
       }
@@ -200,7 +200,7 @@ export default function ImportPage() {
           <CardHeader>
             <CardTitle>Seleccionar Archivo</CardTitle>
             <CardDescription>
-              Seleccione un archivo Excel (.xlsx, .xls) o CSV para importar
+              Seleccione un archivo Excel (.xlsx, .xls), CSV (.csv) o PDF (.pdf) para importar
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -236,7 +236,7 @@ export default function ImportPage() {
                 <Input
                   id="file-upload"
                   type="file"
-                  accept=".xlsx,.xls,.csv"
+                  accept=".xlsx,.xls,.csv,.pdf"
                   onChange={handleFileChange}
                   className="cursor-pointer"
                 />

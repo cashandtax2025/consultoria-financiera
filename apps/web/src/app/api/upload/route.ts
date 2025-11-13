@@ -2,8 +2,35 @@ import { auth } from "@consultoria-financiera/auth";
 import { type NextRequest, NextResponse } from "next/server";
 import * as XLSX from "xlsx";
 
+// Helper function to parse PDF files
+async function parsePDF(
+  file: File,
+): Promise<Record<string, string | number>[]> {
+  // Dynamic import for pdf-parse to avoid build issues
+  const pdfParseModule = await import("pdf-parse");
+  // pdf-parse exports the function directly, not as default
+  const pdfParse = (pdfParseModule as any).default || (pdfParseModule as any);
+  const fileBuffer = await file.arrayBuffer();
+  // Convert ArrayBuffer to Buffer for pdf-parse
+  const buffer = Buffer.from(fileBuffer);
+  const data = await pdfParse(buffer);
+
+  // Extract text from PDF
+  const text = data.text;
+
+  // For now, return the extracted text as a single record
+  // In the future, this could be enhanced with AI to structure the data
+  return [
+    {
+      extractedText: text,
+      pageCount: data.numpages,
+      metadata: JSON.stringify(data.info || {}),
+    },
+  ];
+}
+
 // Helper function to parse Excel/CSV files
-async function parseFile(
+async function parseExcelCSV(
   file: File,
 ): Promise<Record<string, string | number>[]> {
   const fileBuffer = await file.arrayBuffer();
@@ -23,6 +50,25 @@ async function parseFile(
   });
 
   return jsonData as Record<string, string | number>[];
+}
+
+// Main parse function that routes to the appropriate parser
+async function parseFile(
+  file: File,
+): Promise<Record<string, string | number>[]> {
+  const fileExtension = file.name.toLowerCase().split(".").pop();
+  const fileType = file.type;
+
+  // Check if it's a PDF
+  if (
+    fileExtension === "pdf" ||
+    fileType === "application/pdf"
+  ) {
+    return await parsePDF(file);
+  }
+
+  // Otherwise, treat as Excel/CSV
+  return await parseExcelCSV(file);
 }
 
 // Helper to normalize field names (remove spaces, convert to camelCase)
@@ -260,14 +306,15 @@ export async function POST(request: NextRequest) {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
       "application/vnd.ms-excel", // .xls
       "text/csv",
+      "application/pdf", // .pdf
     ];
 
     if (
       !validTypes.includes(file.type) &&
-      !file.name.match(/\.(xlsx|xls|csv)$/i)
+      !file.name.match(/\.(xlsx|xls|csv|pdf)$/i)
     ) {
       return NextResponse.json(
-        { error: "Invalid file type. Only Excel and CSV files are supported." },
+        { error: "Invalid file type. Only Excel, CSV, and PDF files are supported." },
         { status: 400 },
       );
     }
