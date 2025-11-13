@@ -36,7 +36,7 @@ const createUploadSchema = z.object({
 const storeExtractedDataSchema = z.object({
   uploadId: z.string().uuid(),
   documentType: z.string(),
-  data: z.array(z.any()),
+  data: z.array(z.record(z.string(), z.unknown())),
 });
 
 // Schema for creating upload and storing data in one go
@@ -46,7 +46,7 @@ const createUploadAndStoreSchema = z.object({
   fileSize: z.number(),
   clientName: z.string(),
   documentType: z.string(),
-  data: z.array(z.any()),
+  data: z.array(z.record(z.string(), z.unknown())),
 });
 
 export const uploadRouter = router({
