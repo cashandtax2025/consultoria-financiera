@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
     "@consultoria-financiera/db",
     "@consultoria-financiera/api",
   ],
+  // Turbopack configuration for Next.js 16
+  turbopack: {
+    // pdf-parse will be handled via dynamic import in the route handler
+  },
 };
 
 export default nextConfig;
