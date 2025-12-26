@@ -8,3 +8,4 @@ export * from "./schema/auth";
 export * from "./schema/templates";
 export * from "./schema/todo";
 export * from "./schema/upload";
+export * from "./schema/accounting";
