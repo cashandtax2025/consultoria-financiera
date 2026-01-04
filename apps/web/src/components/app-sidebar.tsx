@@ -11,6 +11,7 @@ import {
   ListTodo,
   Bot,
   Users,
+  Building2,
   LogOut,
   Settings,
   Menu,
@@ -23,7 +24,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface NavItem {
-  href: "/dashboard" | "/extract" | "/import" | "/analytics" | "/todos" | "/ai" | "/admin/users";
+  href: "/dashboard" | "/extract" | "/import" | "/analytics" | "/todos" | "/ai" | "/admin/users" | "/admin/clients";
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   adminOnly?: boolean;
@@ -64,6 +65,12 @@ const navItems: NavItem[] = [
     href: "/admin/users",
     label: "Usuarios",
     icon: Users,
+    adminOnly: true,
+  },
+  {
+    href: "/admin/clients",
+    label: "Clientes",
+    icon: Building2,
     adminOnly: true,
   },
 ];

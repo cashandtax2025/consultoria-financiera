@@ -1,4 +1,5 @@
 import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { clientsRouter } from "./clients";
 import { todoRouter } from "./todo";
 import { uploadRouter } from "./upload";
 
@@ -14,5 +15,6 @@ export const appRouter = router({
   }),
   todo: todoRouter,
   upload: uploadRouter,
+  clients: clientsRouter,
 });
 export type AppRouter = typeof appRouter;

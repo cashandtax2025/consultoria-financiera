@@ -5,6 +5,7 @@ const sql = neon(process.env.DATABASE_URL || "");
 export const db = drizzle(sql);
 
 export * from "./schema/auth";
+export * from "./schema/clients";
 export * from "./schema/templates";
 export * from "./schema/todo";
 export * from "./schema/upload";
