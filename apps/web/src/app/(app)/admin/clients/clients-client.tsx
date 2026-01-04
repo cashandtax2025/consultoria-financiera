@@ -60,16 +60,22 @@ export function ClientsClient() {
   const [createForm, setCreateForm] = useState<{
     name: string;
     taxId: string;
+    groupTaxId: string;
     email: string;
     phone: string;
     address: string;
+    sector: string;
+    companyType: string;
     notes: string;
   }>({
     name: "",
     taxId: "",
+    groupTaxId: "",
     email: "",
     phone: "",
     address: "",
+    sector: "",
+    companyType: "",
     notes: "",
   });
 
@@ -78,9 +84,12 @@ export function ClientsClient() {
   const [editForm, setEditForm] = useState({
     name: "",
     taxId: "",
+    groupTaxId: "",
     email: "",
     phone: "",
     address: "",
+    sector: "",
+    companyType: "",
     notes: "",
   });
 
@@ -93,9 +102,12 @@ export function ClientsClient() {
         setCreateForm({
           name: "",
           taxId: "",
+          groupTaxId: "",
           email: "",
           phone: "",
           address: "",
+          sector: "",
+          companyType: "",
           notes: "",
         });
         refetchClients();
@@ -106,14 +118,41 @@ export function ClientsClient() {
     }),
   );
 
+  // Validación del formulario de creación
+  const validateCreateForm = () => {
+    if (!createForm.name.trim()) {
+      toast.error("El nombre del cliente es obligatorio");
+      return false;
+    }
+
+    // Validar email si se proporciona
+    if (createForm.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(createForm.email)) {
+      toast.error("El correo electrónico no tiene un formato válido");
+      return false;
+    }
+
+    // Validar teléfono si se proporciona (formato español básico)
+    if (createForm.phone && !/^(\+34|0034|34)?[6-9][0-9]{8}$/.test(createForm.phone.replace(/\s+/g, ''))) {
+      toast.error("El teléfono debe tener un formato válido (ej: +34 600 000 000)");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleCreateClient = () => {
+    if (!validateCreateForm()) return;
+
     createClientMutation.mutate({
-      name: createForm.name,
-      taxId: createForm.taxId || undefined,
-      email: createForm.email || undefined,
-      phone: createForm.phone || undefined,
-      address: createForm.address || undefined,
-      notes: createForm.notes || undefined,
+      name: createForm.name.trim(),
+      taxId: createForm.taxId.trim() || undefined,
+      groupTaxId: createForm.groupTaxId.trim() || undefined,
+      email: createForm.email.trim() || undefined,
+      phone: createForm.phone.trim() || undefined,
+      address: createForm.address.trim() || undefined,
+      sector: createForm.sector.trim() || undefined,
+      companyType: createForm.companyType.trim() || undefined,
+      notes: createForm.notes.trim() || undefined,
     });
   };
 
@@ -132,31 +171,64 @@ export function ClientsClient() {
     }),
   );
 
+  // Validación del formulario de edición
+  const validateEditForm = () => {
+    if (!editForm.name.trim()) {
+      toast.error("El nombre del cliente es obligatorio");
+      return false;
+    }
+
+    // Validar email si se proporciona
+    if (editForm.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editForm.email)) {
+      toast.error("El correo electrónico no tiene un formato válido");
+      return false;
+    }
+
+    // Validar teléfono si se proporciona (formato español básico)
+    if (editForm.phone && !/^(\+34|0034|34)?[6-9][0-9]{8}$/.test(editForm.phone.replace(/\s+/g, ''))) {
+      toast.error("El teléfono debe tener un formato válido (ej: +34 600 000 000)");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleEditClient = () => {
     if (!selectedClient) return;
+
+    if (!validateEditForm()) return;
 
     updateClientMutation.mutate({
       clientId: selectedClient.id as string,
       data: {
-        name: editForm.name || undefined,
-        taxId: editForm.taxId || undefined,
-        email: editForm.email || undefined,
-        phone: editForm.phone || undefined,
-        address: editForm.address || undefined,
-        notes: editForm.notes || undefined,
+        name: editForm.name.trim() || undefined,
+        taxId: editForm.taxId.trim() || undefined,
+        groupTaxId: editForm.groupTaxId.trim() || undefined,
+        email: editForm.email.trim() || undefined,
+        phone: editForm.phone.trim() || undefined,
+        address: editForm.address.trim() || undefined,
+        sector: editForm.sector.trim() || undefined,
+        companyType: editForm.companyType.trim() || undefined,
+        notes: editForm.notes.trim() || undefined,
       },
     });
   };
 
+  // Mutation for deleting clients
+  const deleteClientMutation = useMutation(
+    trpc.accounting.deleteClient.mutationOptions({
+      onSuccess: () => {
+        toast.success("Cliente eliminado exitosamente");
+        refetchClients();
+      },
+      onError: (error) => {
+        toast.error(`Error al eliminar cliente: ${error.message}`);
+      },
+    }),
+  );
+
   const handleDeleteClient = async (clientId: string) => {
-    try {
-      // Note: We need to implement deleteClient in the router if not exists
-      // For now, we'll show a message that this feature is not implemented
-      toast.error("La función de eliminar cliente no está implementada aún");
-    } catch (error) {
-      toast.error("Failed to delete client");
-      console.error(error);
-    }
+    deleteClientMutation.mutate({ clientId });
   };
 
   if (isLoading) {
@@ -202,6 +274,39 @@ export function ClientsClient() {
                     setCreateForm({ ...createForm, taxId: e.target.value })
                   }
                   placeholder="B12345678"
+                />
+              </div>
+              <div>
+                <Label htmlFor="create-groupTaxId">CIF Grupo</Label>
+                <Input
+                  id="create-groupTaxId"
+                  value={createForm.groupTaxId}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, groupTaxId: e.target.value })
+                  }
+                  placeholder="CIF del grupo empresarial"
+                />
+              </div>
+              <div>
+                <Label htmlFor="create-sector">Sector</Label>
+                <Input
+                  id="create-sector"
+                  value={createForm.sector}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, sector: e.target.value })
+                  }
+                  placeholder="Ej: Tecnología, Manufactura, Servicios..."
+                />
+              </div>
+              <div>
+                <Label htmlFor="create-companyType">Tipo Empresa</Label>
+                <Input
+                  id="create-companyType"
+                  value={createForm.companyType}
+                  onChange={(e) =>
+                    setCreateForm({ ...createForm, companyType: e.target.value })
+                  }
+                  placeholder="Ej: SL, SA, Sociedad Limitada..."
                 />
               </div>
               <div>
@@ -259,8 +364,8 @@ export function ClientsClient() {
               >
                 Cancelar
               </Button>
-              <Button onClick={handleCreateClient} disabled={!createForm.name.trim()}>
-                Crear
+              <Button onClick={handleCreateClient} disabled={createClientMutation.isPending}>
+                {createClientMutation.isPending ? "Creando..." : "Crear"}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -274,8 +379,9 @@ export function ClientsClient() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>CIF/NIF</TableHead>
+              <TableHead>Sector</TableHead>
+              <TableHead>Tipo Empresa</TableHead>
               <TableHead>Correo electrónico</TableHead>
-              <TableHead>Teléfono</TableHead>
               <TableHead>Onboarding</TableHead>
               <TableHead>Creado</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
@@ -286,8 +392,9 @@ export function ClientsClient() {
               <TableRow key={client.id}>
                 <TableCell className="font-medium">{client.name}</TableCell>
                 <TableCell>{client.taxId || "-"}</TableCell>
+                <TableCell>{client.sector || "-"}</TableCell>
+                <TableCell>{client.companyType || "-"}</TableCell>
                 <TableCell>{client.email || "-"}</TableCell>
-                <TableCell>{client.phone || "-"}</TableCell>
                 <TableCell>
                   {client.onboardingCompleted ? (
                     <Badge variant="default">Completado</Badge>
@@ -310,9 +417,12 @@ export function ClientsClient() {
                           setEditForm({
                             name: client.name,
                             taxId: client.taxId || "",
+                            groupTaxId: client.groupTaxId || "",
                             email: client.email || "",
                             phone: client.phone || "",
                             address: client.address || "",
+                            sector: client.sector || "",
+                            companyType: client.companyType || "",
                             notes: client.notes || "",
                           });
                         }
@@ -357,6 +467,48 @@ export function ClientsClient() {
                                 })
                               }
                               placeholder="B12345678"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="edit-groupTaxId">CIF Grupo</Label>
+                            <Input
+                              id="edit-groupTaxId"
+                              value={editForm.groupTaxId}
+                              onChange={(e) =>
+                                setEditForm({
+                                  ...editForm,
+                                  groupTaxId: e.target.value,
+                                })
+                              }
+                              placeholder="CIF del grupo empresarial"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="edit-sector">Sector</Label>
+                            <Input
+                              id="edit-sector"
+                              value={editForm.sector}
+                              onChange={(e) =>
+                                setEditForm({
+                                  ...editForm,
+                                  sector: e.target.value,
+                                })
+                              }
+                              placeholder="Ej: Tecnología, Manufactura, Servicios..."
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="edit-companyType">Tipo Empresa</Label>
+                            <Input
+                              id="edit-companyType"
+                              value={editForm.companyType}
+                              onChange={(e) =>
+                                setEditForm({
+                                  ...editForm,
+                                  companyType: e.target.value,
+                                })
+                              }
+                              placeholder="Ej: SL, SA, Sociedad Limitada..."
                             />
                           </div>
                           <div>
@@ -426,8 +578,8 @@ export function ClientsClient() {
                           >
                             Cancelar
                           </Button>
-                          <Button onClick={handleEditClient} disabled={!editForm.name.trim()}>
-                            Guardar
+                          <Button onClick={handleEditClient} disabled={updateClientMutation.isPending}>
+                            {updateClientMutation.isPending ? "Guardando..." : "Guardar"}
                           </Button>
                         </DialogFooter>
                       </DialogContent>
@@ -452,9 +604,10 @@ export function ClientsClient() {
                           <AlertDialogCancel>Cancelar</AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => handleDeleteClient(client.id)}
+                            disabled={deleteClientMutation.isPending}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                           >
-                            Eliminar
+                            {deleteClientMutation.isPending ? "Eliminando..." : "Eliminar"}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>

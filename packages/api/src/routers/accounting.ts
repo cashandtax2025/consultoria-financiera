@@ -29,9 +29,12 @@ const createChartAccountSchema = z.object({
 const createClientSchema = z.object({
   name: z.string().min(1).max(200),
   taxId: z.string().optional(),
+  groupTaxId: z.string().optional(),
   email: z.string().email().optional(),
   phone: z.string().optional(),
   address: z.string().optional(),
+  sector: z.string().optional(),
+  companyType: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -219,9 +222,12 @@ export const accountingRouter = router({
         .values({
           name: input.name,
           taxId: input.taxId,
+          groupTaxId: input.groupTaxId,
           email: input.email,
           phone: input.phone,
           address: input.address,
+          sector: input.sector,
+          companyType: input.companyType,
           notes: input.notes,
           createdBy: ctx.session.user.id,
         })
@@ -265,6 +271,28 @@ export const accountingRouter = router({
         .returning();
 
       return client;
+    }),
+
+  // Eliminar cliente
+  deleteClient: protectedProcedure
+    .input(z.object({ clientId: z.string().uuid() }))
+    .mutation(async ({ ctx, input }) => {
+      // Verificar que el cliente existe
+      const existingClient = await ctx.db
+        .select()
+        .from(clients)
+        .where(eq(clients.id, input.clientId));
+
+      if (!existingClient || existingClient.length === 0) {
+        throw new Error("Cliente no encontrado");
+      }
+
+      // Eliminar cliente (las tablas relacionadas se eliminan automáticamente por CASCADE)
+      await ctx.db
+        .delete(clients)
+        .where(eq(clients.id, input.clientId));
+
+      return { success: true };
     }),
 
   // ============ MAPEOS DE CUENTAS ============
