@@ -1,4 +1,5 @@
 import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { accountingRouter } from "./accounting";
 import { todoRouter } from "./todo";
 import { uploadRouter } from "./upload";
 
@@ -12,6 +13,7 @@ export const appRouter = router({
       user: ctx.session.user,
     };
   }),
+  accounting: accountingRouter,
   todo: todoRouter,
   upload: uploadRouter,
 });
