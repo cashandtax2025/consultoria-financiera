@@ -16,6 +16,7 @@ import {
   Settings,
   Menu,
   X,
+  BookOpen,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
@@ -24,7 +25,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface NavItem {
-  href: "/dashboard" | "/extract" | "/import" | "/analytics" | "/todos" | "/ai" | "/admin/users" | "/admin/clients";
+  href:
+    | "/dashboard"
+    | "/extract"
+    | "/import"
+    | "/analytics"
+    | "/todos"
+    | "/ai"
+    | "/admin/users"
+    | "/admin/clients"
+    | "/accounting";
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   adminOnly?: boolean;
@@ -50,6 +60,11 @@ const navItems: NavItem[] = [
     href: "/analytics",
     label: "Análisis",
     icon: BarChart3,
+  },
+  {
+    href: "/accounting",
+    label: "Contabilidad",
+    icon: BookOpen,
   },
   {
     href: "/todos",
@@ -86,7 +101,7 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
   const isAdmin = userRole === "admin";
 
   const filteredNavItems = navItems.filter(
-    (item) => !item.adminOnly || isAdmin
+    (item) => !item.adminOnly || isAdmin,
   );
 
   const handleSignOut = async () => {
@@ -113,9 +128,14 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
 
       {/* Overlay */}
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+        <button
+          type="button"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden cursor-default"
           onClick={() => setIsOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setIsOpen(false);
+          }}
+          aria-label="Close sidebar"
         />
       )}
 
@@ -123,7 +143,7 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
       <aside
         className={cn(
           "fixed left-0 top-0 z-40 h-screen w-64 border-r bg-background transition-transform duration-300 md:translate-x-0",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex h-full flex-col">
@@ -154,7 +174,7 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
                     "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
                       ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                   )}
                 >
                   <Icon className="h-5 w-5" />
@@ -190,4 +210,3 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
     </>
   );
 }
-

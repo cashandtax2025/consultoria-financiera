@@ -9,3 +9,4 @@ export * from "./schema/clients";
 export * from "./schema/templates";
 export * from "./schema/todo";
 export * from "./schema/upload";
+export * from "./schema/accounting";

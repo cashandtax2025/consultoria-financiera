@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { trpc } from "@/utils/trpc";
@@ -35,7 +36,7 @@ export default function Dashboard({
     trpc.upload.getUserUploads.queryOptions({
       limit: 5,
       offset: 0,
-    })
+    }),
   );
 
   const recentUploads = uploadsQuery.data || [];
@@ -83,14 +84,18 @@ export default function Dashboard({
     },
     {
       title: "Documentos Procesados",
-      value: recentUploads.filter((u) => u.status === "completed").length.toString(),
+      value: recentUploads
+        .filter((u) => u.status === "completed")
+        .length.toString(),
       description: "Procesados con éxito",
       icon: TrendingUp,
       trend: "+8%",
     },
     {
       title: "En Procesamiento",
-      value: recentUploads.filter((u) => u.status === "processing").length.toString(),
+      value: recentUploads
+        .filter((u) => u.status === "processing")
+        .length.toString(),
       description: "Documentos en cola",
       icon: Activity,
     },
@@ -230,7 +235,9 @@ export default function Dashboard({
                             : "Procesando"}
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {new Date(upload.uploadedAt).toLocaleDateString("es-ES")}
+                        {new Date(upload.uploadedAt).toLocaleDateString(
+                          "es-ES",
+                        )}
                       </p>
                     </div>
                   </div>
@@ -259,7 +266,12 @@ export default function Dashboard({
                   <p className="text-sm text-muted-foreground">
                     Sube archivos Excel o CSV con tus datos financieros
                   </p>
-                  <Button asChild variant="link" size="sm" className="p-0 h-auto">
+                  <Button
+                    asChild
+                    variant="link"
+                    size="sm"
+                    className="p-0 h-auto"
+                  >
                     <Link href="/import">Ir a Importar →</Link>
                   </Button>
                 </div>
@@ -274,7 +286,12 @@ export default function Dashboard({
                   <p className="text-sm text-muted-foreground">
                     Visualiza análisis y tendencias de producción
                   </p>
-                  <Button asChild variant="link" size="sm" className="p-0 h-auto">
+                  <Button
+                    asChild
+                    variant="link"
+                    size="sm"
+                    className="p-0 h-auto"
+                  >
                     <Link href="/analytics">Ver Análisis →</Link>
                   </Button>
                 </div>
@@ -289,7 +306,12 @@ export default function Dashboard({
                   <p className="text-sm text-muted-foreground">
                     Obtén insights y recomendaciones inteligentes
                   </p>
-                  <Button asChild variant="link" size="sm" className="p-0 h-auto">
+                  <Button
+                    asChild
+                    variant="link"
+                    size="sm"
+                    className="p-0 h-auto"
+                  >
                     <Link href="/ai">Probar IA →</Link>
                   </Button>
                 </div>

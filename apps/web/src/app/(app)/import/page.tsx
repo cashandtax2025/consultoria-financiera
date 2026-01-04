@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -67,15 +68,18 @@ export default function ImportPage() {
     if (selectedFile) {
       // Validate file type
       const validExtensions = [".xlsx", ".xls", ".csv", ".pdf"];
-      const fileExtension = selectedFile.name.toLowerCase().match(/\.[^.]*$/)?.[0];
-      
+      const fileExtension = selectedFile.name
+        .toLowerCase()
+        .match(/\.[^.]*$/)?.[0];
+
       if (!validExtensions.includes(fileExtension || "")) {
         toast.error("Tipo de archivo no válido", {
-          description: "Solo se aceptan archivos Excel (.xlsx, .xls), CSV (.csv) y PDF (.pdf)",
+          description:
+            "Solo se aceptan archivos Excel (.xlsx, .xls), CSV (.csv) y PDF (.pdf)",
         });
         return;
       }
-      
+
       setFile(selectedFile);
       setParsedData(null); // Reset preview
     }
@@ -84,7 +88,8 @@ export default function ImportPage() {
   const handlePreview = async () => {
     if (!file || !clientName || !documentType) {
       toast.error("Campos requeridos", {
-        description: "Por favor, complete todos los campos y seleccione un archivo",
+        description:
+          "Por favor, complete todos los campos y seleccione un archivo",
       });
       return;
     }
@@ -116,7 +121,10 @@ export default function ImportPage() {
     } catch (error) {
       console.error("Preview error:", error);
       toast.error("Error", {
-        description: error instanceof Error ? error.message : "Error al procesar el archivo",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Error al procesar el archivo",
       });
     } finally {
       setIsLoading(false);
@@ -126,7 +134,8 @@ export default function ImportPage() {
   const handleImport = async () => {
     if (!file || !clientName || !documentType || !parsedData) {
       toast.error("Campos requeridos", {
-        description: "Por favor, complete todos los campos, seleccione un archivo y haga la vista previa primero",
+        description:
+          "Por favor, complete todos los campos, seleccione un archivo y haga la vista previa primero",
       });
       return;
     }
@@ -156,21 +165,25 @@ export default function ImportPage() {
             setParsedData(null);
 
             // Clear file input
-            const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+            const fileInput = document.getElementById(
+              "file-upload",
+            ) as HTMLInputElement;
             if (fileInput) fileInput.value = "";
-            
+
             setIsLoading(false);
           },
           onError: (error) => {
             console.error("Import error:", error);
             toast.error("Error al importar", {
-              description: error instanceof Error ? error.message : "Error al importar los datos",
+              description:
+                error instanceof Error
+                  ? error.message
+                  : "Error al importar los datos",
             });
             setIsLoading(false);
           },
         },
       );
-
     } catch (error) {
       // Error handling is done in onError callback
     }
@@ -200,7 +213,8 @@ export default function ImportPage() {
           <CardHeader>
             <CardTitle>Seleccionar Archivo</CardTitle>
             <CardDescription>
-              Seleccione un archivo Excel (.xlsx, .xls), CSV (.csv) o PDF (.pdf) para importar
+              Seleccione un archivo Excel (.xlsx, .xls), CSV (.csv) o PDF (.pdf)
+              para importar
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -261,7 +275,13 @@ export default function ImportPage() {
               </Button>
               <Button
                 onClick={handleImport}
-                disabled={!file || !clientName || !documentType || !parsedData || isLoading}
+                disabled={
+                  !file ||
+                  !clientName ||
+                  !documentType ||
+                  !parsedData ||
+                  isLoading
+                }
               >
                 <UploadIcon className="mr-2 h-4 w-4" />
                 {isLoading ? "Importando..." : "Importar"}
@@ -275,7 +295,8 @@ export default function ImportPage() {
             <CardHeader>
               <CardTitle>Vista Previa de Datos</CardTitle>
               <CardDescription>
-                {parsedData.recordCount} registros encontrados en {parsedData.fileName}
+                {parsedData.recordCount} registros encontrados en{" "}
+                {parsedData.fileName}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -285,21 +306,31 @@ export default function ImportPage() {
                     <TableHeader>
                       <TableRow>
                         {parsedData.data.length > 0 &&
-                          Object.keys(parsedData.data[0]).slice(0, 10).map((key) => (
-                            <TableHead key={key} className="whitespace-nowrap">
-                              {key}
-                            </TableHead>
-                          ))}
+                          Object.keys(parsedData.data[0])
+                            .slice(0, 10)
+                            .map((key) => (
+                              <TableHead
+                                key={key}
+                                className="whitespace-nowrap"
+                              >
+                                {key}
+                              </TableHead>
+                            ))}
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {parsedData.data.slice(0, 20).map((row, idx) => (
                         <TableRow key={idx}>
-                          {Object.values(row).slice(0, 10).map((value, cellIdx) => (
-                            <TableCell key={cellIdx} className="whitespace-nowrap">
-                              {String(value)}
-                            </TableCell>
-                          ))}
+                          {Object.values(row)
+                            .slice(0, 10)
+                            .map((value, cellIdx) => (
+                              <TableCell
+                                key={cellIdx}
+                                className="whitespace-nowrap"
+                              >
+                                {String(value)}
+                              </TableCell>
+                            ))}
                         </TableRow>
                       ))}
                     </TableBody>
@@ -318,4 +349,3 @@ export default function ImportPage() {
     </div>
   );
 }
-

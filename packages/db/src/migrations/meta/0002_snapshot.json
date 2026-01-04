@@ -1,9 +1,448 @@
 {
-  "id": "8ee239e2-7f2e-4794-a4b4-760da9a2e1c9",
+  "id": "faa9a8c7-5c52-42c3-8322-1852efc9849e",
   "prevId": "fe5a2107-c527-4b9e-bab9-cda346f1ec5c",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.account_mappings": {
+      "name": "account_mappings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "client_account_code": {
+          "name": "client_account_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "client_account_name": {
+          "name": "client_account_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "internal_account_id": {
+          "name": "internal_account_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "auto_mapped": {
+          "name": "auto_mapped",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "account_mappings_client_idx": {
+          "name": "account_mappings_client_idx",
+          "columns": [
+            {
+              "expression": "client_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "account_mappings_client_code_idx": {
+          "name": "account_mappings_client_code_idx",
+          "columns": [
+            {
+              "expression": "client_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "client_account_code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "account_mappings_client_id_clients_id_fk": {
+          "name": "account_mappings_client_id_clients_id_fk",
+          "tableFrom": "account_mappings",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "account_mappings_internal_account_id_chart_of_accounts_id_fk": {
+          "name": "account_mappings_internal_account_id_chart_of_accounts_id_fk",
+          "tableFrom": "account_mappings",
+          "tableTo": "chart_of_accounts",
+          "columnsFrom": [
+            "internal_account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.chart_of_accounts": {
+      "name": "chart_of_accounts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "level": {
+          "name": "level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parent_code": {
+          "name": "parent_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "chart_of_accounts_code_unique": {
+          "name": "chart_of_accounts_code_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "code"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.clients": {
+      "name": "clients",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tax_id": {
+          "name": "tax_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "onboarding_completed": {
+          "name": "onboarding_completed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "clients_created_by_user_id_fk": {
+          "name": "clients_created_by_user_id_fk",
+          "tableFrom": "clients",
+          "tableTo": "user",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.unmapped_accounts": {
+      "name": "unmapped_accounts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "account_code": {
+          "name": "account_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "account_name": {
+          "name": "account_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "first_seen_at": {
+          "name": "first_seen_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "occurrences": {
+          "name": "occurrences",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "source_document": {
+          "name": "source_document",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resolved": {
+          "name": "resolved",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "resolved_at": {
+          "name": "resolved_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "unmapped_accounts_client_idx": {
+          "name": "unmapped_accounts_client_idx",
+          "columns": [
+            {
+              "expression": "client_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "unmapped_accounts_pending_idx": {
+          "name": "unmapped_accounts_pending_idx",
+          "columns": [
+            {
+              "expression": "client_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "resolved",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "unmapped_accounts_client_id_clients_id_fk": {
+          "name": "unmapped_accounts_client_id_clients_id_fk",
+          "tableFrom": "unmapped_accounts",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.account": {
       "name": "account",
       "schema": "",
@@ -332,124 +771,6 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.clients": {
-      "name": "clients",
-      "schema": "",
-      "columns": {
-        "id_cliente": {
-          "name": "id_cliente",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "cif_cliente": {
-          "name": "cif_cliente",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "nombre_cliente": {
-          "name": "nombre_cliente",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "sector_cliente": {
-          "name": "sector_cliente",
-          "type": "sector_cliente",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "tipo_empresa_cliente": {
-          "name": "tipo_empresa_cliente",
-          "type": "tipo_empresa_cliente",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "id_grupo_cliente": {
-          "name": "id_grupo_cliente",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "cif_grupo_cliente": {
-          "name": "cif_grupo_cliente",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "email_cliente": {
-          "name": "email_cliente",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "telefono_cliente": {
-          "name": "telefono_cliente",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "direccion_cliente": {
-          "name": "direccion_cliente",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "clients_cif_cliente_unique": {
-          "name": "clients_cif_cliente_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "cif_cliente"
-          ]
-        },
-        "clients_cif_grupo_cliente_unique": {
-          "name": "clients_cif_grupo_cliente_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "cif_grupo_cliente"
-          ]
-        },
-        "clients_email_cliente_unique": {
-          "name": "clients_email_cliente_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email_cliente"
-          ]
-        },
-        "clients_telefono_cliente_unique": {
-          "name": "clients_telefono_cliente_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "telefono_cliente"
-          ]
-        }
-      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -887,54 +1208,7 @@
       "isRLSEnabled": false
     }
   },
-  "enums": {
-    "public.sector_cliente": {
-      "name": "sector_cliente",
-      "schema": "public",
-      "values": [
-        "Restaurantes",
-        "Hoteles",
-        "Agencias de Viajes y Turismo",
-        "Asesorías y Bufetes",
-        "Agencias Marketing y Publicidad",
-        "Promoción e Intermediación Inmobiliaria",
-        "Especialistas de construcción",
-        "Agricultura",
-        "Ganadería",
-        "Pesca",
-        "Industria Alimentaria",
-        "Industria Manufacturera",
-        "Ecommerce",
-        "Transporte",
-        "Agencia Logística",
-        "Consultoría IT",
-        "Educación",
-        "Clínicas",
-        "Gimnasios",
-        "Comercio retail",
-        "Otros servicios profesionales",
-        "Peluquerías y Salones de Belleza",
-        "Panaderías",
-        "Fruterías",
-        "Supermercados",
-        "Carnicerías",
-        "Pescaderías",
-        "Estancos",
-        "Farmacias",
-        "Talleres"
-      ]
-    },
-    "public.tipo_empresa_cliente": {
-      "name": "tipo_empresa_cliente",
-      "schema": "public",
-      "values": [
-        "Comercializador sin stock",
-        "Comercializador con stock",
-        "Servicios",
-        "Productor"
-      ]
-    }
-  },
+  "enums": {},
   "schemas": {},
   "sequences": {},
   "roles": {},
