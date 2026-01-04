@@ -62,15 +62,14 @@ const navItems: NavItem[] = [
     icon: Bot,
   },
   {
-    href: "/admin/users",
-    label: "Usuarios",
-    icon: Users,
-    adminOnly: true,
-  },
-  {
     href: "/admin/clients",
     label: "Clientes",
     icon: UserCheck,
+  },
+  {
+    href: "/admin/users",
+    label: "Usuarios",
+    icon: Users,
     adminOnly: true,
   },
 ];
