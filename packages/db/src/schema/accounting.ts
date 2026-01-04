@@ -28,9 +28,12 @@ export const clients = pgTable("clients", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   taxId: text("tax_id"), // CIF/NIF
+  groupTaxId: text("group_tax_id"), // CIF Grupo
   email: text("email"),
   phone: text("phone"),
   address: text("address"),
+  sector: text("sector"), // Sector
+  companyType: text("company_type"), // Tipo empresa
   notes: text("notes"),
   onboardingCompleted: boolean("onboarding_completed").notNull().default(false),
   createdBy: text("created_by")
