@@ -67,25 +67,10 @@ financial-advisory/
 ## Available Scripts
 
 - `pnpm dev`: Start all applications in development mode
-- `pnpm build`: Build all applications for production
-- `pnpm start`: Start production server (after build)
+- `pnpm build`: Build all applications
 - `pnpm check-types`: Check TypeScript types across all apps
 - `pnpm db:push`: Push schema changes to database
 - `pnpm db:studio`: Open database studio UI
-- `pnpm db:generate`: Generate database migrations
-- `pnpm db:migrate`: Run database migrations
-
-## Deployment
-
-Para desplegar a producción, consulta la [Guía de Despliegue](./DEPLOYMENT.md).
-
-### Quick Start (Vercel)
-
-1. Conecta tu repositorio a Vercel
-2. Configura las variables de entorno (ver `.env.example`)
-3. Deploy automático en cada push a `main`
-
-Para más detalles, ver [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## Key Functionality
 

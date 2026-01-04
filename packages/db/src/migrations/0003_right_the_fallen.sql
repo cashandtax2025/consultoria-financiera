@@ -1,8 +1,4 @@
--- Eliminar tabla clients antigua y sus dependencias
-DROP TABLE IF EXISTS "unmapped_accounts" CASCADE;
-DROP TABLE IF EXISTS "account_mappings" CASCADE;
-DROP TABLE IF EXISTS "clients" CASCADE;
---> statement-breakpoint
+DROP TABLE IF EXISTS "clients";--> statement-breakpoint
 CREATE TYPE "public"."sector_cliente" AS ENUM('Restaurantes', 'Hoteles', 'Agencias de Viajes y Turismo', 'Asesorías y Bufetes', 'Agencias Marketing y Publicidad', 'Promoción e Intermediación Inmobiliaria', 'Especialistas de construcción', 'Agricultura', 'Ganadería', 'Pesca', 'Industria Alimentaria', 'Industria Manufacturera', 'Ecommerce', 'Transporte', 'Agencia Logística', 'Consultoría IT', 'Educación', 'Clínicas', 'Gimnasios', 'Comercio retail', 'Otros servicios profesionales', 'Peluquerías y Salones de Belleza', 'Panaderías', 'Fruterías', 'Supermercados', 'Carnicerías', 'Pescaderías', 'Estancos', 'Farmacias', 'Talleres');--> statement-breakpoint
 CREATE TYPE "public"."tipo_empresa_cliente" AS ENUM('Comercializador sin stock', 'Comercializador con stock', 'Servicios', 'Productor');--> statement-breakpoint
 CREATE TABLE "clients" (

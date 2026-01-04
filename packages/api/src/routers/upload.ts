@@ -92,7 +92,7 @@ export const uploadRouter = router({
           return 0;
         };
 
-        const parseDate = (value: string | number | Date): Date | null => {
+        const parseDate = (value: string | number): Date | null => {
           if (!value) return null;
           if (value instanceof Date) return value;
 
