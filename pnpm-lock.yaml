@@ -28,7 +28,7 @@ catalogs:
       specifier: ^0.44.2
       version: 0.44.7
     next:
-      specifier: 16.0.0
+      specifier: ^16.0.0
       version: 16.0.0
     tsdown:
       specifier: ^0.15.5
@@ -3170,6 +3170,7 @@ packages:
   next@16.0.0:
     resolution: {integrity: sha512-nYohiNdxGu4OmBzggxy9rczmjIGI+TpR5vbKTsE1HqYwNm1B+YSiugSrFguX6omMOKnDHAmBPY4+8TNJk0Idyg==}
     engines: {node: '>=20.9.0'}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/CVE-2025-66478 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
