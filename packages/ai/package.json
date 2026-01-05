@@ -1,0 +1,26 @@
+{
+  "name": "@consultoria-financiera/ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./agents": "./src/agents/index.ts",
+    "./tools": "./src/tools/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/gateway": "^3.0.5",
+    "@consultoria-financiera/db": "workspace:*",
+    "@mastra/core": "catalog:",
+    "@mastra/memory": "catalog:",
+    "@mastra/pg": "catalog:",
+    "ai": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
