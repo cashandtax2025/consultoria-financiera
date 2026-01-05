@@ -3,8 +3,11 @@ import {
   chartOfAccounts,
   clients,
   unmappedAccounts,
+  sectorClienteEnum,
+  tipoEmpresaClienteEnum,
 } from "@consultoria-financiera/db/schema/accounting";
 import { and, asc, desc, eq, sql } from "drizzle-orm";
+import { randomUUID } from "crypto";
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 
@@ -27,15 +30,14 @@ const createChartAccountSchema = z.object({
 });
 
 const createClientSchema = z.object({
-  name: z.string().min(1).max(200),
-  taxId: z.string().optional(),
-  groupTaxId: z.string().optional(),
-  email: z.string().email().optional(),
-  phone: z.string().optional(),
-  address: z.string().optional(),
-  sector: z.string().optional(),
-  companyType: z.string().optional(),
-  notes: z.string().optional(),
+  cifCliente: z.string().min(1).max(50), // CIF de mi cliente - obligatorio
+  nombreCliente: z.string().min(1).max(200), // Nombre de mi cliente - obligatorio
+  sectorCliente: z.enum(sectorClienteEnum), // Sector de mi cliente - obligatorio con lista
+  tipoEmpresaCliente: z.enum(tipoEmpresaClienteEnum), // Tipo de empresa de mi cliente - obligatorio con lista
+  cifGrupoCliente: z.string().optional(), // CIF del grupo de empresas - opcional
+  emailCliente: z.string().email(), // Email de mi cliente - obligatorio
+  telefonoCliente: z.string().min(1).max(20), // Teléfono de mi cliente - obligatorio
+  direccionCliente: z.string().optional(), // Dirección postal de mi cliente - opcional
 });
 
 const createMappingSchema = z.object({
@@ -184,7 +186,7 @@ export const accountingRouter = router({
       const [client] = await ctx.db
         .select()
         .from(clients)
-        .where(eq(clients.id, input.clientId));
+        .where(eq(clients.idCliente, input.clientId));
 
       if (!client) {
         throw new Error("Cliente no encontrado");
@@ -217,18 +219,66 @@ export const accountingRouter = router({
   createClient: protectedProcedure
     .input(createClientSchema)
     .mutation(async ({ ctx, input }) => {
+      // Validar unicidad de CIF_Cliente
+      const existingCif = await ctx.db
+        .select()
+        .from(clients)
+        .where(eq(clients.cifCliente, input.cifCliente));
+
+      if (existingCif.length > 0) {
+        throw new Error("Ya existe un cliente con este CIF");
+      }
+
+      // Validar unicidad de Email_Cliente
+      const existingEmail = await ctx.db
+        .select()
+        .from(clients)
+        .where(eq(clients.emailCliente, input.emailCliente));
+
+      if (existingEmail.length > 0) {
+        throw new Error("Ya existe un cliente con este email");
+      }
+
+      // Validar unicidad de Teléfono_Cliente
+      const existingPhone = await ctx.db
+        .select()
+        .from(clients)
+        .where(eq(clients.telefonoCliente, input.telefonoCliente));
+
+      if (existingPhone.length > 0) {
+        throw new Error("Ya existe un cliente con este teléfono");
+      }
+
+      // Generar ID_Grupo_Cliente si se proporciona CIF_Grupo_Cliente
+      let idGrupoCliente = null;
+      if (input.cifGrupoCliente) {
+        // Buscar si ya existe un grupo con este CIF
+        const existingGroup = await ctx.db
+          .select()
+          .from(clients)
+          .where(eq(clients.cifGrupoCliente, input.cifGrupoCliente))
+          .limit(1);
+
+        if (existingGroup.length > 0 && existingGroup[0]?.idGrupoCliente) {
+          idGrupoCliente = existingGroup[0].idGrupoCliente;
+        } else {
+          // Crear nuevo ID de grupo
+          idGrupoCliente = randomUUID();
+        }
+      }
+
       const [client] = await ctx.db
         .insert(clients)
         .values({
-          name: input.name,
-          taxId: input.taxId,
-          groupTaxId: input.groupTaxId,
-          email: input.email,
-          phone: input.phone,
-          address: input.address,
-          sector: input.sector,
-          companyType: input.companyType,
-          notes: input.notes,
+          cifCliente: input.cifCliente,
+          nombreCliente: input.nombreCliente,
+          sectorCliente: input.sectorCliente,
+          tipoEmpresaCliente: input.tipoEmpresaCliente,
+          cifGrupoCliente: input.cifGrupoCliente,
+          idGrupoCliente: idGrupoCliente,
+          emailCliente: input.emailCliente,
+          telefonoCliente: input.telefonoCliente,
+          direccionCliente: input.direccionCliente,
           createdBy: ctx.session.user.id,
         })
         .returning();
@@ -245,13 +295,80 @@ export const accountingRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      // Obtener cliente actual para validaciones
+      const [currentClient] = await ctx.db
+        .select()
+        .from(clients)
+        .where(eq(clients.idCliente, input.clientId));
+
+      if (!currentClient) {
+        throw new Error("Cliente no encontrado");
+      }
+
+      // Validar unicidad de CIF_Cliente si se está cambiando
+      if (input.data.cifCliente && input.data.cifCliente !== currentClient.cifCliente) {
+        const existingCif = await ctx.db
+          .select()
+          .from(clients)
+          .where(eq(clients.cifCliente, input.data.cifCliente));
+
+        if (existingCif.length > 0) {
+          throw new Error("Ya existe un cliente con este CIF");
+        }
+      }
+
+      // Validar unicidad de Email_Cliente si se está cambiando
+      if (input.data.emailCliente && input.data.emailCliente !== currentClient.emailCliente) {
+        const existingEmail = await ctx.db
+          .select()
+          .from(clients)
+          .where(eq(clients.emailCliente, input.data.emailCliente));
+
+        if (existingEmail.length > 0) {
+          throw new Error("Ya existe un cliente con este email");
+        }
+      }
+
+      // Validar unicidad de Teléfono_Cliente si se está cambiando
+      if (input.data.telefonoCliente && input.data.telefonoCliente !== currentClient.telefonoCliente) {
+        const existingPhone = await ctx.db
+          .select()
+          .from(clients)
+          .where(eq(clients.telefonoCliente, input.data.telefonoCliente));
+
+        if (existingPhone.length > 0) {
+          throw new Error("Ya existe un cliente con este teléfono");
+        }
+      }
+
+      // Manejar lógica de ID_Grupo_Cliente si se cambia CIF_Grupo_Cliente
+      let updateData = { ...input.data, updatedAt: new Date() };
+
+      if (input.data.cifGrupoCliente !== undefined) {
+        if (input.data.cifGrupoCliente) {
+          // Buscar si ya existe un grupo con este CIF
+          const existingGroup = await ctx.db
+            .select()
+            .from(clients)
+            .where(eq(clients.cifGrupoCliente, input.data.cifGrupoCliente))
+            .limit(1);
+
+          if (existingGroup.length > 0 && existingGroup[0]?.idGrupoCliente) {
+            updateData.idGrupoCliente = existingGroup[0].idGrupoCliente;
+          } else {
+            // Crear nuevo ID de grupo
+            updateData.idGrupoCliente = randomUUID();
+          }
+        } else {
+          // Si se elimina el CIF del grupo, también eliminar el ID del grupo
+          updateData.idGrupoCliente = null;
+        }
+      }
+
       const [client] = await ctx.db
         .update(clients)
-        .set({
-          ...input.data,
-          updatedAt: new Date(),
-        })
-        .where(eq(clients.id, input.clientId))
+        .set(updateData)
+        .where(eq(clients.idCliente, input.clientId))
         .returning();
 
       return client;
@@ -281,7 +398,7 @@ export const accountingRouter = router({
       const existingClient = await ctx.db
         .select()
         .from(clients)
-        .where(eq(clients.id, input.clientId));
+        .where(eq(clients.idCliente, input.clientId));
 
       if (!existingClient || existingClient.length === 0) {
         throw new Error("Cliente no encontrado");
@@ -290,7 +407,7 @@ export const accountingRouter = router({
       // Eliminar cliente (las tablas relacionadas se eliminan automáticamente por CASCADE)
       await ctx.db
         .delete(clients)
-        .where(eq(clients.id, input.clientId));
+        .where(eq(clients.idCliente, input.clientId));
 
       return { success: true };
     }),

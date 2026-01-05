@@ -41,8 +41,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/utils/trpc";
+import { sectorClienteEnum, tipoEmpresaClienteEnum } from "@consultoria-financiera/db/schema/accounting";
 
 export function ClientsClient() {
   // Query for fetching clients
@@ -58,39 +66,36 @@ export function ClientsClient() {
   // Create client dialog state
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [createForm, setCreateForm] = useState<{
-    name: string;
-    taxId: string;
-    groupTaxId: string;
-    email: string;
-    phone: string;
-    address: string;
-    sector: string;
-    companyType: string;
-    notes: string;
+    cifCliente: string;
+    nombreCliente: string;
+    sectorCliente: string;
+    tipoEmpresaCliente: string;
+    cifGrupoCliente: string;
+    emailCliente: string;
+    telefonoCliente: string;
+    direccionCliente: string;
   }>({
-    name: "",
-    taxId: "",
-    groupTaxId: "",
-    email: "",
-    phone: "",
-    address: "",
-    sector: "",
-    companyType: "",
-    notes: "",
+    cifCliente: "",
+    nombreCliente: "",
+    sectorCliente: "",
+    tipoEmpresaCliente: "",
+    cifGrupoCliente: "",
+    emailCliente: "",
+    telefonoCliente: "",
+    direccionCliente: "",
   });
 
   // Edit client dialog state
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editForm, setEditForm] = useState({
-    name: "",
-    taxId: "",
-    groupTaxId: "",
-    email: "",
-    phone: "",
-    address: "",
-    sector: "",
-    companyType: "",
-    notes: "",
+    cifCliente: "",
+    nombreCliente: "",
+    sectorCliente: "",
+    tipoEmpresaCliente: "",
+    cifGrupoCliente: "",
+    emailCliente: "",
+    telefonoCliente: "",
+    direccionCliente: "",
   });
 
   // Mutation for creating clients
@@ -100,15 +105,14 @@ export function ClientsClient() {
         toast.success("Cliente creado exitosamente");
         setCreateDialogOpen(false);
         setCreateForm({
-          name: "",
-          taxId: "",
-          groupTaxId: "",
-          email: "",
-          phone: "",
-          address: "",
-          sector: "",
-          companyType: "",
-          notes: "",
+          cifCliente: "",
+          nombreCliente: "",
+          sectorCliente: "",
+          tipoEmpresaCliente: "",
+          cifGrupoCliente: "",
+          emailCliente: "",
+          telefonoCliente: "",
+          direccionCliente: "",
         });
         refetchClients();
       },
@@ -120,19 +124,43 @@ export function ClientsClient() {
 
   // Validación del formulario de creación
   const validateCreateForm = () => {
-    if (!createForm.name.trim()) {
+    if (!createForm.nombreCliente.trim()) {
       toast.error("El nombre del cliente es obligatorio");
       return false;
     }
 
-    // Validar email si se proporciona
-    if (createForm.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(createForm.email)) {
+    if (!createForm.cifCliente.trim()) {
+      toast.error("El CIF del cliente es obligatorio");
+      return false;
+    }
+
+    if (!createForm.sectorCliente) {
+      toast.error("El sector del cliente es obligatorio");
+      return false;
+    }
+
+    if (!createForm.tipoEmpresaCliente) {
+      toast.error("El tipo de empresa del cliente es obligatorio");
+      return false;
+    }
+
+    if (!createForm.emailCliente.trim()) {
+      toast.error("El email del cliente es obligatorio");
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(createForm.emailCliente)) {
       toast.error("El correo electrónico no tiene un formato válido");
       return false;
     }
 
-    // Validar teléfono si se proporciona (formato español básico)
-    if (createForm.phone && !/^(\+34|0034|34)?[6-9][0-9]{8}$/.test(createForm.phone.replace(/\s+/g, ''))) {
+    if (!createForm.telefonoCliente.trim()) {
+      toast.error("El teléfono del cliente es obligatorio");
+      return false;
+    }
+
+    // Validar teléfono (formato español básico)
+    if (!/^(\+34|0034|34)?[6-9][0-9]{8}$/.test(createForm.telefonoCliente.replace(/\s+/g, ''))) {
       toast.error("El teléfono debe tener un formato válido (ej: +34 600 000 000)");
       return false;
     }
@@ -144,15 +172,14 @@ export function ClientsClient() {
     if (!validateCreateForm()) return;
 
     createClientMutation.mutate({
-      name: createForm.name.trim(),
-      taxId: createForm.taxId.trim() || undefined,
-      groupTaxId: createForm.groupTaxId.trim() || undefined,
-      email: createForm.email.trim() || undefined,
-      phone: createForm.phone.trim() || undefined,
-      address: createForm.address.trim() || undefined,
-      sector: createForm.sector.trim() || undefined,
-      companyType: createForm.companyType.trim() || undefined,
-      notes: createForm.notes.trim() || undefined,
+      cifCliente: createForm.cifCliente.trim(),
+      nombreCliente: createForm.nombreCliente.trim(),
+      sectorCliente: createForm.sectorCliente,
+      tipoEmpresaCliente: createForm.tipoEmpresaCliente,
+      cifGrupoCliente: createForm.cifGrupoCliente.trim() || undefined,
+      emailCliente: createForm.emailCliente.trim(),
+      telefonoCliente: createForm.telefonoCliente.trim(),
+      direccionCliente: createForm.direccionCliente.trim() || undefined,
     });
   };
 
@@ -173,19 +200,43 @@ export function ClientsClient() {
 
   // Validación del formulario de edición
   const validateEditForm = () => {
-    if (!editForm.name.trim()) {
+    if (!editForm.nombreCliente.trim()) {
       toast.error("El nombre del cliente es obligatorio");
       return false;
     }
 
-    // Validar email si se proporciona
-    if (editForm.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editForm.email)) {
+    if (!editForm.cifCliente.trim()) {
+      toast.error("El CIF del cliente es obligatorio");
+      return false;
+    }
+
+    if (!editForm.sectorCliente) {
+      toast.error("El sector del cliente es obligatorio");
+      return false;
+    }
+
+    if (!editForm.tipoEmpresaCliente) {
+      toast.error("El tipo de empresa del cliente es obligatorio");
+      return false;
+    }
+
+    if (!editForm.emailCliente.trim()) {
+      toast.error("El email del cliente es obligatorio");
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editForm.emailCliente)) {
       toast.error("El correo electrónico no tiene un formato válido");
       return false;
     }
 
-    // Validar teléfono si se proporciona (formato español básico)
-    if (editForm.phone && !/^(\+34|0034|34)?[6-9][0-9]{8}$/.test(editForm.phone.replace(/\s+/g, ''))) {
+    if (!editForm.telefonoCliente.trim()) {
+      toast.error("El teléfono del cliente es obligatorio");
+      return false;
+    }
+
+    // Validar teléfono (formato español básico)
+    if (!/^(\+34|0034|34)?[6-9][0-9]{8}$/.test(editForm.telefonoCliente.replace(/\s+/g, ''))) {
       toast.error("El teléfono debe tener un formato válido (ej: +34 600 000 000)");
       return false;
     }
@@ -199,17 +250,16 @@ export function ClientsClient() {
     if (!validateEditForm()) return;
 
     updateClientMutation.mutate({
-      clientId: selectedClient.id as string,
+      clientId: selectedClient.idCliente as string,
       data: {
-        name: editForm.name.trim() || undefined,
-        taxId: editForm.taxId.trim() || undefined,
-        groupTaxId: editForm.groupTaxId.trim() || undefined,
-        email: editForm.email.trim() || undefined,
-        phone: editForm.phone.trim() || undefined,
-        address: editForm.address.trim() || undefined,
-        sector: editForm.sector.trim() || undefined,
-        companyType: editForm.companyType.trim() || undefined,
-        notes: editForm.notes.trim() || undefined,
+        cifCliente: editForm.cifCliente.trim(),
+        nombreCliente: editForm.nombreCliente.trim(),
+        sectorCliente: editForm.sectorCliente,
+        tipoEmpresaCliente: editForm.tipoEmpresaCliente,
+        cifGrupoCliente: editForm.cifGrupoCliente.trim() || undefined,
+        emailCliente: editForm.emailCliente.trim(),
+        telefonoCliente: editForm.telefonoCliente.trim(),
+        direccionCliente: editForm.direccionCliente.trim() || undefined,
       },
     });
   };
@@ -255,104 +305,110 @@ export function ClientsClient() {
             </DialogHeader>
             <div className="space-y-4 max-h-96 overflow-y-auto">
               <div>
-                <Label htmlFor="create-name">Nombre *</Label>
+                <Label htmlFor="create-nombreCliente">Nombre del Cliente *</Label>
                 <Input
-                  id="create-name"
-                  value={createForm.name}
+                  id="create-nombreCliente"
+                  value={createForm.nombreCliente}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, name: e.target.value })
+                    setCreateForm({ ...createForm, nombreCliente: e.target.value })
                   }
                   placeholder="Nombre del cliente"
                 />
               </div>
               <div>
-                <Label htmlFor="create-taxId">CIF/NIF</Label>
+                <Label htmlFor="create-cifCliente">CIF del Cliente *</Label>
                 <Input
-                  id="create-taxId"
-                  value={createForm.taxId}
+                  id="create-cifCliente"
+                  value={createForm.cifCliente}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, taxId: e.target.value })
+                    setCreateForm({ ...createForm, cifCliente: e.target.value })
                   }
                   placeholder="B12345678"
                 />
               </div>
               <div>
-                <Label htmlFor="create-groupTaxId">CIF Grupo</Label>
+                <Label htmlFor="create-sectorCliente">Sector del Cliente *</Label>
+                <Select
+                  value={createForm.sectorCliente}
+                  onValueChange={(value) =>
+                    setCreateForm({ ...createForm, sectorCliente: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona un sector" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sectorClienteEnum.map((sector) => (
+                      <SelectItem key={sector} value={sector}>
+                        {sector}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="create-tipoEmpresaCliente">Tipo de Empresa del Cliente *</Label>
+                <Select
+                  value={createForm.tipoEmpresaCliente}
+                  onValueChange={(value) =>
+                    setCreateForm({ ...createForm, tipoEmpresaCliente: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona un tipo de empresa" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {tipoEmpresaClienteEnum.map((tipo) => (
+                      <SelectItem key={tipo} value={tipo}>
+                        {tipo}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="create-cifGrupoCliente">CIF del Grupo Empresarial</Label>
                 <Input
-                  id="create-groupTaxId"
-                  value={createForm.groupTaxId}
+                  id="create-cifGrupoCliente"
+                  value={createForm.cifGrupoCliente}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, groupTaxId: e.target.value })
+                    setCreateForm({ ...createForm, cifGrupoCliente: e.target.value })
                   }
                   placeholder="CIF del grupo empresarial"
                 />
               </div>
               <div>
-                <Label htmlFor="create-sector">Sector</Label>
+                <Label htmlFor="create-emailCliente">Correo Electrónico del Cliente *</Label>
                 <Input
-                  id="create-sector"
-                  value={createForm.sector}
-                  onChange={(e) =>
-                    setCreateForm({ ...createForm, sector: e.target.value })
-                  }
-                  placeholder="Ej: Tecnología, Manufactura, Servicios..."
-                />
-              </div>
-              <div>
-                <Label htmlFor="create-companyType">Tipo Empresa</Label>
-                <Input
-                  id="create-companyType"
-                  value={createForm.companyType}
-                  onChange={(e) =>
-                    setCreateForm({ ...createForm, companyType: e.target.value })
-                  }
-                  placeholder="Ej: SL, SA, Sociedad Limitada..."
-                />
-              </div>
-              <div>
-                <Label htmlFor="create-email">Correo electrónico</Label>
-                <Input
-                  id="create-email"
+                  id="create-emailCliente"
                   type="email"
-                  value={createForm.email}
+                  value={createForm.emailCliente}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, email: e.target.value })
+                    setCreateForm({ ...createForm, emailCliente: e.target.value })
                   }
                   placeholder="cliente@empresa.com"
                 />
               </div>
               <div>
-                <Label htmlFor="create-phone">Teléfono</Label>
+                <Label htmlFor="create-telefonoCliente">Teléfono del Cliente *</Label>
                 <Input
-                  id="create-phone"
-                  value={createForm.phone}
+                  id="create-telefonoCliente"
+                  value={createForm.telefonoCliente}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, phone: e.target.value })
+                    setCreateForm({ ...createForm, telefonoCliente: e.target.value })
                   }
                   placeholder="+34 600 000 000"
                 />
               </div>
               <div>
-                <Label htmlFor="create-address">Dirección</Label>
+                <Label htmlFor="create-direccionCliente">Dirección Postal del Cliente</Label>
                 <Textarea
-                  id="create-address"
-                  value={createForm.address}
+                  id="create-direccionCliente"
+                  value={createForm.direccionCliente}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, address: e.target.value })
+                    setCreateForm({ ...createForm, direccionCliente: e.target.value })
                   }
                   placeholder="Dirección completa"
-                  rows={2}
-                />
-              </div>
-              <div>
-                <Label htmlFor="create-notes">Notas</Label>
-                <Textarea
-                  id="create-notes"
-                  value={createForm.notes}
-                  onChange={(e) =>
-                    setCreateForm({ ...createForm, notes: e.target.value })
-                  }
-                  placeholder="Notas adicionales"
                   rows={2}
                 />
               </div>
@@ -378,30 +434,24 @@ export function ClientsClient() {
           <TableHeader>
             <TableRow>
               <TableHead>Nombre</TableHead>
-              <TableHead>CIF/NIF</TableHead>
+              <TableHead>CIF</TableHead>
               <TableHead>Sector</TableHead>
               <TableHead>Tipo Empresa</TableHead>
-              <TableHead>Correo electrónico</TableHead>
-              <TableHead>Onboarding</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Teléfono</TableHead>
               <TableHead>Creado</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {(clientsData || []).map((client) => (
-              <TableRow key={client.id}>
-                <TableCell className="font-medium">{client.name}</TableCell>
-                <TableCell>{client.taxId || "-"}</TableCell>
-                <TableCell>{client.sector || "-"}</TableCell>
-                <TableCell>{client.companyType || "-"}</TableCell>
-                <TableCell>{client.email || "-"}</TableCell>
-                <TableCell>
-                  {client.onboardingCompleted ? (
-                    <Badge variant="default">Completado</Badge>
-                  ) : (
-                    <Badge variant="secondary">Pendiente</Badge>
-                  )}
-                </TableCell>
+              <TableRow key={client.idCliente}>
+                <TableCell className="font-medium">{client.nombreCliente}</TableCell>
+                <TableCell>{client.cifCliente}</TableCell>
+                <TableCell>{client.sectorCliente}</TableCell>
+                <TableCell>{client.tipoEmpresaCliente}</TableCell>
+                <TableCell>{client.emailCliente}</TableCell>
+                <TableCell>{client.telefonoCliente}</TableCell>
                 <TableCell>
                   {new Date(client.createdAt).toLocaleDateString()}
                 </TableCell>
@@ -409,21 +459,20 @@ export function ClientsClient() {
                   <div className="flex justify-end gap-2">
                     {/* Edit Client */}
                     <Dialog
-                      open={editDialogOpen && selectedClient?.id === client.id}
+                      open={editDialogOpen && selectedClient?.idCliente === client.idCliente}
                       onOpenChange={(open) => {
                         setEditDialogOpen(open);
                         if (open) {
                           setSelectedClient(client);
                           setEditForm({
-                            name: client.name,
-                            taxId: client.taxId || "",
-                            groupTaxId: client.groupTaxId || "",
-                            email: client.email || "",
-                            phone: client.phone || "",
-                            address: client.address || "",
-                            sector: client.sector || "",
-                            companyType: client.companyType || "",
-                            notes: client.notes || "",
+                            cifCliente: client.cifCliente,
+                            nombreCliente: client.nombreCliente,
+                            sectorCliente: client.sectorCliente,
+                            tipoEmpresaCliente: client.tipoEmpresaCliente,
+                            cifGrupoCliente: client.cifGrupoCliente || "",
+                            emailCliente: client.emailCliente,
+                            telefonoCliente: client.telefonoCliente,
+                            direccionCliente: client.direccionCliente || "",
                           });
                         }
                       }}
@@ -442,131 +491,128 @@ export function ClientsClient() {
                         </DialogHeader>
                         <div className="space-y-4 max-h-96 overflow-y-auto">
                           <div>
-                            <Label htmlFor="edit-name">Nombre *</Label>
+                            <Label htmlFor="edit-nombreCliente">Nombre del Cliente *</Label>
                             <Input
-                              id="edit-name"
-                              value={editForm.name}
+                              id="edit-nombreCliente"
+                              value={editForm.nombreCliente}
                               onChange={(e) =>
                                 setEditForm({
                                   ...editForm,
-                                  name: e.target.value,
+                                  nombreCliente: e.target.value,
                                 })
                               }
                               placeholder="Nombre del cliente"
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-taxId">CIF/NIF</Label>
+                            <Label htmlFor="edit-cifCliente">CIF del Cliente *</Label>
                             <Input
-                              id="edit-taxId"
-                              value={editForm.taxId}
+                              id="edit-cifCliente"
+                              value={editForm.cifCliente}
                               onChange={(e) =>
                                 setEditForm({
                                   ...editForm,
-                                  taxId: e.target.value,
+                                  cifCliente: e.target.value,
                                 })
                               }
                               placeholder="B12345678"
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-groupTaxId">CIF Grupo</Label>
+                            <Label htmlFor="edit-sectorCliente">Sector del Cliente *</Label>
+                            <Select
+                              value={editForm.sectorCliente}
+                              onValueChange={(value) =>
+                                setEditForm({ ...editForm, sectorCliente: value })
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Selecciona un sector" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {sectorClienteEnum.map((sector) => (
+                                  <SelectItem key={sector} value={sector}>
+                                    {sector}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label htmlFor="edit-tipoEmpresaCliente">Tipo de Empresa del Cliente *</Label>
+                            <Select
+                              value={editForm.tipoEmpresaCliente}
+                              onValueChange={(value) =>
+                                setEditForm({ ...editForm, tipoEmpresaCliente: value })
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Selecciona un tipo de empresa" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {tipoEmpresaClienteEnum.map((tipo) => (
+                                  <SelectItem key={tipo} value={tipo}>
+                                    {tipo}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label htmlFor="edit-cifGrupoCliente">CIF del Grupo Empresarial</Label>
                             <Input
-                              id="edit-groupTaxId"
-                              value={editForm.groupTaxId}
+                              id="edit-cifGrupoCliente"
+                              value={editForm.cifGrupoCliente}
                               onChange={(e) =>
                                 setEditForm({
                                   ...editForm,
-                                  groupTaxId: e.target.value,
+                                  cifGrupoCliente: e.target.value,
                                 })
                               }
                               placeholder="CIF del grupo empresarial"
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-sector">Sector</Label>
+                            <Label htmlFor="edit-emailCliente">Correo Electrónico del Cliente *</Label>
                             <Input
-                              id="edit-sector"
-                              value={editForm.sector}
-                              onChange={(e) =>
-                                setEditForm({
-                                  ...editForm,
-                                  sector: e.target.value,
-                                })
-                              }
-                              placeholder="Ej: Tecnología, Manufactura, Servicios..."
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="edit-companyType">Tipo Empresa</Label>
-                            <Input
-                              id="edit-companyType"
-                              value={editForm.companyType}
-                              onChange={(e) =>
-                                setEditForm({
-                                  ...editForm,
-                                  companyType: e.target.value,
-                                })
-                              }
-                              placeholder="Ej: SL, SA, Sociedad Limitada..."
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="edit-email">Correo electrónico</Label>
-                            <Input
-                              id="edit-email"
+                              id="edit-emailCliente"
                               type="email"
-                              value={editForm.email}
+                              value={editForm.emailCliente}
                               onChange={(e) =>
                                 setEditForm({
                                   ...editForm,
-                                  email: e.target.value,
+                                  emailCliente: e.target.value,
                                 })
                               }
                               placeholder="cliente@empresa.com"
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-phone">Teléfono</Label>
+                            <Label htmlFor="edit-telefonoCliente">Teléfono del Cliente *</Label>
                             <Input
-                              id="edit-phone"
-                              value={editForm.phone}
+                              id="edit-telefonoCliente"
+                              value={editForm.telefonoCliente}
                               onChange={(e) =>
                                 setEditForm({
                                   ...editForm,
-                                  phone: e.target.value,
+                                  telefonoCliente: e.target.value,
                                 })
                               }
                               placeholder="+34 600 000 000"
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-address">Dirección</Label>
+                            <Label htmlFor="edit-direccionCliente">Dirección Postal del Cliente</Label>
                             <Textarea
-                              id="edit-address"
-                              value={editForm.address}
+                              id="edit-direccionCliente"
+                              value={editForm.direccionCliente}
                               onChange={(e) =>
                                 setEditForm({
                                   ...editForm,
-                                  address: e.target.value,
+                                  direccionCliente: e.target.value,
                                 })
                               }
                               placeholder="Dirección completa"
-                              rows={2}
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="edit-notes">Notas</Label>
-                            <Textarea
-                              id="edit-notes"
-                              value={editForm.notes}
-                              onChange={(e) =>
-                                setEditForm({
-                                  ...editForm,
-                                  notes: e.target.value,
-                                })
-                              }
-                              placeholder="Notas adicionales"
                               rows={2}
                             />
                           </div>
@@ -603,7 +649,7 @@ export function ClientsClient() {
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancelar</AlertDialogCancel>
                           <AlertDialogAction
-                            onClick={() => handleDeleteClient(client.id)}
+                            onClick={() => handleDeleteClient(client.idCliente)}
                             disabled={deleteClientMutation.isPending}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                           >

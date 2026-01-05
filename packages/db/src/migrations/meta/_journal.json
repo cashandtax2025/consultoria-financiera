@@ -19,13 +19,8 @@
     {
       "idx": 2,
       "version": "7",
-<<<<<<< HEAD
-      "when": 1766744505633,
-      "tag": "0002_oval_sleeper",
-=======
       "when": 1767513132531,
       "tag": "0002_right_the_fallen",
->>>>>>> dfd030c (feat: Add clients management and prepare for production deployment)
       "breakpoints": true
     }
   ]
