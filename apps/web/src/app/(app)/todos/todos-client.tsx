@@ -18,7 +18,7 @@ import { trpc } from "@/utils/trpc";
 export default function TodosPage() {
   const [newTodoText, setNewTodoText] = useState("");
 
-  const todos = useQuery(trpc.todo.getAll.queryOptions());
+  const todos = useQuery(trpc.todo.getAll.queryOptions()) as { data: any[] | undefined; isLoading: boolean; refetch: () => void };
   const createMutation = useMutation(
     trpc.todo.create.mutationOptions({
       onSuccess: () => {

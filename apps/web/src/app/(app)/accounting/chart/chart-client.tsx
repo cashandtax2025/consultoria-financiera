@@ -558,7 +558,18 @@ export default function ChartOfAccountsClient() {
     return accountTypes.find((t) => t.value === type) || accountTypes[0];
   };
 
-  type Account = NonNullable<typeof accounts>[number];
+  type Account = {
+    id: string;
+    code: string;
+    name: string;
+    description: string | null;
+    level: number;
+    parentCode: string | null;
+    type: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+  };
 
   return (
     <div className="space-y-8">
@@ -578,7 +589,7 @@ export default function ChartOfAccountsClient() {
           </div>
         </div>
         <div className="flex gap-2">
-          {(!accounts || accounts.length === 0) && (
+          {(!accounts || (accounts as unknown as Account[]).length === 0) && (
             <Button
               variant="outline"
               onClick={handleLoadDefaultChart}
@@ -737,7 +748,7 @@ export default function ChartOfAccountsClient() {
         <CardHeader>
           <CardTitle>Cuentas del Plan Contable</CardTitle>
           <CardDescription>
-            {accounts?.length || 0} cuentas en total
+            {(accounts as unknown as Account[])?.length || 0} cuentas en total
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -745,7 +756,7 @@ export default function ChartOfAccountsClient() {
             <div className="flex items-center justify-center py-8">
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
-          ) : accounts && accounts.length > 0 ? (
+          ) : accounts && (accounts as unknown as Account[]).length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -757,7 +768,7 @@ export default function ChartOfAccountsClient() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {accounts.map((account: Account) => {
+                {(accounts as unknown as Account[]).map((account: Account) => {
                   const typeInfo = getTypeInfo(account.type);
                   return (
                     <TableRow key={account.id}>

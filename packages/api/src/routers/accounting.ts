@@ -162,7 +162,7 @@ export const accountingRouter = router({
 
       if (input?.search) {
         conditions.push(
-          sql`(${clients.name} ILIKE ${`%${input.search}%`} OR ${clients.taxId} ILIKE ${`%${input.search}%`})`,
+          sql`(${clients.nombreCliente} ILIKE ${`%${input.search}%`} OR ${clients.cifCliente} ILIKE ${`%${input.search}%`})`,
         );
       }
 
@@ -174,7 +174,7 @@ export const accountingRouter = router({
         .select()
         .from(clients)
         .where(conditions.length > 0 ? and(...conditions) : undefined)
-        .orderBy(asc(clients.name));
+        .orderBy(asc(clients.nombreCliente));
 
       return clientList;
     }),
@@ -342,7 +342,7 @@ export const accountingRouter = router({
       }
 
       // Manejar lógica de ID_Grupo_Cliente si se cambia CIF_Grupo_Cliente
-      let updateData = { ...input.data, updatedAt: new Date() };
+      let updateData: typeof input.data & { idGrupoCliente?: string | null; updatedAt: Date } = { ...input.data, updatedAt: new Date() };
 
       if (input.data.cifGrupoCliente !== undefined) {
         if (input.data.cifGrupoCliente) {
@@ -384,7 +384,7 @@ export const accountingRouter = router({
           onboardingCompleted: true,
           updatedAt: new Date(),
         })
-        .where(eq(clients.id, input.clientId))
+        .where(eq(clients.idCliente, input.clientId))
         .returning();
 
       return client;

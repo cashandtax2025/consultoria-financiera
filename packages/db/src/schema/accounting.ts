@@ -78,6 +78,7 @@ export const clients = pgTable(
     emailCliente: text("email_cliente").notNull().unique(), // Email de mi cliente - obligatorio y único
     telefonoCliente: text("telefono_cliente").notNull().unique(), // Teléfono de mi cliente - obligatorio y único
     direccionCliente: text("direccion_cliente"), // Dirección postal de mi cliente - opcional
+    onboardingCompleted: boolean("onboarding_completed").notNull().default(false), // Onboarding completado
     createdBy: text("created_by")
       .notNull()
       .references(() => user.id),

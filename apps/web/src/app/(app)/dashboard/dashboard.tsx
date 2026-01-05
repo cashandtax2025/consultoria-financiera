@@ -37,7 +37,7 @@ export default function Dashboard({
       limit: 5,
       offset: 0,
     }),
-  );
+  ) as { data: any[] | undefined; isLoading: boolean; error: any };
 
   const recentUploads = uploadsQuery.data || [];
 

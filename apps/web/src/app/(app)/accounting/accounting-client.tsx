@@ -91,9 +91,24 @@ export default function AccountingClient() {
     });
   };
 
-  type Client = NonNullable<typeof clients.data>[number];
+  type Client = {
+    idCliente: string;
+    cifCliente: string;
+    nombreCliente: string;
+    sectorCliente: string;
+    tipoEmpresaCliente: string;
+    idGrupoCliente: string | null;
+    cifGrupoCliente: string | null;
+    emailCliente: string;
+    telefonoCliente: string;
+    direccionCliente: string | null;
+    createdBy: string;
+    createdAt: Date;
+    updatedAt: Date;
+    onboardingCompleted: boolean;
+  };
 
-  const filteredClients = clients.data?.filter(
+  const filteredClients = (clients.data as Client[] | undefined)?.filter(
     (client: Client) =>
       client.nombreCliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
       client.cifCliente?.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -190,7 +205,7 @@ export default function AccountingClient() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {clients.data?.length || 0}
+              {(clients.data as Client[] | undefined)?.length || 0}
             </div>
           </CardContent>
         </Card>
@@ -203,7 +218,7 @@ export default function AccountingClient() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {clients.data?.filter((c: Client) => c.onboardingCompleted)
+              {(clients.data as Client[] | undefined)?.filter((c: Client) => c.onboardingCompleted)
                 .length || 0}
             </div>
           </CardContent>
@@ -262,7 +277,7 @@ export default function AccountingClient() {
               </TableHeader>
               <TableBody>
                 {filteredClients.map((client: Client) => (
-                  <TableRow key={client.id}>
+                  <TableRow key={client.idCliente}>
                     <TableCell className="font-medium">{client.nombreCliente}</TableCell>
                     <TableCell>{client.cifCliente}</TableCell>
                     <TableCell>
@@ -284,7 +299,7 @@ export default function AccountingClient() {
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm" asChild>
                         <Link
-                          href={`/accounting/client/${client.id}`}
+                          href={`/accounting/client/${client.idCliente}`}
                           prefetch={false}
                         >
                           Gestionar

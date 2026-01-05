@@ -42,7 +42,7 @@ export default function ImportHistoryPage() {
       limit: 50,
       offset: 0,
     }),
-  );
+  ) as { data: any[] | undefined; isLoading: boolean; error: any };
 
   if (isLoading) {
     return (

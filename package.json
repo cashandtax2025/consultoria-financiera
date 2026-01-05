@@ -18,7 +18,9 @@
     "db:migrate": "turbo -F @consultoria-financiera/db db:migrate"
   },
   "dependencies": {
+    "better-sqlite3": "^12.5.0",
     "dotenv": "^17.2.2",
+    "drizzle-orm": "catalog:",
     "zod": "^4.1.11"
   },
   "devDependencies": {

@@ -1,26 +1,28 @@
 // For development, we'll use a simple in-memory setup or local fallback
 // In a real project, you'd want proper environment variables
 
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+
 const isProduction = process.env.NODE_ENV === "production";
+
+let db: any;
 
 if (isProduction) {
   // Production: Use PostgreSQL with Neon
-  const { neon } = require("@neondatabase/serverless");
-  const { drizzle } = require("drizzle-orm/neon-http");
-
   if (!process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL environment variable is required in production");
   }
 
   const sql = neon(process.env.DATABASE_URL);
-  export const db = drizzle(sql);
+  db = drizzle(sql);
 } else {
   // Development: Use a mock setup that doesn't require external database
   // This will allow the app to start without database connection errors
   console.warn("⚠️  Using development mode without database. Authentication will not work.");
 
   // Create a mock db object that throws helpful errors
-  export const db = {
+  db = {
     select: () => ({
       from: () => ({
         where: () => ({
@@ -51,6 +53,8 @@ if (isProduction) {
     })
   };
 }
+
+export { db };
 
 export * from "./schema/auth";
 export * from "./schema/templates";

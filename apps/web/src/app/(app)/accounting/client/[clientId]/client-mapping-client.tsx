@@ -87,9 +87,11 @@ export default function ClientMappingClient({
   const [mappingNotes, setMappingNotes] = useState("");
 
   // Queries
-  const { data: client, isLoading: loadingClient } = useQuery(
+  const { data: clientData, isLoading: loadingClient } = useQuery(
     trpc.accounting.getClientById.queryOptions({ clientId }),
   );
+
+  const client = clientData as Client | undefined;
 
   const {
     data: mappings,
@@ -100,7 +102,7 @@ export default function ClientMappingClient({
       clientId,
       search: deferredSearchTerm,
     }),
-  );
+  ) as { data: Mapping[] | undefined; isLoading: boolean; refetch: () => void };
 
   const { data: unmappedAccounts, refetch: refetchUnmapped } = useQuery(
     trpc.accounting.getUnmappedAccounts.queryOptions({ clientId }),
@@ -193,7 +195,74 @@ export default function ClientMappingClient({
     });
   };
 
-  type ChartAccount = NonNullable<typeof chartOfAccounts>[number];
+  type ChartAccount = {
+    id: string;
+    code: string;
+    name: string;
+    description: string | null;
+    level: number;
+    parentCode: string | null;
+    type: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+
+  type UnmappedAccount = {
+    id: string;
+    clientId: string;
+    accountCode: string;
+    accountName: string | null;
+    sourceDocument: string | null;
+    occurrences: number;
+    resolved: boolean;
+    firstSeenAt: Date;
+    resolvedAt: Date | null;
+  };
+
+  type Mapping = {
+    id: string;
+    clientAccountCode: string;
+    clientAccountName: string | null;
+    internalAccountId: string;
+    notes: string | null;
+    autoMapped: boolean;
+    createdAt: Date;
+    internalAccountCode: string;
+    internalAccountName: string;
+  };
+
+  type Suggestion = {
+    id: string;
+    code: string;
+    name: string;
+    description: string | null;
+    level: number;
+    parentCode: string | null;
+    type: string;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+
+  type Client = {
+    idCliente: string;
+    cifCliente: string;
+    nombreCliente: string;
+    sectorCliente: string;
+    tipoEmpresaCliente: string;
+    idGrupoCliente: string | null;
+    cifGrupoCliente: string | null;
+    emailCliente: string;
+    telefonoCliente: string;
+    direccionCliente: string | null;
+    createdBy: string;
+    createdAt: Date;
+    updatedAt: Date;
+    onboardingCompleted: boolean;
+    mappedAccountsCount: number;
+    unmappedAccountsCount: number;
+  };
 
   const handleBulkImport = () => {
     // Parse bulk import text (format: clientCode;clientName;internalCode)
@@ -215,7 +284,7 @@ export default function ClientMappingClient({
       if (!clientCode || !internalCode) continue;
 
       // Find internal account by code
-      const internalAccount = chartOfAccounts?.find(
+      const internalAccount = (chartOfAccounts as ChartAccount[] | undefined)?.find(
         (acc: ChartAccount) => acc.code === internalCode,
       );
       if (!internalAccount) {
@@ -253,7 +322,7 @@ export default function ClientMappingClient({
   // Group accounts by type for select
   const groupedAccounts = useMemo(() => {
     if (!chartOfAccounts) return {} as Record<string, ChartAccount[]>;
-    return chartOfAccounts.reduce(
+    return (chartOfAccounts as unknown as ChartAccount[]).reduce(
       (acc: Record<string, ChartAccount[]>, account: ChartAccount) => {
         const type = account.type;
         if (!acc[type]) acc[type] = [];
@@ -272,9 +341,6 @@ export default function ClientMappingClient({
     expense: "Gastos",
   };
 
-  type UnmappedAccount = NonNullable<typeof unmappedAccounts>[number];
-  type Mapping = NonNullable<typeof mappings>[number];
-  type Suggestion = NonNullable<typeof suggestions>[number];
 
   if (loadingClient) {
     return (
@@ -308,10 +374,10 @@ export default function ClientMappingClient({
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">{client.name}</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{client.nombreCliente}</h1>
             <p className="text-muted-foreground mt-1">
-              {client.taxId && (
-                <span className="mr-4">CIF: {client.taxId}</span>
+              {client.cifCliente && (
+                <span className="mr-4">CIF: {client.cifCliente}</span>
               )}
               {client.onboardingCompleted ? (
                 <Badge variant="default" className="bg-green-500">
@@ -390,11 +456,12 @@ export default function ClientMappingClient({
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {unmappedAccounts.slice(0, 10).map((account: UnmappedAccount) => (
-                <Button
-                  key={account.id}
-                  variant="outline"
-                  size="sm"
+              {(Array.isArray(unmappedAccounts) ? unmappedAccounts.slice(0, 10) : []).map(
+                (account: UnmappedAccount) => (
+                  <Button
+                    key={account.id}
+                    variant="outline"
+                    size="sm"
                   className="border-orange-500/50"
                   onClick={() =>
                     handleMapUnmapped(account.accountCode, account.accountName)
@@ -648,7 +715,7 @@ export default function ClientMappingClient({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mappings.map((mapping: Mapping) => (
+                {(mappings || []).map((mapping: Mapping) => (
                   <TableRow key={mapping.id}>
                     <TableCell className="font-mono font-medium">
                       {mapping.clientAccountCode}
