@@ -50,6 +50,9 @@
     "db:generate": {
       "cache": false,
       "persistent": true
+    },
+    "db:empty": {
+      "cache": false
     }
   }
 }

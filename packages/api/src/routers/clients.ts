@@ -4,8 +4,8 @@ import { eq } from "drizzle-orm";
 import z from "zod";
 import { adminProcedure, router } from "../trpc";
 
-// Esquemas de validación
-const sectorClienteSchema = z.enum([
+// Validation schemas
+const clientSectorSchema = z.enum([
   "Restaurantes",
   "Hoteles",
   "Agencias de Viajes y Turismo",
@@ -38,7 +38,7 @@ const sectorClienteSchema = z.enum([
   "Talleres",
 ]);
 
-const tipoEmpresaClienteSchema = z.enum([
+const clientCompanyTypeSchema = z.enum([
   "Comercializador sin stock",
   "Comercializador con stock",
   "Servicios",
@@ -46,19 +46,19 @@ const tipoEmpresaClienteSchema = z.enum([
 ]);
 
 const createClientSchema = z.object({
-  cifCliente: z.string().min(1, "El CIF es obligatorio"),
-  nombreCliente: z.string().min(1, "El nombre es obligatorio"),
-  sectorCliente: sectorClienteSchema,
-  tipoEmpresaCliente: tipoEmpresaClienteSchema,
-  idGrupoCliente: z.number().int().positive().nullable().optional(),
-  cifGrupoCliente: z.string().nullable().optional(),
-  emailCliente: z.string().email("Email inválido"),
-  telefonoCliente: z.string().min(1, "El teléfono es obligatorio"),
-  direccionCliente: z.string().nullable().optional(),
+  taxId: z.string().min(1, "Tax ID is required"),
+  name: z.string().min(1, "Name is required"),
+  sector: clientSectorSchema,
+  companyType: clientCompanyTypeSchema,
+  groupId: z.string().uuid().nullable().optional(),
+  groupTaxId: z.string().nullable().optional(),
+  email: z.string().email("Invalid email"),
+  phone: z.string().min(1, "Phone is required"),
+  address: z.string().nullable().optional(),
 });
 
 const updateClientSchema = createClientSchema.partial().extend({
-  id: z.number().int().positive(),
+  id: z.string().uuid(),
 });
 
 export const clientsRouter = router({
@@ -67,7 +67,7 @@ export const clientsRouter = router({
   }),
 
   getById: adminProcedure
-    .input(z.object({ id: z.number().int().positive() }))
+    .input(z.object({ id: z.string().uuid() }))
     .query(async ({ input }) => {
       const result = await db
         .select()
@@ -80,33 +80,33 @@ export const clientsRouter = router({
   create: adminProcedure
     .input(createClientSchema)
     .mutation(async ({ input }) => {
-      // Si se proporciona CIF_Grupo_Cliente, buscar el ID del grupo
-      let idGrupoCliente: number | undefined = input.idGrupoCliente ?? undefined;
-      
-      if (input.cifGrupoCliente && !idGrupoCliente) {
-        const grupoResult = await db
+      // If groupTaxId is provided, find the group ID
+      let groupId: string | undefined = input.groupId ?? undefined;
+
+      if (input.groupTaxId && !groupId) {
+        const groupResult = await db
           .select({ id: clients.id })
           .from(clients)
-          .where(eq(clients.cifCliente, input.cifGrupoCliente))
+          .where(eq(clients.taxId, input.groupTaxId))
           .limit(1);
-        
-        if (grupoResult.length > 0) {
-          idGrupoCliente = grupoResult[0].id;
+
+        if (groupResult.length > 0 && groupResult[0]) {
+          groupId = groupResult[0].id;
         }
       }
 
       const result = await db
         .insert(clients)
         .values({
-          cifCliente: input.cifCliente,
-          nombreCliente: input.nombreCliente,
-          sectorCliente: input.sectorCliente,
-          tipoEmpresaCliente: input.tipoEmpresaCliente,
-          idGrupoCliente: idGrupoCliente ?? undefined,
-          cifGrupoCliente: input.cifGrupoCliente ?? undefined,
-          emailCliente: input.emailCliente,
-          telefonoCliente: input.telefonoCliente,
-          direccionCliente: input.direccionCliente ?? undefined,
+          taxId: input.taxId,
+          name: input.name,
+          sector: input.sector,
+          companyType: input.companyType,
+          groupId: groupId ?? undefined,
+          groupTaxId: input.groupTaxId ?? undefined,
+          email: input.email,
+          phone: input.phone,
+          address: input.address ?? undefined,
         })
         .returning();
 
@@ -118,32 +118,32 @@ export const clientsRouter = router({
     .mutation(async ({ input }) => {
       const { id, ...data } = input;
 
-      // Si se actualiza CIF_Grupo_Cliente, buscar el ID del grupo
-      let idGrupoCliente: number | undefined = data.idGrupoCliente ?? undefined;
-      
-      if (data.cifGrupoCliente !== undefined && idGrupoCliente === undefined) {
-        if (data.cifGrupoCliente) {
-          const grupoResult = await db
+      // If groupTaxId is being updated, find the group ID
+      let groupId: string | undefined = data.groupId ?? undefined;
+
+      if (data.groupTaxId !== undefined && groupId === undefined) {
+        if (data.groupTaxId) {
+          const groupResult = await db
             .select({ id: clients.id })
             .from(clients)
-            .where(eq(clients.cifCliente, data.cifGrupoCliente))
+            .where(eq(clients.taxId, data.groupTaxId))
             .limit(1);
-          
-          if (grupoResult.length > 0) {
-            idGrupoCliente = grupoResult[0].id;
+
+          if (groupResult.length > 0 && groupResult[0]) {
+            groupId = groupResult[0].id;
           } else {
-            idGrupoCliente = undefined;
+            groupId = undefined;
           }
         } else {
-          idGrupoCliente = undefined;
+          groupId = undefined;
         }
       }
 
       const updateData: typeof data = { ...data };
-      if (idGrupoCliente !== undefined) {
-        updateData.idGrupoCliente = idGrupoCliente;
-      } else if (data.cifGrupoCliente === null || data.cifGrupoCliente === "") {
-        updateData.idGrupoCliente = undefined;
+      if (groupId !== undefined) {
+        updateData.groupId = groupId;
+      } else if (data.groupTaxId === null || data.groupTaxId === "") {
+        updateData.groupId = undefined;
       }
 
       const result = await db
@@ -156,10 +156,9 @@ export const clientsRouter = router({
     }),
 
   delete: adminProcedure
-    .input(z.object({ id: z.number().int().positive() }))
+    .input(z.object({ id: z.string().uuid() }))
     .mutation(async ({ input }) => {
       await db.delete(clients).where(eq(clients.id, input.id));
       return { success: true };
     }),
 });
-

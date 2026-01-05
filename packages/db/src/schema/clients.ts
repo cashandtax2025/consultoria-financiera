@@ -1,96 +1,83 @@
-import { integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+import { user } from "./auth";
+import { clientSectorValues, clientCompanyTypeValues } from "../mappings";
 
-// Enum para Sector_Cliente
-export const sectorClienteEnum = pgEnum("sector_cliente", [
-  "Restaurantes",
-  "Hoteles",
-  "Agencias de Viajes y Turismo",
-  "Asesorías y Bufetes",
-  "Agencias Marketing y Publicidad",
-  "Promoción e Intermediación Inmobiliaria",
-  "Especialistas de construcción",
-  "Agricultura",
-  "Ganadería",
-  "Pesca",
-  "Industria Alimentaria",
-  "Industria Manufacturera",
-  "Ecommerce",
-  "Transporte",
-  "Agencia Logística",
-  "Consultoría IT",
-  "Educación",
-  "Clínicas",
-  "Gimnasios",
-  "Comercio retail",
-  "Otros servicios profesionales",
-  "Peluquerías y Salones de Belleza",
-  "Panaderías",
-  "Fruterías",
-  "Supermercados",
-  "Carnicerías",
-  "Pescaderías",
-  "Estancos",
-  "Farmacias",
-  "Talleres",
-]);
+// Enum for client sector (Sector_Cliente)
+export const clientSectorEnum = pgEnum(
+  "client_sector",
+  clientSectorValues as [string, ...string[]],
+);
 
-// Enum para Tipo_Empresa_Cliente
-export const tipoEmpresaClienteEnum = pgEnum("tipo_empresa_cliente", [
-  "Comercializador sin stock",
-  "Comercializador con stock",
-  "Servicios",
-  "Productor",
-]);
+// Enum for client company type (Tipo_Empresa_Cliente)
+export const clientCompanyTypeEnum = pgEnum(
+  "client_company_type",
+  clientCompanyTypeValues as [string, ...string[]],
+);
 
-// Tabla maestra de clientes
+// Clients master table (Tabla maestra de clientes)
 export const clients = pgTable("clients", {
-  // ID_Cliente: Identificador único automático
-  id: serial("id_cliente").primaryKey(),
+  // ID_Cliente: Unique auto-generated identifier (UUID)
+  id: uuid("id").defaultRandom().primaryKey(),
 
-  // CIF_Cliente: CIF único, obligatorio, alfanumérico
-  cifCliente: text("cif_cliente").notNull().unique(),
+  // CIF_Cliente: Tax ID (CIF in Spain), unique, required, alphanumeric
+  taxId: text("tax_id").notNull().unique(),
 
-  // Nombre_Cliente: Nombre del cliente, obligatorio, alfanumérico
-  nombreCliente: text("nombre_cliente").notNull(),
+  // Nombre_Cliente: Client name, required, alphanumeric
+  name: text("name").notNull(),
 
-  // Sector_Cliente: Sector del cliente, obligatorio, formato lista
-  sectorCliente: sectorClienteEnum("sector_cliente").notNull(),
+  // Sector_Cliente: Client sector, required, list format
+  sector: clientSectorEnum("sector").notNull(),
 
-  // Tipo_Empresa_Cliente: Tipo de empresa, obligatorio, formato lista
-  tipoEmpresaCliente: tipoEmpresaClienteEnum("tipo_empresa_cliente").notNull(),
+  // Tipo_Empresa_Cliente: Company type, required, list format
+  companyType: clientCompanyTypeEnum("company_type").notNull(),
 
-  // ID_Grupo_Cliente: Identificador del grupo (automático al indicar CIF_Grupo_Cliente), opcional
-  // Se implementa como referencia opcional a otro cliente o null
-  // La foreign key se añadirá en la migración
-  idGrupoCliente: integer("id_grupo_cliente"),
+  // ID_Grupo_Cliente: Group identifier, optional (reference to parent client)
+  groupId: uuid("group_id"),
 
-  // CIF_Grupo_Cliente: CIF del grupo, único, opcional, alfanumérico
-  cifGrupoCliente: text("cif_grupo_cliente").unique(),
+  // CIF_Grupo_Cliente: Group Tax ID, unique, optional, alphanumeric
+  groupTaxId: text("group_tax_id").unique(),
 
-  // Email_Cliente: Email único, obligatorio
-  emailCliente: text("email_cliente").notNull().unique(),
+  // Email_Cliente: Email, unique, required
+  email: text("email").notNull().unique(),
 
-  // Teléfono_Cliente: Teléfono único, obligatorio
-  telefonoCliente: text("telefono_cliente").notNull().unique(),
+  // Teléfono_Cliente: Phone, unique, required
+  phone: text("phone").notNull().unique(),
 
-  // Dirección_Cliente: Dirección postal, opcional
-  direccionCliente: text("direccion_cliente"),
+  // Dirección_Cliente: Postal address, optional
+  address: text("address"),
 
-  // Campos de auditoría
+  // Notas: Additional notes
+  notes: text("notes"),
+
+  // Estado del onboarding contable: Accounting onboarding status
+  onboardingCompleted: boolean("onboarding_completed").notNull().default(false),
+
+  // Usuario que creó el cliente: User who created the client
+  createdBy: text("created_by").references(() => user.id),
+
+  // Campos de auditoría: Audit fields
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-// Relaciones para grupos de empresas (self-reference)
+// Relations for corporate groups (Relaciones para grupos de empresas - self-reference)
 export const clientsRelations = relations(clients, ({ one, many }) => ({
-  grupoCliente: one(clients, {
-    fields: [clients.idGrupoCliente],
+  // grupoCliente: Parent group reference
+  parentGroup: one(clients, {
+    fields: [clients.groupId],
     references: [clients.id],
-    relationName: "grupoCliente",
+    relationName: "clientGroup",
   }),
-  clientesDelGrupo: many(clients, {
-    relationName: "grupoCliente",
+  // clientesDelGrupo: Subsidiaries in the group
+  subsidiaries: many(clients, {
+    relationName: "clientGroup",
   }),
 }));
-

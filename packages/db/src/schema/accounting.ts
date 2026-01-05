@@ -7,7 +7,7 @@ import {
   integer,
   boolean,
 } from "drizzle-orm/pg-core";
-import { user } from "./auth";
+import { clients } from "./clients";
 
 // Plan contable interno (nuestro plan contable estándar)
 export const chartOfAccounts = pgTable("chart_of_accounts", {
@@ -19,23 +19,6 @@ export const chartOfAccounts = pgTable("chart_of_accounts", {
   parentCode: text("parent_code"), // código padre para jerarquía
   type: text("type").notNull(), // asset, liability, equity, income, expense
   isActive: boolean("is_active").notNull().default(true),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
-
-// Clientes (para asociar mapeos)
-export const clients = pgTable("clients", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name").notNull(),
-  taxId: text("tax_id"), // CIF/NIF
-  email: text("email"),
-  phone: text("phone"),
-  address: text("address"),
-  notes: text("notes"),
-  onboardingCompleted: boolean("onboarding_completed").notNull().default(false),
-  createdBy: text("created_by")
-    .notNull()
-    .references(() => user.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

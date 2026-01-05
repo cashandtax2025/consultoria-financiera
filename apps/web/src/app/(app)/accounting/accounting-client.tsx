@@ -30,6 +30,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { trpc } from "@/utils/trpc";
 import { toast } from "sonner";
 import {
@@ -44,12 +51,76 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+const SECTORES = [
+  "Restaurantes",
+  "Hoteles",
+  "Agencias de Viajes y Turismo",
+  "Asesorías y Bufetes",
+  "Agencias Marketing y Publicidad",
+  "Promoción e Intermediación Inmobiliaria",
+  "Especialistas de construcción",
+  "Agricultura",
+  "Ganadería",
+  "Pesca",
+  "Industria Alimentaria",
+  "Industria Manufacturera",
+  "Ecommerce",
+  "Transporte",
+  "Agencia Logística",
+  "Consultoría IT",
+  "Educación",
+  "Clínicas",
+  "Gimnasios",
+  "Comercio retail",
+  "Otros servicios profesionales",
+  "Peluquerías y Salones de Belleza",
+  "Panaderías",
+  "Fruterías",
+  "Supermercados",
+  "Carnicerías",
+  "Pescaderías",
+  "Estancos",
+  "Farmacias",
+  "Talleres",
+] as const;
+
+const TIPOS_EMPRESA = [
+  "Comercializador sin stock",
+  "Comercializador con stock",
+  "Servicios",
+  "Productor",
+] as const;
+
+type SectorCliente = (typeof SECTORES)[number];
+type TipoEmpresaCliente = (typeof TIPOS_EMPRESA)[number];
+
 export default function AccountingClient() {
   const [searchTerm, setSearchTerm] = useState("");
   const deferredSearchTerm = useDeferredValue(searchTerm);
-  const [newClientName, setNewClientName] = useState("");
-  const [newClientTaxId, setNewClientTaxId] = useState("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
+  // Form state
+  const [formData, setFormData] = useState({
+    taxId: "",
+    name: "",
+    sector: "" as SectorCliente | "",
+    companyType: "" as TipoEmpresaCliente | "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
+  const resetForm = () => {
+    setFormData({
+      taxId: "",
+      name: "",
+      sector: "",
+      companyType: "",
+      email: "",
+      phone: "",
+      address: "",
+    });
+  };
 
   // Queries - use deferred search to avoid excessive queries
   const clients = useQuery(
@@ -66,8 +137,7 @@ export default function AccountingClient() {
       onSuccess: () => {
         toast.success("Cliente creado correctamente");
         setIsCreateDialogOpen(false);
-        setNewClientName("");
-        setNewClientTaxId("");
+        resetForm();
         clients.refetch();
       },
       onError: (error) => {
@@ -77,13 +147,39 @@ export default function AccountingClient() {
   );
 
   const handleCreateClient = () => {
-    if (!newClientName.trim()) {
+    if (!formData.name.trim()) {
       toast.error("El nombre del cliente es obligatorio");
       return;
     }
+    if (!formData.taxId.trim()) {
+      toast.error("El CIF es obligatorio");
+      return;
+    }
+    if (!formData.sector) {
+      toast.error("El sector es obligatorio");
+      return;
+    }
+    if (!formData.companyType) {
+      toast.error("El tipo de empresa es obligatorio");
+      return;
+    }
+    if (!formData.email.trim()) {
+      toast.error("El email es obligatorio");
+      return;
+    }
+    if (!formData.phone.trim()) {
+      toast.error("El teléfono es obligatorio");
+      return;
+    }
+
     createClient.mutate({
-      name: newClientName.trim(),
-      taxId: newClientTaxId.trim() || undefined,
+      taxId: formData.taxId.trim(),
+      name: formData.name.trim(),
+      sector: formData.sector as SectorCliente,
+      companyType: formData.companyType as TipoEmpresaCliente,
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      address: formData.address.trim() || undefined,
     });
   };
 
@@ -114,7 +210,10 @@ export default function AccountingClient() {
           </Button>
           <Dialog
             open={isCreateDialogOpen}
-            onOpenChange={setIsCreateDialogOpen}
+            onOpenChange={(open) => {
+              setIsCreateDialogOpen(open);
+              if (!open) resetForm();
+            }}
           >
             <DialogTrigger asChild>
               <Button>
@@ -122,30 +221,129 @@ export default function AccountingClient() {
                 Nuevo Cliente
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-lg">
               <DialogHeader>
                 <DialogTitle>Crear Nuevo Cliente</DialogTitle>
                 <DialogDescription>
                   Añade un nuevo cliente para comenzar el proceso de onboarding
                 </DialogDescription>
               </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="clientName">Nombre del Cliente *</Label>
-                  <Input
-                    id="clientName"
-                    value={newClientName}
-                    onChange={(e) => setNewClientName(e.target.value)}
-                    placeholder="Empresa S.L."
-                  />
+              <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="taxId">CIF/NIF *</Label>
+                    <Input
+                      id="taxId"
+                      value={formData.taxId}
+                      onChange={(e) =>
+                        setFormData({ ...formData, taxId: e.target.value })
+                      }
+                      placeholder="B12345678"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Nombre *</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          name: e.target.value,
+                        })
+                      }
+                      placeholder="Empresa S.L."
+                    />
+                  </div>
                 </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="sector">Sector *</Label>
+                    <Select
+                      value={formData.sector}
+                      onValueChange={(value: SectorCliente) =>
+                        setFormData({ ...formData, sector: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccionar sector" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SECTORES.map((sector) => (
+                          <SelectItem key={sector} value={sector}>
+                            {sector}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="companyType">Tipo Empresa *</Label>
+                    <Select
+                      value={formData.companyType}
+                      onValueChange={(value: TipoEmpresaCliente) =>
+                        setFormData({ ...formData, companyType: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccionar tipo" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {TIPOS_EMPRESA.map((tipo) => (
+                          <SelectItem key={tipo} value={tipo}>
+                            {tipo}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          email: e.target.value,
+                        })
+                      }
+                      placeholder="contacto@empresa.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Teléfono *</Label>
+                    <Input
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          phone: e.target.value,
+                        })
+                      }
+                      placeholder="+34 600 000 000"
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="clientTaxId">CIF/NIF</Label>
+                  <Label htmlFor="address">Dirección</Label>
                   <Input
-                    id="clientTaxId"
-                    value={newClientTaxId}
-                    onChange={(e) => setNewClientTaxId(e.target.value)}
-                    placeholder="B12345678"
+                    id="address"
+                    value={formData.address}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        address: e.target.value,
+                      })
+                    }
+                    placeholder="Calle Principal 123, 28001 Madrid"
                   />
                 </div>
               </div>
@@ -251,6 +449,7 @@ export default function AccountingClient() {
                 <TableRow>
                   <TableHead>Cliente</TableHead>
                   <TableHead>CIF/NIF</TableHead>
+                  <TableHead>Sector</TableHead>
                   <TableHead>Estado Onboarding</TableHead>
                   <TableHead>Fecha Creación</TableHead>
                   <TableHead className="text-right">Acciones</TableHead>
@@ -261,6 +460,9 @@ export default function AccountingClient() {
                   <TableRow key={client.id}>
                     <TableCell className="font-medium">{client.name}</TableCell>
                     <TableCell>{client.taxId || "-"}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{client.sector}</Badge>
+                    </TableCell>
                     <TableCell>
                       {client.onboardingCompleted ? (
                         <Badge variant="default" className="bg-green-500">

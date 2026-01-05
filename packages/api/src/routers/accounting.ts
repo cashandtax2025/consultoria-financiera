@@ -1,9 +1,9 @@
 import {
   accountMappings,
   chartOfAccounts,
-  clients,
   unmappedAccounts,
 } from "@consultoria-financiera/db/schema/accounting";
+import { clients } from "@consultoria-financiera/db/schema/clients";
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
@@ -27,10 +27,48 @@ const createChartAccountSchema = z.object({
 });
 
 const createClientSchema = z.object({
+  taxId: z.string().min(1).max(20),
   name: z.string().min(1).max(200),
-  taxId: z.string().optional(),
-  email: z.string().email().optional(),
-  phone: z.string().optional(),
+  sector: z.enum([
+    "Restaurantes",
+    "Hoteles",
+    "Agencias de Viajes y Turismo",
+    "Asesorías y Bufetes",
+    "Agencias Marketing y Publicidad",
+    "Promoción e Intermediación Inmobiliaria",
+    "Especialistas de construcción",
+    "Agricultura",
+    "Ganadería",
+    "Pesca",
+    "Industria Alimentaria",
+    "Industria Manufacturera",
+    "Ecommerce",
+    "Transporte",
+    "Agencia Logística",
+    "Consultoría IT",
+    "Educación",
+    "Clínicas",
+    "Gimnasios",
+    "Comercio retail",
+    "Otros servicios profesionales",
+    "Peluquerías y Salones de Belleza",
+    "Panaderías",
+    "Fruterías",
+    "Supermercados",
+    "Carnicerías",
+    "Pescaderías",
+    "Estancos",
+    "Farmacias",
+    "Talleres",
+  ]),
+  companyType: z.enum([
+    "Comercializador sin stock",
+    "Comercializador con stock",
+    "Servicios",
+    "Productor",
+  ]),
+  email: z.string().email(),
+  phone: z.string().min(1),
   address: z.string().optional(),
   notes: z.string().optional(),
 });
@@ -217,8 +255,10 @@ export const accountingRouter = router({
       const [client] = await ctx.db
         .insert(clients)
         .values({
-          name: input.name,
           taxId: input.taxId,
+          name: input.name,
+          sector: input.sector,
+          companyType: input.companyType,
           email: input.email,
           phone: input.phone,
           address: input.address,

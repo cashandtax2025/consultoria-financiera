@@ -88,31 +88,31 @@ const TIPOS_EMPRESA = [
 ] as const;
 
 type ClientFormData = {
-  cifCliente: string;
-  nombreCliente: string;
-  sectorCliente: (typeof SECTORES)[number];
-  tipoEmpresaCliente: (typeof TIPOS_EMPRESA)[number];
-  cifGrupoCliente: string;
-  emailCliente: string;
-  telefonoCliente: string;
-  direccionCliente: string;
+  taxId: string;
+  name: string;
+  sector: (typeof SECTORES)[number];
+  companyType: (typeof TIPOS_EMPRESA)[number];
+  groupTaxId: string;
+  email: string;
+  phone: string;
+  address: string;
 };
 
 const initialFormData: ClientFormData = {
-  cifCliente: "",
-  nombreCliente: "",
-  sectorCliente: "Consultoría IT",
-  tipoEmpresaCliente: "Servicios",
-  cifGrupoCliente: "",
-  emailCliente: "",
-  telefonoCliente: "",
-  direccionCliente: "",
+  taxId: "",
+  name: "",
+  sector: "Consultoría IT",
+  companyType: "Servicios",
+  groupTaxId: "",
+  email: "",
+  phone: "",
+  address: "",
 };
 
 export function ClientsClient() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [formData, setFormData] = useState<ClientFormData>(initialFormData);
 
   const clients = useQuery(trpc.clients.getAll.queryOptions());
@@ -163,9 +163,14 @@ export function ClientsClient() {
 
   const handleCreate = () => {
     createClient.mutate({
-      ...formData,
-      cifGrupoCliente: formData.cifGrupoCliente || undefined,
-      direccionCliente: formData.direccionCliente || undefined,
+      taxId: formData.taxId,
+      name: formData.name,
+      sector: formData.sector,
+      companyType: formData.companyType,
+      groupTaxId: formData.groupTaxId || undefined,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address || undefined,
     });
   };
 
@@ -173,27 +178,32 @@ export function ClientsClient() {
     if (!selectedClientId) return;
     updateClient.mutate({
       id: selectedClientId,
-      ...formData,
-      cifGrupoCliente: formData.cifGrupoCliente || undefined,
-      direccionCliente: formData.direccionCliente || undefined,
+      taxId: formData.taxId,
+      name: formData.name,
+      sector: formData.sector,
+      companyType: formData.companyType,
+      groupTaxId: formData.groupTaxId || undefined,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address || undefined,
     });
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     deleteClient.mutate({ id });
   };
 
   const openEditDialog = (client: NonNullable<typeof clients.data>[number]) => {
     setSelectedClientId(client.id);
     setFormData({
-      cifCliente: client.cifCliente,
-      nombreCliente: client.nombreCliente,
-      sectorCliente: client.sectorCliente as (typeof SECTORES)[number],
-      tipoEmpresaCliente: client.tipoEmpresaCliente as (typeof TIPOS_EMPRESA)[number],
-      cifGrupoCliente: client.cifGrupoCliente || "",
-      emailCliente: client.emailCliente,
-      telefonoCliente: client.telefonoCliente,
-      direccionCliente: client.direccionCliente || "",
+      taxId: client.taxId,
+      name: client.name,
+      sector: client.sector as (typeof SECTORES)[number],
+      companyType: client.companyType as (typeof TIPOS_EMPRESA)[number],
+      groupTaxId: client.groupTaxId || "",
+      email: client.email,
+      phone: client.phone,
+      address: client.address || "",
     });
     setEditDialogOpen(true);
   };
@@ -226,9 +236,9 @@ export function ClientsClient() {
                   <Label htmlFor="create-cif">CIF *</Label>
                   <Input
                     id="create-cif"
-                    value={formData.cifCliente}
+                    value={formData.taxId}
                     onChange={(e) =>
-                      setFormData({ ...formData, cifCliente: e.target.value })
+                      setFormData({ ...formData, taxId: e.target.value })
                     }
                     placeholder="B12345678"
                   />
@@ -237,9 +247,12 @@ export function ClientsClient() {
                   <Label htmlFor="create-nombre">Nombre *</Label>
                   <Input
                     id="create-nombre"
-                    value={formData.nombreCliente}
+                    value={formData.name}
                     onChange={(e) =>
-                      setFormData({ ...formData, nombreCliente: e.target.value })
+                      setFormData({
+                        ...formData,
+                        name: e.target.value,
+                      })
                     }
                     placeholder="Nombre del cliente"
                   />
@@ -250,11 +263,11 @@ export function ClientsClient() {
                 <div>
                   <Label htmlFor="create-sector">Sector *</Label>
                   <Select
-                    value={formData.sectorCliente}
+                    value={formData.sector}
                     onValueChange={(value) =>
                       setFormData({
                         ...formData,
-                        sectorCliente: value as (typeof SECTORES)[number],
+                        sector: value as (typeof SECTORES)[number],
                       })
                     }
                   >
@@ -273,11 +286,11 @@ export function ClientsClient() {
                 <div>
                   <Label htmlFor="create-tipo">Tipo de Empresa *</Label>
                   <Select
-                    value={formData.tipoEmpresaCliente}
+                    value={formData.companyType}
                     onValueChange={(value) =>
                       setFormData({
                         ...formData,
-                        tipoEmpresaCliente: value as (typeof TIPOS_EMPRESA)[number],
+                        companyType: value as (typeof TIPOS_EMPRESA)[number],
                       })
                     }
                   >
@@ -298,9 +311,9 @@ export function ClientsClient() {
               <div>
                 <Label htmlFor="create-cif-grupo">CIF Grupo (opcional)</Label>
                 <Select
-                  value={formData.cifGrupoCliente}
+                  value={formData.groupTaxId}
                   onValueChange={(value) =>
-                    setFormData({ ...formData, cifGrupoCliente: value })
+                    setFormData({ ...formData, groupTaxId: value })
                   }
                 >
                   <SelectTrigger>
@@ -309,10 +322,10 @@ export function ClientsClient() {
                   <SelectContent>
                     <SelectItem value="">Sin grupo</SelectItem>
                     {allClients.data
-                      ?.filter((c) => c.cifCliente !== formData.cifCliente)
+                      ?.filter((c) => c.taxId !== formData.taxId)
                       .map((client) => (
-                        <SelectItem key={client.id} value={client.cifCliente}>
-                          {client.cifCliente} - {client.nombreCliente}
+                        <SelectItem key={client.id} value={client.taxId}>
+                          {client.taxId} - {client.name}
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -325,9 +338,9 @@ export function ClientsClient() {
                   <Input
                     id="create-email"
                     type="email"
-                    value={formData.emailCliente}
+                    value={formData.email}
                     onChange={(e) =>
-                      setFormData({ ...formData, emailCliente: e.target.value })
+                      setFormData({ ...formData, email: e.target.value })
                     }
                     placeholder="email@ejemplo.com"
                   />
@@ -336,9 +349,12 @@ export function ClientsClient() {
                   <Label htmlFor="create-telefono">Teléfono *</Label>
                   <Input
                     id="create-telefono"
-                    value={formData.telefonoCliente}
+                    value={formData.phone}
                     onChange={(e) =>
-                      setFormData({ ...formData, telefonoCliente: e.target.value })
+                      setFormData({
+                        ...formData,
+                        phone: e.target.value,
+                      })
                     }
                     placeholder="123456789"
                   />
@@ -349,9 +365,12 @@ export function ClientsClient() {
                 <Label htmlFor="create-direccion">Dirección (opcional)</Label>
                 <Textarea
                   id="create-direccion"
-                  value={formData.direccionCliente}
+                  value={formData.address}
                   onChange={(e) =>
-                    setFormData({ ...formData, direccionCliente: e.target.value })
+                    setFormData({
+                      ...formData,
+                      address: e.target.value,
+                    })
                   }
                   placeholder="Av. Libertad, s/n."
                 />
@@ -402,19 +421,19 @@ export function ClientsClient() {
               clients.data?.map((client) => (
                 <TableRow key={client.id}>
                   <TableCell className="font-medium">{client.id}</TableCell>
-                  <TableCell>{client.cifCliente}</TableCell>
-                  <TableCell>{client.nombreCliente}</TableCell>
+                  <TableCell>{client.taxId}</TableCell>
+                  <TableCell>{client.name}</TableCell>
                   <TableCell>
-                    <Badge variant="outline">{client.sectorCliente}</Badge>
+                    <Badge variant="outline">{client.sector}</Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="secondary">{client.tipoEmpresaCliente}</Badge>
+                    <Badge variant="secondary">{client.companyType}</Badge>
                   </TableCell>
-                  <TableCell>{client.emailCliente}</TableCell>
-                  <TableCell>{client.telefonoCliente}</TableCell>
+                  <TableCell>{client.email}</TableCell>
+                  <TableCell>{client.phone}</TableCell>
                   <TableCell>
-                    {client.cifGrupoCliente ? (
-                      <Badge variant="outline">{client.cifGrupoCliente}</Badge>
+                    {client.groupTaxId ? (
+                      <Badge variant="outline">{client.groupTaxId}</Badge>
                     ) : (
                       <span className="text-muted-foreground">-</span>
                     )}
@@ -439,7 +458,7 @@ export function ClientsClient() {
                             <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
                             <AlertDialogDescription>
                               Esta acción no se puede deshacer. Esto eliminará
-                              permanentemente el cliente {client.nombreCliente} y todos
+                              permanentemente el cliente {client.name} y todos
                               los datos asociados.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
@@ -478,9 +497,9 @@ export function ClientsClient() {
                 <Label htmlFor="edit-cif">CIF *</Label>
                 <Input
                   id="edit-cif"
-                  value={formData.cifCliente}
+                  value={formData.taxId}
                   onChange={(e) =>
-                    setFormData({ ...formData, cifCliente: e.target.value })
+                    setFormData({ ...formData, taxId: e.target.value })
                   }
                 />
               </div>
@@ -488,9 +507,9 @@ export function ClientsClient() {
                 <Label htmlFor="edit-nombre">Nombre *</Label>
                 <Input
                   id="edit-nombre"
-                  value={formData.nombreCliente}
+                  value={formData.name}
                   onChange={(e) =>
-                    setFormData({ ...formData, nombreCliente: e.target.value })
+                    setFormData({ ...formData, name: e.target.value })
                   }
                 />
               </div>
@@ -500,11 +519,11 @@ export function ClientsClient() {
               <div>
                 <Label htmlFor="edit-sector">Sector *</Label>
                 <Select
-                  value={formData.sectorCliente}
+                  value={formData.sector}
                   onValueChange={(value) =>
                     setFormData({
                       ...formData,
-                      sectorCliente: value as (typeof SECTORES)[number],
+                      sector: value as (typeof SECTORES)[number],
                     })
                   }
                 >
@@ -523,11 +542,11 @@ export function ClientsClient() {
               <div>
                 <Label htmlFor="edit-tipo">Tipo de Empresa *</Label>
                 <Select
-                  value={formData.tipoEmpresaCliente}
+                  value={formData.companyType}
                   onValueChange={(value) =>
                     setFormData({
                       ...formData,
-                      tipoEmpresaCliente: value as (typeof TIPOS_EMPRESA)[number],
+                      companyType: value as (typeof TIPOS_EMPRESA)[number],
                     })
                   }
                 >
@@ -548,9 +567,9 @@ export function ClientsClient() {
             <div>
               <Label htmlFor="edit-cif-grupo">CIF Grupo (opcional)</Label>
               <Select
-                value={formData.cifGrupoCliente}
+                value={formData.groupTaxId}
                 onValueChange={(value) =>
-                  setFormData({ ...formData, cifGrupoCliente: value })
+                  setFormData({ ...formData, groupTaxId: value })
                 }
               >
                 <SelectTrigger>
@@ -561,12 +580,11 @@ export function ClientsClient() {
                   {allClients.data
                     ?.filter(
                       (c) =>
-                        c.cifCliente !== formData.cifCliente &&
-                        c.id !== selectedClientId
+                        c.taxId !== formData.taxId && c.id !== selectedClientId,
                     )
                     .map((client) => (
-                      <SelectItem key={client.id} value={client.cifCliente}>
-                        {client.cifCliente} - {client.nombreCliente}
+                      <SelectItem key={client.id} value={client.taxId}>
+                        {client.taxId} - {client.name}
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -579,9 +597,9 @@ export function ClientsClient() {
                 <Input
                   id="edit-email"
                   type="email"
-                  value={formData.emailCliente}
+                  value={formData.email}
                   onChange={(e) =>
-                    setFormData({ ...formData, emailCliente: e.target.value })
+                    setFormData({ ...formData, email: e.target.value })
                   }
                 />
               </div>
@@ -589,9 +607,12 @@ export function ClientsClient() {
                 <Label htmlFor="edit-telefono">Teléfono *</Label>
                 <Input
                   id="edit-telefono"
-                  value={formData.telefonoCliente}
+                  value={formData.phone}
                   onChange={(e) =>
-                    setFormData({ ...formData, telefonoCliente: e.target.value })
+                    setFormData({
+                      ...formData,
+                      phone: e.target.value,
+                    })
                   }
                 />
               </div>
@@ -601,9 +622,9 @@ export function ClientsClient() {
               <Label htmlFor="edit-direccion">Dirección (opcional)</Label>
               <Textarea
                 id="edit-direccion"
-                value={formData.direccionCliente}
+                value={formData.address}
                 onChange={(e) =>
-                  setFormData({ ...formData, direccionCliente: e.target.value })
+                  setFormData({ ...formData, address: e.target.value })
                 }
               />
             </div>
@@ -628,4 +649,3 @@ export function ClientsClient() {
     </div>
   );
 }
-
