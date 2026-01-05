@@ -1,7 +1,10 @@
 "use client";
 
-import { Cookie, Settings, BarChart, Shield, Eye } from "lucide-react";
+import { BarChart, Cookie, Eye, Settings, Shield } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,10 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { toast } from "sonner";
 
 export default function CookiesPage() {
   const [preferences, setPreferences] = useState({
@@ -260,8 +260,8 @@ export default function CookiesPage() {
                     1. Cookies Esenciales (Obligatorias)
                   </h3>
                   <p className="mb-2">
-                    Estas cookies son necesarias para que el sitio web funcione y
-                    no se pueden desactivar en nuestros sistemas.
+                    Estas cookies son necesarias para que el sitio web funcione
+                    y no se pueden desactivar en nuestros sistemas.
                   </p>
                   <div className="bg-muted/50 p-4 rounded-lg mt-3">
                     <p className="text-sm font-semibold mb-2">Ejemplos:</p>
@@ -291,7 +291,9 @@ export default function CookiesPage() {
                     <p className="text-sm font-semibold mb-2">Ejemplos:</p>
                     <ul className="list-disc pl-6 space-y-1 text-sm">
                       <li>Preferencias de idioma e idioma</li>
-                      <li>Configuraciones de visualización (tema oscuro/claro)</li>
+                      <li>
+                        Configuraciones de visualización (tema oscuro/claro)
+                      </li>
                       <li>Reproducción de video y preferencias de contenido</li>
                       <li>Estado de elementos expandidos/colapsados</li>
                     </ul>
@@ -327,7 +329,8 @@ export default function CookiesPage() {
                     </ul>
                     <p className="text-sm mt-3">
                       <strong>Datos recopilados:</strong> Páginas visitadas,
-                      tiempo en el sitio, origen del tráfico, dispositivo/navegador
+                      tiempo en el sitio, origen del tráfico,
+                      dispositivo/navegador
                     </p>
                     <p className="text-sm mt-2">
                       <strong>Duración:</strong> Hasta 2 años
@@ -341,8 +344,8 @@ export default function CookiesPage() {
                   </h3>
                   <p className="mb-2">
                     Estas cookies pueden ser establecidas por nosotros o por
-                    nuestros socios publicitarios para construir un perfil de tus
-                    intereses y mostrarte anuncios relevantes.
+                    nuestros socios publicitarios para construir un perfil de
+                    tus intereses y mostrarte anuncios relevantes.
                   </p>
                   <div className="bg-muted/50 p-4 rounded-lg mt-3">
                     <p className="text-sm font-semibold mb-2">
@@ -397,7 +400,9 @@ export default function CookiesPage() {
                   </div>
 
                   <div className="border-l-2 border-primary pl-4">
-                    <p className="font-semibold text-foreground">Meta (Facebook)</p>
+                    <p className="font-semibold text-foreground">
+                      Meta (Facebook)
+                    </p>
                     <p className="text-sm">
                       Facebook Pixel - Publicidad y remarketing
                     </p>
@@ -440,8 +445,8 @@ export default function CookiesPage() {
                     Configuración en este sitio
                   </h3>
                   <p>
-                    Puedes usar el panel de configuración en la parte superior de
-                    esta página para gestionar tus preferencias de cookies en
+                    Puedes usar el panel de configuración en la parte superior
+                    de esta página para gestionar tus preferencias de cookies en
                     cualquier momento.
                   </p>
                 </div>
@@ -451,9 +456,9 @@ export default function CookiesPage() {
                     Configuración del navegador
                   </h3>
                   <p>
-                    La mayoría de los navegadores te permiten rechazar o eliminar
-                    cookies. Aquí están los enlaces a las instrucciones para los
-                    navegadores más populares:
+                    La mayoría de los navegadores te permiten rechazar o
+                    eliminar cookies. Aquí están los enlaces a las instrucciones
+                    para los navegadores más populares:
                   </p>
                   <ul className="list-disc pl-6 space-y-2 mt-2">
                     <li>
@@ -510,10 +515,10 @@ export default function CookiesPage() {
                   </p>
                   <ul className="list-disc pl-6 space-y-1 mt-2">
                     <li>No podrás mantener la sesión iniciada</li>
+                    <li>Tus preferencias no se guardarán entre sesiones</li>
                     <li>
-                      Tus preferencias no se guardarán entre sesiones
+                      Algunas funciones personalizadas no estarán disponibles
                     </li>
-                    <li>Algunas funciones personalizadas no estarán disponibles</li>
                   </ul>
                 </div>
               </CardContent>
@@ -526,9 +531,9 @@ export default function CookiesPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>
-                  Podemos actualizar esta Política de Cookies ocasionalmente para
-                  reflejar cambios en las cookies que utilizamos o por otras
-                  razones operativas, legales o regulatorias.
+                  Podemos actualizar esta Política de Cookies ocasionalmente
+                  para reflejar cambios en las cookies que utilizamos o por
+                  otras razones operativas, legales o regulatorias.
                 </p>
                 <p>
                   Te recomendamos revisar esta página periódicamente para estar
@@ -561,7 +566,10 @@ export default function CookiesPage() {
                 <p className="pt-4 border-t">
                   Para más información sobre cómo tratamos tus datos personales,
                   consulta nuestra{" "}
-                  <Link href="/privacidad" className="text-primary hover:underline">
+                  <Link
+                    href="/privacidad"
+                    className="text-primary hover:underline"
+                  >
                     Política de Privacidad
                   </Link>
                   .
@@ -574,4 +582,3 @@ export default function CookiesPage() {
     </div>
   );
 }
-

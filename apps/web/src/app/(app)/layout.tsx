@@ -7,4 +7,3 @@ export default function AppLayoutWrapper({
 }) {
   return <AppLayout>{children}</AppLayout>;
 }
-

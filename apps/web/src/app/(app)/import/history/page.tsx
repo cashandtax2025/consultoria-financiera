@@ -1,5 +1,7 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import { CheckCircle2, Clock, FileSpreadsheet, XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -17,13 +19,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { trpc } from "@/utils/trpc";
-import { useQuery } from "@tanstack/react-query";
-import { CheckCircle2, Clock, FileSpreadsheet, XCircle } from "lucide-react";
 
 const statusConfig = {
   pending: { label: "Pendiente", icon: Clock, variant: "secondary" as const },
   processing: { label: "Procesando", icon: Clock, variant: "default" as const },
-  completed: { label: "Completado", icon: CheckCircle2, variant: "success" as const },
+  completed: {
+    label: "Completado",
+    icon: CheckCircle2,
+    variant: "success" as const,
+  },
   error: { label: "Error", icon: XCircle, variant: "destructive" as const },
 };
 
@@ -99,7 +103,8 @@ export default function ImportHistoryPage() {
                 </TableHeader>
                 <TableBody>
                   {uploads.map((upload) => {
-                    const status = statusConfig[upload.status as keyof typeof statusConfig];
+                    const status =
+                      statusConfig[upload.status as keyof typeof statusConfig];
                     const StatusIcon = status.icon;
 
                     return (
@@ -112,22 +117,35 @@ export default function ImportHistoryPage() {
                         </TableCell>
                         <TableCell>{upload.clientName || "—"}</TableCell>
                         <TableCell>
-                          {documentTypeLabels[upload.documentType || "other"] || upload.documentType || "—"}
+                          {documentTypeLabels[upload.documentType || "other"] ||
+                            upload.documentType ||
+                            "—"}
                         </TableCell>
                         <TableCell>
-                          <Badge variant={status.variant as "secondary" | "default" | "destructive" | "outline"}>
+                          <Badge
+                            variant={
+                              status.variant as
+                                | "secondary"
+                                | "default"
+                                | "destructive"
+                                | "outline"
+                            }
+                          >
                             <StatusIcon className="mr-1 h-3 w-3" />
                             {status.label}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          {new Date(upload.uploadedAt).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                          {new Date(upload.uploadedAt).toLocaleDateString(
+                            "es-ES",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
                         </TableCell>
                         <TableCell className="text-right">
                           {(upload.fileSize / 1024).toFixed(2)} KB
@@ -144,4 +162,3 @@ export default function ImportHistoryPage() {
     </div>
   );
 }
-

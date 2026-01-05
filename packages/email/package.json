@@ -1,0 +1,16 @@
+{
+  "name": "@consultoria-financiera/email",
+  "type": "module",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./templates/email-verification": "./src/templates/email-verification.tsx",
+    "./templates/reset-password": "./src/templates/reset-password.tsx",
+    "./templates/organization-invitation": "./src/templates/organization-invitation.tsx"
+  },
+  "dependencies": {
+    "@react-email/components": "^1.0.3",
+    "resend": "^4.5.1"
+  }
+}

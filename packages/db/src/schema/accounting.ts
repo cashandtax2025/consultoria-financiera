@@ -1,11 +1,11 @@
 import {
+  boolean,
   index,
+  integer,
   pgTable,
   text,
   timestamp,
   uuid,
-  integer,
-  boolean,
 } from "drizzle-orm/pg-core";
 import { clients } from "./clients";
 

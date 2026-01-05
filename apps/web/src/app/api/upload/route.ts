@@ -60,10 +60,7 @@ async function parseFile(
   const fileType = file.type;
 
   // Check if it's a PDF
-  if (
-    fileExtension === "pdf" ||
-    fileType === "application/pdf"
-  ) {
+  if (fileExtension === "pdf" || fileType === "application/pdf") {
     return await parsePDF(file);
   }
 
@@ -314,7 +311,10 @@ export async function POST(request: NextRequest) {
       !file.name.match(/\.(xlsx|xls|csv|pdf)$/i)
     ) {
       return NextResponse.json(
-        { error: "Invalid file type. Only Excel, CSV, and PDF files are supported." },
+        {
+          error:
+            "Invalid file type. Only Excel, CSV, and PDF files are supported.",
+        },
         { status: 400 },
       );
     }

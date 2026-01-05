@@ -1,14 +1,15 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 import {
-  TrendingUp,
-  Users,
+  ArrowRight,
   Building2,
   Package,
   ShoppingCart,
+  TrendingUp,
+  Users,
   Utensils,
-  ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,7 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 export default function CasosExitoPage() {
   const cases = [
@@ -158,9 +158,7 @@ export default function CasosExitoPage() {
             <Card>
               <CardContent className="pt-6 text-center">
                 <div className="text-4xl font-bold text-primary mb-2">97%</div>
-                <p className="text-muted-foreground">
-                  Tasa de satisfacción
-                </p>
+                <p className="text-muted-foreground">Tasa de satisfacción</p>
               </CardContent>
             </Card>
           </div>
@@ -330,4 +328,3 @@ export default function CasosExitoPage() {
     </div>
   );
 }
-

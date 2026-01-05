@@ -1,7 +1,18 @@
 "use client";
 
-import { useState, useDeferredValue } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  ArrowLeft,
+  BookOpen,
+  Loader2,
+  Plus,
+  Search,
+  Upload,
+} from "lucide-react";
+import Link from "next/link";
+import { useDeferredValue, useState } from "react";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,17 +21,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -37,18 +39,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/utils/trpc";
-import { toast } from "sonner";
-import {
-  ArrowLeft,
-  Plus,
-  Search,
-  Loader2,
-  BookOpen,
-  Upload,
-} from "lucide-react";
-import Link from "next/link";
 
 const accountTypes = [
   { value: "asset", label: "Activo", color: "bg-blue-500" },

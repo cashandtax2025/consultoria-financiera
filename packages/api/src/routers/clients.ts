@@ -1,7 +1,9 @@
-import { db } from "@consultoria-financiera/db";
-import { clients } from "@consultoria-financiera/db/schema/clients";
-import { eq } from "drizzle-orm";
+import {
+  clientService,
+  searchClients,
+} from "@consultoria-financiera/core/clients";
 import z from "zod";
+import { unwrapResultAsync } from "../lib/error-mapper";
 import { adminProcedure, router } from "../trpc";
 
 // Validation schemas
@@ -62,103 +64,57 @@ const updateClientSchema = createClientSchema.partial().extend({
 });
 
 export const clientsRouter = router({
-  getAll: adminProcedure.query(async () => {
-    return await db.select().from(clients).orderBy(clients.id);
+  getAll: adminProcedure.query(async ({ ctx }) => {
+    return unwrapResultAsync(clientService.getAll(ctx.db));
   }),
 
   getById: adminProcedure
     .input(z.object({ id: z.string().uuid() }))
-    .query(async ({ input }) => {
-      const result = await db
-        .select()
-        .from(clients)
-        .where(eq(clients.id, input.id))
-        .limit(1);
-      return result[0] || null;
+    .query(async ({ ctx, input }) => {
+      return unwrapResultAsync(clientService.getById(ctx.db, input.id));
     }),
 
   create: adminProcedure
     .input(createClientSchema)
-    .mutation(async ({ input }) => {
-      // If groupTaxId is provided, find the group ID
-      let groupId: string | undefined = input.groupId ?? undefined;
-
-      if (input.groupTaxId && !groupId) {
-        const groupResult = await db
-          .select({ id: clients.id })
-          .from(clients)
-          .where(eq(clients.taxId, input.groupTaxId))
-          .limit(1);
-
-        if (groupResult.length > 0 && groupResult[0]) {
-          groupId = groupResult[0].id;
-        }
-      }
-
-      const result = await db
-        .insert(clients)
-        .values({
+    .mutation(async ({ ctx, input }) => {
+      return unwrapResultAsync(
+        clientService.create(ctx.db, {
           taxId: input.taxId,
           name: input.name,
           sector: input.sector,
           companyType: input.companyType,
-          groupId: groupId ?? undefined,
-          groupTaxId: input.groupTaxId ?? undefined,
           email: input.email,
           phone: input.phone,
           address: input.address ?? undefined,
-        })
-        .returning();
-
-      return result[0];
+          groupId: input.groupId ?? undefined,
+          groupTaxId: input.groupTaxId ?? undefined,
+        }),
+      );
     }),
 
   update: adminProcedure
     .input(updateClientSchema)
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
-
-      // If groupTaxId is being updated, find the group ID
-      let groupId: string | undefined = data.groupId ?? undefined;
-
-      if (data.groupTaxId !== undefined && groupId === undefined) {
-        if (data.groupTaxId) {
-          const groupResult = await db
-            .select({ id: clients.id })
-            .from(clients)
-            .where(eq(clients.taxId, data.groupTaxId))
-            .limit(1);
-
-          if (groupResult.length > 0 && groupResult[0]) {
-            groupId = groupResult[0].id;
-          } else {
-            groupId = undefined;
-          }
-        } else {
-          groupId = undefined;
-        }
-      }
-
-      const updateData: typeof data = { ...data };
-      if (groupId !== undefined) {
-        updateData.groupId = groupId;
-      } else if (data.groupTaxId === null || data.groupTaxId === "") {
-        updateData.groupId = undefined;
-      }
-
-      const result = await db
-        .update(clients)
-        .set(updateData)
-        .where(eq(clients.id, id))
-        .returning();
-
-      return result[0] || null;
+      return unwrapResultAsync(
+        clientService.update(ctx.db, id, {
+          taxId: data.taxId,
+          name: data.name,
+          sector: data.sector,
+          companyType: data.companyType,
+          email: data.email,
+          phone: data.phone,
+          address: data.address ?? undefined,
+          groupId: data.groupId ?? undefined,
+          groupTaxId: data.groupTaxId ?? undefined,
+        }),
+      );
     }),
 
   delete: adminProcedure
     .input(z.object({ id: z.string().uuid() }))
-    .mutation(async ({ input }) => {
-      await db.delete(clients).where(eq(clients.id, input.id));
+    .mutation(async ({ ctx, input }) => {
+      await unwrapResultAsync(clientService.delete(ctx.db, input.id));
       return { success: true };
     }),
 });

@@ -1,17 +1,17 @@
-import { tool } from "ai";
-import { z } from "zod";
-import { db, eq, ilike, or, asc, sql, and } from "@consultoria-financiera/db";
-import { clients } from "@consultoria-financiera/db/schema/clients";
+import { and, asc, db, eq, ilike, or, sql } from "@consultoria-financiera/db";
 import {
-  accountMappings,
-  unmappedAccounts,
-  chartOfAccounts,
-} from "@consultoria-financiera/db/schema/accounting";
-import {
-  clientSectorLabels,
   clientCompanyTypeLabels,
+  clientSectorLabels,
   getLabel,
 } from "@consultoria-financiera/db/mappings";
+import {
+  accountMappings,
+  chartOfAccounts,
+  unmappedAccounts,
+} from "@consultoria-financiera/db/schema/accounting";
+import { clients } from "@consultoria-financiera/db/schema/clients";
+import { tool } from "ai";
+import { z } from "zod";
 
 /**
  * Tool to list all clients with optional filtering

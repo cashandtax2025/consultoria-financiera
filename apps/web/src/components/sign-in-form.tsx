@@ -38,10 +38,12 @@ export default function SignInForm({
         },
       );
     },
-      validators: {
+    validators: {
       onSubmit: z.object({
         email: z.email("Dirección de correo electrónico inválida"),
-        password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+        password: z
+          .string()
+          .min(8, "La contraseña debe tener al menos 8 caracteres"),
       }),
     },
   });
@@ -52,7 +54,9 @@ export default function SignInForm({
 
   return (
     <div className="mx-auto w-full mt-10 max-w-md p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold">Bienvenido de nuevo</h1>
+      <h1 className="mb-6 text-center text-3xl font-bold">
+        Bienvenido de nuevo
+      </h1>
 
       <form
         onSubmit={(e) => {

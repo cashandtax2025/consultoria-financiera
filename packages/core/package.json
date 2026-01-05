@@ -1,0 +1,26 @@
+{
+  "name": "@consultoria-financiera/core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./config": "./src/config/index.ts",
+    "./errors": "./src/errors/index.ts",
+    "./result": "./src/result/index.ts",
+    "./clients": "./src/clients/index.ts",
+    "./accounting": "./src/accounting/index.ts",
+    "./uploads": "./src/uploads/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@consultoria-financiera/db": "workspace:*",
+    "@consultoria-financiera/logger": "workspace:*",
+    "neverthrow": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

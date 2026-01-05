@@ -1,9 +1,9 @@
 import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import { sql } from "drizzle-orm";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
 import dotenv from "dotenv";
+import { sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/neon-http";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

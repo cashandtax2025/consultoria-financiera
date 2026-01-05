@@ -44,7 +44,9 @@ export default function SignUpForm({
       onSubmit: z.object({
         name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
         email: z.email("Dirección de correo electrónico inválida"),
-        password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+        password: z
+          .string()
+          .min(8, "La contraseña debe tener al menos 8 caracteres"),
       }),
     },
   });

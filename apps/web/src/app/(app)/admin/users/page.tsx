@@ -8,7 +8,9 @@ export default async function AdminUsersPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Gestión de Usuarios</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Gestión de Usuarios
+        </h1>
         <p className="text-muted-foreground mt-2">
           Administra usuarios, roles y permisos
         </p>

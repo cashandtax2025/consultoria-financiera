@@ -1,6 +1,8 @@
 "use client";
 
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { Clock, Mail, MapPin, Phone, Send } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +13,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -19,8 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactoPage() {
   const [loading, setLoading] = useState(false);
@@ -33,7 +33,7 @@ export default function ContactoPage() {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     toast.success(
-      "¡Mensaje enviado! Nos pondremos en contacto contigo pronto."
+      "¡Mensaje enviado! Nos pondremos en contacto contigo pronto.",
     );
     setLoading(false);
 
@@ -66,7 +66,9 @@ export default function ContactoPage() {
             <div className="lg:col-span-2">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-2xl">Envíanos un mensaje</CardTitle>
+                  <CardTitle className="text-2xl">
+                    Envíanos un mensaje
+                  </CardTitle>
                   <CardDescription>
                     Completa el formulario y nos pondremos en contacto contigo
                     en menos de 24 horas
@@ -178,7 +180,10 @@ export default function ContactoPage() {
                     <p className="text-sm text-muted-foreground">
                       * Campos obligatorios. Al enviar este formulario, aceptas
                       nuestra{" "}
-                      <a href="/privacidad" className="text-primary hover:underline">
+                      <a
+                        href="/privacidad"
+                        className="text-primary hover:underline"
+                      >
                         Política de Privacidad
                       </a>
                       .
@@ -363,4 +368,3 @@ export default function ContactoPage() {
     </div>
   );
 }
-

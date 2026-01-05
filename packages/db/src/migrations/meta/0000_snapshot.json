@@ -110,12 +110,8 @@
           "name": "account_mappings_client_id_clients_id_fk",
           "tableFrom": "account_mappings",
           "tableTo": "clients",
-          "columnsFrom": [
-            "client_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["client_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -123,12 +119,8 @@
           "name": "account_mappings_internal_account_id_chart_of_accounts_id_fk",
           "tableFrom": "account_mappings",
           "tableTo": "chart_of_accounts",
-          "columnsFrom": [
-            "internal_account_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["internal_account_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -215,9 +207,7 @@
         "chart_of_accounts_code_unique": {
           "name": "chart_of_accounts_code_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "code"
-          ]
+          "columns": ["code"]
         }
       },
       "policies": {},
@@ -330,12 +320,8 @@
           "name": "unmapped_accounts_client_id_clients_id_fk",
           "tableFrom": "unmapped_accounts",
           "tableTo": "clients",
-          "columnsFrom": [
-            "client_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["client_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -435,12 +421,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -516,12 +498,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -531,9 +509,7 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -620,9 +596,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -785,12 +759,8 @@
           "name": "clients_created_by_user_id_fk",
           "tableFrom": "clients",
           "tableTo": "user",
-          "columnsFrom": [
-            "created_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["created_by"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -800,30 +770,22 @@
         "clients_tax_id_unique": {
           "name": "clients_tax_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "tax_id"
-          ]
+          "columns": ["tax_id"]
         },
         "clients_group_tax_id_unique": {
           "name": "clients_group_tax_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "group_tax_id"
-          ]
+          "columns": ["group_tax_id"]
         },
         "clients_email_unique": {
           "name": "clients_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         },
         "clients_phone_unique": {
           "name": "clients_phone_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "phone"
-          ]
+          "columns": ["phone"]
         }
       },
       "policies": {},
@@ -976,12 +938,8 @@
           "name": "extracted_data_upload_id_uploads_id_fk",
           "tableFrom": "extracted_data",
           "tableTo": "uploads",
-          "columnsFrom": [
-            "upload_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["upload_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -989,12 +947,8 @@
           "name": "extracted_data_schema_id_data_schemas_id_fk",
           "tableFrom": "extracted_data",
           "tableTo": "data_schemas",
-          "columnsFrom": [
-            "schema_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["schema_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1145,12 +1099,8 @@
           "name": "financial_records_extracted_data_id_extracted_data_id_fk",
           "tableFrom": "financial_records",
           "tableTo": "extracted_data",
-          "columnsFrom": [
-            "extracted_data_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["extracted_data_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1158,12 +1108,8 @@
           "name": "financial_records_upload_id_uploads_id_fk",
           "tableFrom": "financial_records",
           "tableTo": "uploads",
-          "columnsFrom": [
-            "upload_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["upload_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1267,12 +1213,7 @@
     "public.client_company_type": {
       "name": "client_company_type",
       "schema": "public",
-      "values": [
-        "trader_no_stock",
-        "trader_with_stock",
-        "services",
-        "producer"
-      ]
+      "values": ["trader_no_stock", "trader_with_stock", "services", "producer"]
     },
     "public.client_sector": {
       "name": "client_sector",

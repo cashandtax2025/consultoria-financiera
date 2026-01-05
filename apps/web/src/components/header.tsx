@@ -1,10 +1,10 @@
 "use client";
+import { BarChart3 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
 import UserMenu from "./user-menu";
-import { BarChart3 } from "lucide-react";
 
 export default function Header() {
   const { data: session } = useSession();

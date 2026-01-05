@@ -1,5 +1,6 @@
-import { Calendar, Clock, ArrowRight, TrendingUp } from "lucide-react";
+import { ArrowRight, Calendar, Clock, TrendingUp } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 export default function BlogPage() {
   const posts = [
@@ -103,7 +103,8 @@ export default function BlogPage() {
         <div className="container mx-auto max-w-6xl">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              Blog de <span className="text-primary">Consultoría Financiera</span>
+              Blog de{" "}
+              <span className="text-primary">Consultoría Financiera</span>
             </h1>
             <p className="text-xl text-muted-foreground">
               Insights, consejos y análisis para optimizar la gestión financiera
@@ -142,9 +143,7 @@ export default function BlogPage() {
                 </div>
                 <div className="p-6 flex flex-col justify-center">
                   <Badge className="w-fit mb-3">Gestión Financiera</Badge>
-                  <h2 className="text-3xl font-bold mb-3">
-                    {posts[0].title}
-                  </h2>
+                  <h2 className="text-3xl font-bold mb-3">{posts[0].title}</h2>
                   <p className="text-muted-foreground mb-4">
                     {posts[0].excerpt}
                   </p>
@@ -232,4 +231,3 @@ export default function BlogPage() {
     </div>
   );
 }
-

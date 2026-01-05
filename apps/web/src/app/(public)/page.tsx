@@ -383,7 +383,10 @@ export default function Home() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terminos-de-servicio" className="hover:text-primary">
+                  <Link
+                    href="/terminos-de-servicio"
+                    className="hover:text-primary"
+                  >
                     Términos de servicio
                   </Link>
                 </li>

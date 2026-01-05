@@ -1,7 +1,17 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { trpc } from "@/utils/trpc";
+import {
+  Activity,
+  ArrowUpRight,
+  BarChart3,
+  FileSpreadsheet,
+  FileText,
+  TrendingUp,
+  Upload,
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,17 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  FileSpreadsheet,
-  Upload,
-  TrendingUp,
-  Activity,
-  ArrowUpRight,
-  FileText,
-  BarChart3,
-} from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { trpc } from "@/utils/trpc";
 
 export default function Dashboard({
   session,

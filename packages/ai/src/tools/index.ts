@@ -3,12 +3,12 @@ import { z } from "zod";
 
 // Re-export client tools
 export {
-  listClientsTool,
-  getClientDetailsTool,
-  getClientAccountingStatusTool,
-  getClientsStatsTool,
-  getClientAccountMappingTool,
   getAvailableCategoriesTool,
+  getClientAccountingStatusTool,
+  getClientAccountMappingTool,
+  getClientDetailsTool,
+  getClientsStatsTool,
+  listClientsTool,
 } from "./clients";
 
 export const weatherTool = tool({

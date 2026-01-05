@@ -34,7 +34,12 @@ const DOCUMENT_TYPES = [
 
 const SCHEMAS = {
   invoices: [
-    { name: "date", type: "date", required: true, description: "Fecha de factura" },
+    {
+      name: "date",
+      type: "date",
+      required: true,
+      description: "Fecha de factura",
+    },
     {
       name: "invoiceNumber",
       type: "string",
@@ -85,12 +90,18 @@ const SCHEMAS = {
     },
   ],
   expenses: [
-    { name: "date", type: "date", required: true, description: "Fecha del gasto" },
+    {
+      name: "date",
+      type: "date",
+      required: true,
+      description: "Fecha del gasto",
+    },
     {
       name: "category",
       type: "string",
       required: true,
-      description: "Categoría del gasto (ej., material de oficina, salarios, alquiler)",
+      description:
+        "Categoría del gasto (ej., material de oficina, salarios, alquiler)",
     },
     {
       name: "description",
@@ -385,7 +396,9 @@ export default function ExtractPage() {
 
   const handleUpload = async () => {
     if (files.length === 0 || !clientName.trim()) {
-      toast.error("Por favor, selecciona archivos e introduce el nombre del cliente");
+      toast.error(
+        "Por favor, selecciona archivos e introduce el nombre del cliente",
+      );
       return;
     }
 
@@ -479,7 +492,9 @@ export default function ExtractPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Extracción de Datos</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Extracción de Datos
+        </h1>
         <p className="text-muted-foreground mt-2">
           Sube documentos financieros de clientes para análisis
         </p>
@@ -564,7 +579,9 @@ export default function ExtractPage() {
         <Card>
           <CardHeader>
             <CardTitle>Extracciones Recientes</CardTitle>
-            <CardDescription>Ver archivos procesados recientemente</CardDescription>
+            <CardDescription>
+              Ver archivos procesados recientemente
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {recentUploads.data && recentUploads.data.length > 0 ? (

@@ -458,7 +458,9 @@ export function UsersClient() {
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-email">Correo electrónico</Label>
+                            <Label htmlFor="edit-email">
+                              Correo electrónico
+                            </Label>
                             <Input
                               id="edit-email"
                               type="email"
@@ -525,7 +527,9 @@ export function UsersClient() {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="user">Usuario</SelectItem>
-                                <SelectItem value="admin">Administrador</SelectItem>
+                                <SelectItem value="admin">
+                                  Administrador
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
@@ -569,7 +573,9 @@ export function UsersClient() {
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="new-password">Nueva Contraseña</Label>
+                            <Label htmlFor="new-password">
+                              Nueva Contraseña
+                            </Label>
                             <Input
                               id="new-password"
                               type="password"
@@ -643,7 +649,8 @@ export function UsersClient() {
                             </div>
                             <div>
                               <Label htmlFor="ban-expires">
-                                Expira en (segundos, dejar vacío para permanente)
+                                Expira en (segundos, dejar vacío para
+                                permanente)
                               </Label>
                               <Input
                                 id="ban-expires"
@@ -688,8 +695,9 @@ export function UsersClient() {
                         <AlertDialogHeader>
                           <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Esta acción no se puede deshacer. Esto eliminará permanentemente
-                            la cuenta de {user.name} y todos los datos asociados.
+                            Esta acción no se puede deshacer. Esto eliminará
+                            permanentemente la cuenta de {user.name} y todos los
+                            datos asociados.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

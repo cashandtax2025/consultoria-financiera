@@ -1,4 +1,4 @@
-import { Shield, Eye, Lock, Database, Mail, UserCheck } from "lucide-react";
+import { Database, Eye, Lock, Mail, Shield, UserCheck } from "lucide-react";
 import Link from "next/link";
 import {
   Card,
@@ -42,10 +42,10 @@ export default function PrivacidadPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>
-                  En <strong>Consultoría Financiera</strong> (en adelante, "nosotros",
-                  "nuestro" o la "Empresa"), nos comprometemos a proteger y
-                  respetar tu privacidad. Esta Política de Privacidad explica
-                  cómo recopilamos, usamos, compartimos y protegemos tu
+                  En <strong>Consultoría Financiera</strong> (en adelante,
+                  "nosotros", "nuestro" o la "Empresa"), nos comprometemos a
+                  proteger y respetar tu privacidad. Esta Política de Privacidad
+                  explica cómo recopilamos, usamos, compartimos y protegemos tu
                   información personal cuando utilizas nuestra plataforma y
                   servicios.
                 </p>
@@ -56,9 +56,10 @@ export default function PrivacidadPage() {
                   plataforma.
                 </p>
                 <p>
-                  Al utilizar nuestros servicios, aceptas las prácticas descritas
-                  en esta Política de Privacidad. Si no estás de acuerdo con
-                  esta política, te rogamos que no utilices nuestros servicios.
+                  Al utilizar nuestros servicios, aceptas las prácticas
+                  descritas en esta Política de Privacidad. Si no estás de
+                  acuerdo con esta política, te rogamos que no utilices nuestros
+                  servicios.
                 </p>
               </CardContent>
             </Card>
@@ -92,9 +93,9 @@ export default function PrivacidadPage() {
                       nuestro equipo
                     </li>
                     <li>
-                      <strong>Información de pago:</strong> Datos necesarios para
-                      procesar pagos (procesados de forma segura por proveedores
-                      certificados)
+                      <strong>Información de pago:</strong> Datos necesarios
+                      para procesar pagos (procesados de forma segura por
+                      proveedores certificados)
                     </li>
                   </ul>
                 </div>
@@ -105,17 +106,20 @@ export default function PrivacidadPage() {
                   </h3>
                   <ul className="list-disc pl-6 space-y-2">
                     <li>
-                      <strong>Datos de uso:</strong> Páginas visitadas, funciones
-                      utilizadas, tiempo de uso, clics y navegación
+                      <strong>Datos de uso:</strong> Páginas visitadas,
+                      funciones utilizadas, tiempo de uso, clics y navegación
                     </li>
                     <li>
-                      <strong>Información técnica:</strong> Dirección IP, tipo de
-                      navegador, dispositivo, sistema operativo, idioma
+                      <strong>Información técnica:</strong> Dirección IP, tipo
+                      de navegador, dispositivo, sistema operativo, idioma
                     </li>
                     <li>
                       <strong>Cookies y tecnologías similares:</strong> Para más
                       información, consulta nuestra{" "}
-                      <Link href={"/cookies"} className="text-primary hover:underline">
+                      <Link
+                        href={"/cookies"}
+                        className="text-primary hover:underline"
+                      >
                         Política de Cookies
                       </Link>
                     </li>
@@ -155,8 +159,8 @@ export default function PrivacidadPage() {
                     usuario
                   </li>
                   <li>
-                    <strong>Cumplimiento legal:</strong> Cumplir con obligaciones
-                    legales y regulatorias aplicables
+                    <strong>Cumplimiento legal:</strong> Cumplir con
+                    obligaciones legales y regulatorias aplicables
                   </li>
                   <li>
                     <strong>Seguridad:</strong> Proteger contra fraudes, accesos
@@ -164,7 +168,8 @@ export default function PrivacidadPage() {
                   </li>
                   <li>
                     <strong>Marketing (con consentimiento):</strong> Enviarte
-                    información sobre servicios, promociones y contenido relevante
+                    información sobre servicios, promociones y contenido
+                    relevante
                   </li>
                 </ul>
               </CardContent>
@@ -190,8 +195,8 @@ export default function PrivacidadPage() {
                     pagos, análisis, soporte)
                   </li>
                   <li>
-                    <strong>Requisitos legales:</strong> Cuando sea necesario por
-                    ley, orden judicial o procedimiento legal
+                    <strong>Requisitos legales:</strong> Cuando sea necesario
+                    por ley, orden judicial o procedimiento legal
                   </li>
                   <li>
                     <strong>Protección de derechos:</strong> Para proteger
@@ -221,21 +226,26 @@ export default function PrivacidadPage() {
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>
                   Implementamos medidas de seguridad técnicas, administrativas y
-                  físicas apropiadas para proteger tu información personal contra
-                  acceso no autorizado, alteración, divulgación o destrucción:
+                  físicas apropiadas para proteger tu información personal
+                  contra acceso no autorizado, alteración, divulgación o
+                  destrucción:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Cifrado SSL/TLS para transmisión de datos</li>
                   <li>Cifrado de datos sensibles en reposo</li>
-                  <li>Controles de acceso estrictos y autenticación multifactor</li>
+                  <li>
+                    Controles de acceso estrictos y autenticación multifactor
+                  </li>
                   <li>Auditorías de seguridad regulares</li>
-                  <li>Copias de seguridad frecuentes y planes de recuperación</li>
+                  <li>
+                    Copias de seguridad frecuentes y planes de recuperación
+                  </li>
                   <li>Formación continua del personal en seguridad de datos</li>
                 </ul>
                 <p>
                   Sin embargo, ningún sistema es completamente seguro. Te
-                  recomendamos que también tomes medidas para proteger tu cuenta,
-                  como usar contraseñas seguras y no compartirlas.
+                  recomendamos que también tomes medidas para proteger tu
+                  cuenta, como usar contraseñas seguras y no compartirlas.
                 </p>
               </CardContent>
             </Card>
@@ -252,8 +262,8 @@ export default function PrivacidadPage() {
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
-                    <strong>Derecho de acceso:</strong> Solicitar una copia de tu
-                    información personal
+                    <strong>Derecho de acceso:</strong> Solicitar una copia de
+                    tu información personal
                   </li>
                   <li>
                     <strong>Derecho de rectificación:</strong> Corregir
@@ -277,8 +287,8 @@ export default function PrivacidadPage() {
                   </li>
                   <li>
                     <strong>Derecho a retirar consentimiento:</strong> En
-                    cualquier momento, sin afectar la legalidad del procesamiento
-                    previo
+                    cualquier momento, sin afectar la legalidad del
+                    procesamiento previo
                   </li>
                 </ul>
                 <p>
@@ -301,10 +311,14 @@ export default function PrivacidadPage() {
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>
                   Conservamos tu información personal solo durante el tiempo
-                  necesario para los fines establecidos en esta política, a menos
-                  que la ley requiera o permita un período de retención más largo.
+                  necesario para los fines establecidos en esta política, a
+                  menos que la ley requiera o permita un período de retención
+                  más largo.
                 </p>
-                <p>Los criterios para determinar los períodos de retención incluyen:</p>
+                <p>
+                  Los criterios para determinar los períodos de retención
+                  incluyen:
+                </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
                     El tiempo que mantengas una cuenta activa con nosotros
@@ -314,7 +328,9 @@ export default function PrivacidadPage() {
                     6-7 años para documentos contables en España)
                   </li>
                   <li>Necesidades de resolución de disputas o litigios</li>
-                  <li>Directrices emitidas por autoridades de protección de datos</li>
+                  <li>
+                    Directrices emitidas por autoridades de protección de datos
+                  </li>
                 </ul>
               </CardContent>
             </Card>
@@ -332,8 +348,13 @@ export default function PrivacidadPage() {
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Cláusulas contractuales estándar aprobadas por la UE</li>
-                  <li>Certificaciones de Privacy Shield (cuando corresponda)</li>
-                  <li>Otros mecanismos legales aprobados por autoridades competentes</li>
+                  <li>
+                    Certificaciones de Privacy Shield (cuando corresponda)
+                  </li>
+                  <li>
+                    Otros mecanismos legales aprobados por autoridades
+                    competentes
+                  </li>
                 </ul>
               </CardContent>
             </Card>
@@ -362,8 +383,8 @@ export default function PrivacidadPage() {
                 <p>
                   Podemos actualizar esta Política de Privacidad periódicamente.
                   Te notificaremos sobre cambios significativos publicando la
-                  nueva política en esta página y actualizando la fecha de "Última
-                  actualización". Te recomendamos revisar esta política
+                  nueva política en esta página y actualizando la fecha de
+                  "Última actualización". Te recomendamos revisar esta política
                   regularmente.
                 </p>
                 <p>
@@ -380,8 +401,8 @@ export default function PrivacidadPage() {
               </CardHeader>
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>
-                  Si tienes preguntas, inquietudes o solicitudes relacionadas con
-                  esta Política de Privacidad o el tratamiento de tus datos
+                  Si tienes preguntas, inquietudes o solicitudes relacionadas
+                  con esta Política de Privacidad o el tratamiento de tus datos
                   personales, puedes contactarnos:
                 </p>
                 <div className="space-y-2">
@@ -409,8 +430,8 @@ export default function PrivacidadPage() {
                     28006 Madrid, España
                   </p>
                   <p>
-                    <strong className="text-foreground">Teléfono:</strong> +34 900
-                    123 456
+                    <strong className="text-foreground">Teléfono:</strong> +34
+                    900 123 456
                   </p>
                 </div>
                 <p className="pt-4 border-t">
@@ -427,4 +448,3 @@ export default function PrivacidadPage() {
     </div>
   );
 }
-

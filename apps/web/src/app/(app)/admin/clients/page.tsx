@@ -9,11 +9,11 @@ export default async function AdminClientsPage() {
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Gestión de Clientes</h1>
         <p className="text-muted-foreground mt-2">
-          Administra los clientes del sistema. Puedes crear, editar y eliminar clientes.
+          Administra los clientes del sistema. Puedes crear, editar y eliminar
+          clientes.
         </p>
       </div>
       <ClientsClient />
     </div>
   );
 }
-

@@ -1,5 +1,5 @@
-import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
-import { type NeonHttpDatabase, drizzle } from "drizzle-orm/neon-http";
+import { type NeonQueryFunction, neon } from "@neondatabase/serverless";
+import { drizzle, type NeonHttpDatabase } from "drizzle-orm/neon-http";
 
 let _db: NeonHttpDatabase | null = null;
 let _sql: NeonQueryFunction<false, false> | null = null;
@@ -21,10 +21,37 @@ export const db = new Proxy({} as NeonHttpDatabase, {
   },
 });
 
+export type { SQL } from "drizzle-orm";
+// Re-export drizzle-orm utilities for consumers
+export {
+  and,
+  asc,
+  avg,
+  between,
+  count,
+  desc,
+  eq,
+  gt,
+  gte,
+  ilike,
+  inArray,
+  isNotNull,
+  isNull,
+  like,
+  lt,
+  lte,
+  max,
+  min,
+  ne,
+  notInArray,
+  or,
+  sql,
+  sum,
+} from "drizzle-orm";
+export type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+export * from "./mappings";
+export * from "./schema/accounting";
 export * from "./schema/auth";
 export * from "./schema/clients";
 export * from "./schema/templates";
-export * from "./schema/todo";
 export * from "./schema/upload";
-export * from "./schema/accounting";
-export * from "./mappings";

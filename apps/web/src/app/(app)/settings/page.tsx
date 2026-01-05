@@ -6,4 +6,3 @@ export default async function SettingsPage() {
 
   return <SettingsClient session={session} />;
 }
-

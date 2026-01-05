@@ -1,6 +1,10 @@
 "use client";
 
+import { Calendar, Mail, Shield, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,10 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
-import { User, Mail, Calendar, Shield } from "lucide-react";
 
 interface SettingsClientProps {
   session: {
@@ -82,7 +82,9 @@ export default function SettingsClient({ session }: SettingsClientProps) {
       setNewPassword("");
       setConfirmPassword("");
     } catch (error) {
-      toast.error("Error al cambiar la contraseña. Verifica tu contraseña actual");
+      toast.error(
+        "Error al cambiar la contraseña. Verifica tu contraseña actual",
+      );
       console.error(error);
     } finally {
       setIsUpdating(false);
@@ -92,7 +94,7 @@ export default function SettingsClient({ session }: SettingsClientProps) {
   const handleDeleteAccount = async () => {
     if (
       !confirm(
-        "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer."
+        "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.",
       )
     ) {
       return;
@@ -146,7 +148,11 @@ export default function SettingsClient({ session }: SettingsClientProps) {
               <div className="flex items-center gap-3 text-sm">
                 <Shield className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">Rol:</span>
-                <Badge variant={session.user.role === "admin" ? "default" : "secondary"}>
+                <Badge
+                  variant={
+                    session.user.role === "admin" ? "default" : "secondary"
+                  }
+                >
                   {session.user.role === "admin" ? "Administrador" : "Usuario"}
                 </Badge>
               </div>
@@ -155,11 +161,14 @@ export default function SettingsClient({ session }: SettingsClientProps) {
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Miembro desde:</span>
                   <span className="font-medium">
-                    {new Date(session.user.createdAt).toLocaleDateString("es-ES", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {new Date(session.user.createdAt).toLocaleDateString(
+                      "es-ES",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      },
+                    )}
                   </span>
                 </div>
               )}
@@ -171,9 +180,7 @@ export default function SettingsClient({ session }: SettingsClientProps) {
         <Card>
           <CardHeader>
             <CardTitle>Perfil</CardTitle>
-            <CardDescription>
-              Actualiza tu información personal
-            </CardDescription>
+            <CardDescription>Actualiza tu información personal</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleUpdateProfile} className="space-y-4">
@@ -200,7 +207,10 @@ export default function SettingsClient({ session }: SettingsClientProps) {
                   El correo electrónico no se puede cambiar
                 </p>
               </div>
-              <Button type="submit" disabled={isUpdating || name === session.user.name}>
+              <Button
+                type="submit"
+                disabled={isUpdating || name === session.user.name}
+              >
                 {isUpdating ? "Actualizando..." : "Actualizar Perfil"}
               </Button>
             </form>
@@ -244,7 +254,9 @@ export default function SettingsClient({ session }: SettingsClientProps) {
                 </p>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirmar Nueva Contraseña</Label>
+                <Label htmlFor="confirm-password">
+                  Confirmar Nueva Contraseña
+                </Label>
                 <Input
                   id="confirm-password"
                   type="password"
@@ -282,8 +294,8 @@ export default function SettingsClient({ session }: SettingsClientProps) {
             <div className="rounded-lg border border-destructive/50 p-4">
               <h4 className="font-semibold mb-2">Eliminar Cuenta</h4>
               <p className="text-sm text-muted-foreground mb-4">
-                Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, está
-                seguro.
+                Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor,
+                está seguro.
               </p>
               <Button
                 variant="destructive"
@@ -299,4 +311,3 @@ export default function SettingsClient({ session }: SettingsClientProps) {
     </div>
   );
 }
-

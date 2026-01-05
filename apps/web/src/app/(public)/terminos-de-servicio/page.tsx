@@ -1,11 +1,12 @@
-import { FileText, AlertCircle, CheckCircle, XCircle, Scale } from "lucide-react";
-import Link from "next/link";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  AlertCircle,
+  CheckCircle,
+  FileText,
+  Scale,
+  XCircle,
+} from "lucide-react";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function TerminosServicioPage() {
   return (
@@ -49,10 +50,10 @@ export default function TerminosServicioPage() {
                 </p>
                 <p>
                   Al acceder o utilizar nuestra plataforma, sitio web, servicios
-                  de consultoría financiera o cualquier otro servicio relacionado
-                  (colectivamente, los "Servicios"), aceptas estar sujeto a estos
-                  Términos. Si no estás de acuerdo con estos Términos, no debes
-                  utilizar nuestros Servicios.
+                  de consultoría financiera o cualquier otro servicio
+                  relacionado (colectivamente, los "Servicios"), aceptas estar
+                  sujeto a estos Términos. Si no estás de acuerdo con estos
+                  Términos, no debes utilizar nuestros Servicios.
                 </p>
                 <p>
                   Estos Términos se aplican a todos los usuarios de los
@@ -73,14 +74,19 @@ export default function TerminosServicioPage() {
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>
                   Consultoría Financiera ofrece una plataforma de servicios de
-                  consultoría financiera y herramientas tecnológicas para pymes y
-                  autónomos, incluyendo:
+                  consultoría financiera y herramientas tecnológicas para pymes
+                  y autónomos, incluyendo:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Análisis financiero y evaluación de estados contables</li>
-                  <li>Extracción y procesamiento automatizado de documentos financieros</li>
+                  <li>
+                    Extracción y procesamiento automatizado de documentos
+                    financieros
+                  </li>
                   <li>Generación de informes y reportes personalizados</li>
-                  <li>Asesoramiento financiero mediante inteligencia artificial</li>
+                  <li>
+                    Asesoramiento financiero mediante inteligencia artificial
+                  </li>
                   <li>Consultoría financiera personalizada</li>
                   <li>Herramientas de visualización de datos y dashboards</li>
                   <li>Gestión de riesgos y análisis predictivo</li>
@@ -117,9 +123,9 @@ export default function TerminosServicioPage() {
                   </h3>
                   <p>
                     Eres responsable de mantener la confidencialidad de tus
-                    credenciales de acceso y de todas las actividades que ocurran
-                    bajo tu cuenta. Debes notificarnos inmediatamente sobre
-                    cualquier uso no autorizado de tu cuenta.
+                    credenciales de acceso y de todas las actividades que
+                    ocurran bajo tu cuenta. Debes notificarnos inmediatamente
+                    sobre cualquier uso no autorizado de tu cuenta.
                   </p>
                 </div>
 
@@ -148,8 +154,13 @@ export default function TerminosServicioPage() {
                 <p>Al utilizar nuestros Servicios, te comprometes a:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Cumplir con todas las leyes y regulaciones aplicables</li>
-                  <li>Utilizar los Servicios solo para fines legítimos y comerciales</li>
-                  <li>No intentar acceder sin autorización a sistemas o datos</li>
+                  <li>
+                    Utilizar los Servicios solo para fines legítimos y
+                    comerciales
+                  </li>
+                  <li>
+                    No intentar acceder sin autorización a sistemas o datos
+                  </li>
                   <li>No interferir con el funcionamiento de los Servicios</li>
                   <li>No transmitir contenido malicioso o dañino</li>
                   <li>No suplantar identidades ni falsificar información</li>
@@ -170,14 +181,28 @@ export default function TerminosServicioPage() {
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>Está expresamente prohibido:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Realizar ingeniería inversa, descompilar o desensamblar la plataforma</li>
-                  <li>Utilizar bots, scrapers o herramientas automatizadas no autorizadas</li>
-                  <li>Revender o redistribuir los Servicios sin autorización</li>
+                  <li>
+                    Realizar ingeniería inversa, descompilar o desensamblar la
+                    plataforma
+                  </li>
+                  <li>
+                    Utilizar bots, scrapers o herramientas automatizadas no
+                    autorizadas
+                  </li>
+                  <li>
+                    Revender o redistribuir los Servicios sin autorización
+                  </li>
                   <li>Compartir credenciales de acceso con terceros</li>
-                  <li>Utilizar los Servicios para actividades ilegales o no éticas</li>
-                  <li>Intentar obtener acceso no autorizado a sistemas o datos</li>
+                  <li>
+                    Utilizar los Servicios para actividades ilegales o no éticas
+                  </li>
+                  <li>
+                    Intentar obtener acceso no autorizado a sistemas o datos
+                  </li>
                   <li>Cargar contenido malicioso, virus o código dañino</li>
-                  <li>Realizar pruebas de penetración sin autorización previa</li>
+                  <li>
+                    Realizar pruebas de penetración sin autorización previa
+                  </li>
                 </ul>
                 <p>
                   Nos reservamos el derecho de suspender o cancelar tu cuenta si
@@ -231,8 +256,8 @@ export default function TerminosServicioPage() {
                     Reembolsos
                   </h3>
                   <p>
-                    Ofrecemos una garantía de satisfacción de 14 días para nuevos
-                    clientes. Los reembolsos de servicios de consultoría
+                    Ofrecemos una garantía de satisfacción de 14 días para
+                    nuevos clientes. Los reembolsos de servicios de consultoría
                     personalizados se evaluarán caso por caso.
                   </p>
                 </div>
@@ -252,9 +277,9 @@ export default function TerminosServicioPage() {
                   <p>
                     Todos los derechos, títulos e intereses en los Servicios,
                     incluyendo software, diseño, contenido, marcas comerciales y
-                    tecnología, son propiedad exclusiva de Consultoría Financiera
-                    o sus licenciantes. Estos Términos no te otorgan ningún
-                    derecho de propiedad sobre los Servicios.
+                    tecnología, son propiedad exclusiva de Consultoría
+                    Financiera o sus licenciantes. Estos Términos no te otorgan
+                    ningún derecho de propiedad sobre los Servicios.
                   </p>
                 </div>
 
@@ -275,8 +300,8 @@ export default function TerminosServicioPage() {
                     Tu contenido
                   </h3>
                   <p>
-                    Conservas todos los derechos sobre los datos y documentos que
-                    subas a la plataforma. Nos otorgas una licencia para
+                    Conservas todos los derechos sobre los datos y documentos
+                    que subas a la plataforma. Nos otorgas una licencia para
                     procesar, almacenar y analizar este contenido con el fin de
                     prestarte los Servicios.
                   </p>
@@ -292,7 +317,10 @@ export default function TerminosServicioPage() {
               <CardContent className="space-y-4 text-muted-foreground">
                 <p>
                   El tratamiento de tus datos personales se rige por nuestra{" "}
-                  <Link href={"/privacidad"} className="text-primary hover:underline">
+                  <Link
+                    href={"/privacidad"}
+                    className="text-primary hover:underline"
+                  >
                     Política de Privacidad
                   </Link>
                   , que forma parte integral de estos Términos.
@@ -345,11 +373,11 @@ export default function TerminosServicioPage() {
                     Limitación de responsabilidad
                   </h3>
                   <p>
-                    En la medida permitida por la ley, no seremos responsables de
-                    daños indirectos, incidentales, especiales, consecuentes o
-                    punitivos, incluyendo pérdida de beneficios, datos o uso.
-                    Nuestra responsabilidad total no excederá el monto pagado por
-                    ti en los 12 meses anteriores.
+                    En la medida permitida por la ley, no seremos responsables
+                    de daños indirectos, incidentales, especiales, consecuentes
+                    o punitivos, incluyendo pérdida de beneficios, datos o uso.
+                    Nuestra responsabilidad total no excederá el monto pagado
+                    por ti en los 12 meses anteriores.
                   </p>
                 </div>
               </CardContent>
@@ -388,9 +416,9 @@ export default function TerminosServicioPage() {
                     Efectos de la terminación
                   </h3>
                   <p>
-                    Tras la terminación, perderás acceso a los Servicios. Podemos
-                    conservar copias de tus datos según nuestras obligaciones
-                    legales y de retención.
+                    Tras la terminación, perderás acceso a los Servicios.
+                    Podemos conservar copias de tus datos según nuestras
+                    obligaciones legales y de retención.
                   </p>
                 </div>
               </CardContent>
@@ -418,8 +446,8 @@ export default function TerminosServicioPage() {
                   </h3>
                   <p>
                     Las partes se someten a la jurisdicción exclusiva de los
-                    tribunales de Madrid, España, para cualquier disputa derivada
-                    de estos Términos.
+                    tribunales de Madrid, España, para cualquier disputa
+                    derivada de estos Términos.
                   </p>
                 </div>
 
@@ -464,8 +492,8 @@ export default function TerminosServicioPage() {
               <CardContent className="space-y-4 text-muted-foreground">
                 <ul className="list-disc pl-6 space-y-2">
                   <li>
-                    <strong>Acuerdo completo:</strong> Estos Términos constituyen
-                    el acuerdo completo entre las partes.
+                    <strong>Acuerdo completo:</strong> Estos Términos
+                    constituyen el acuerdo completo entre las partes.
                   </li>
                   <li>
                     <strong>Divisibilidad:</strong> Si alguna disposición es
@@ -481,7 +509,8 @@ export default function TerminosServicioPage() {
                   </li>
                   <li>
                     <strong>Fuerza mayor:</strong> No seremos responsables por
-                    incumplimientos causados por eventos fuera de nuestro control.
+                    incumplimientos causados por eventos fuera de nuestro
+                    control.
                   </li>
                 </ul>
               </CardContent>
@@ -532,4 +561,3 @@ export default function TerminosServicioPage() {
     </div>
   );
 }
-

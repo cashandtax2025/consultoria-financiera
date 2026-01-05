@@ -13,6 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -29,7 +30,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { productionSalesData } from "@/lib/dummy-data";
-import { Button } from "@/components/ui/button";
 
 export default function AnalyticsPage() {
   // Filters state
@@ -416,7 +416,9 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Análisis de Producción</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          Análisis de Producción
+        </h1>
         <p className="text-muted-foreground mt-2">
           Análisis de ventas y evolución de precios por producto
         </p>
@@ -451,7 +453,10 @@ export default function AnalyticsPage() {
 
             <div className="space-y-2">
               <Label htmlFor="filter-tipo">Tipo de Producto</Label>
-              <Select value={selectedTipoProducto} onValueChange={setSelectedTipoProducto}>
+              <Select
+                value={selectedTipoProducto}
+                onValueChange={setSelectedTipoProducto}
+              >
                 <SelectTrigger id="filter-tipo" className="w-full">
                   <SelectValue placeholder="Todos los Tipos" />
                 </SelectTrigger>
@@ -468,7 +473,10 @@ export default function AnalyticsPage() {
 
             <div className="space-y-2">
               <Label htmlFor="filter-producto">Producto</Label>
-              <Select value={selectedProducto} onValueChange={setSelectedProducto}>
+              <Select
+                value={selectedProducto}
+                onValueChange={setSelectedProducto}
+              >
                 <SelectTrigger id="filter-producto" className="w-full">
                   <SelectValue placeholder="Todos los Productos" />
                 </SelectTrigger>
@@ -681,7 +689,10 @@ export default function AnalyticsPage() {
                   domain={[0, "auto"]}
                 />
                 <Tooltip
-                  formatter={(value: number) => [`€${value.toFixed(2)}/kg`, ""]}
+                  formatter={(value: number | undefined) => [
+                    value != null ? `€${value.toFixed(2)}/kg` : "",
+                    "",
+                  ]}
                   labelStyle={{ color: "#000" }}
                 />
                 <Legend />

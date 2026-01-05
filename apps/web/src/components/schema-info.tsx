@@ -191,7 +191,12 @@ const schemas: Record<
     name: "Gastos",
     description: "Esquema para importar gastos y facturas de proveedores.",
     fields: [
-      { name: "date", type: "date", required: true, description: "Fecha del gasto" },
+      {
+        name: "date",
+        type: "date",
+        required: true,
+        description: "Fecha del gasto",
+      },
       {
         name: "category",
         type: "string",
@@ -405,4 +410,3 @@ export function SchemaInfo({ documentType }: SchemaInfoProps) {
     </Card>
   );
 }
-

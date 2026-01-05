@@ -1,43 +1,22 @@
 "use client";
 
-import { useState, useMemo, useDeferredValue } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  AlertCircle,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  FileUp,
+  Lightbulb,
+  Loader2,
+  Plus,
+  Search,
+  Trash2,
+  Upload,
+} from "lucide-react";
+import Link from "next/link";
+import { useDeferredValue, useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -49,22 +28,43 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { trpc } from "@/utils/trpc";
-import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
-  ArrowLeft,
-  Plus,
-  Search,
-  Trash2,
-  CheckCircle2,
-  AlertCircle,
-  Loader2,
-  FileUp,
-  ArrowRight,
-  Lightbulb,
-  Upload,
-} from "lucide-react";
-import Link from "next/link";
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
+import { trpc } from "@/utils/trpc";
 
 interface ClientMappingClientProps {
   clientId: string;
@@ -308,12 +308,14 @@ export default function ClientMappingClient({
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">{client.name}</h1>
+            <h1 className="text-3xl font-bold tracking-tight">
+              {client.client.name}
+            </h1>
             <p className="text-muted-foreground mt-1">
-              {client.taxId && (
-                <span className="mr-4">CIF: {client.taxId}</span>
+              {client.client.taxId && (
+                <span className="mr-4">CIF: {client.client.taxId}</span>
               )}
-              {client.onboardingCompleted ? (
+              {client.client.onboardingCompleted ? (
                 <Badge variant="default" className="bg-green-500">
                   <CheckCircle2 className="h-3 w-3 mr-1" />
                   Onboarding Completado
@@ -328,7 +330,7 @@ export default function ClientMappingClient({
           </div>
         </div>
         <div className="flex gap-2">
-          {!client.onboardingCompleted && (
+          {!client.client.onboardingCompleted && (
             <Button
               variant="default"
               onClick={() => completeOnboarding.mutate({ clientId })}

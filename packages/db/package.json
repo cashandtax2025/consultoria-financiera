@@ -29,7 +29,7 @@
     "db:empty": "npx tsx src/scripts/empty-db.ts"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.2",
+    "drizzle-kit": "catalog:",
     "tsdown": "catalog:"
   },
   "peerDependencies": {
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "drizzle-orm": "catalog:",
-    "@neondatabase/serverless": "^1.0.1",
+    "@neondatabase/serverless": "catalog:",
     "dotenv": "catalog:",
     "zod": "catalog:"
   }

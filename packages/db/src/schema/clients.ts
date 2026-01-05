@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
   pgEnum,
@@ -6,9 +7,8 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { clientCompanyTypeValues, clientSectorValues } from "../mappings";
 import { user } from "./auth";
-import { clientSectorValues, clientCompanyTypeValues } from "../mappings";
 
 // Enum for client sector (Sector_Cliente)
 export const clientSectorEnum = pgEnum(

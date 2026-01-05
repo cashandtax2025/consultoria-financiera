@@ -1,19 +1,19 @@
-import {
-  type ModelId,
-  listClientsTool,
-  getClientDetailsTool,
-  getClientAccountingStatusTool,
-  getClientsStatsTool,
-  getClientAccountMappingTool,
-  getAvailableCategoriesTool,
-  calculatorTool,
-  currentTimeTool,
-} from "@consultoria-financiera/ai";
 import { gateway } from "@ai-sdk/gateway";
 import {
+  calculatorTool,
+  currentTimeTool,
+  getAvailableCategoriesTool,
+  getClientAccountingStatusTool,
+  getClientAccountMappingTool,
+  getClientDetailsTool,
+  getClientsStatsTool,
+  listClientsTool,
+  type ModelId,
+} from "@consultoria-financiera/ai";
+import {
   convertToModelMessages,
-  streamText,
   stepCountIs,
+  streamText,
   type UIMessage,
 } from "ai";
 
