@@ -8,7 +8,12 @@
     "BETTER_AUTH_SECRET",
     "BETTER_AUTH_URL",
     "CORS_ORIGIN",
-    "GOOGLE_GENERATIVE_AI_API_KEY"
+    "AI_GATEWAY_API_KEY",
+    "AXIOM_TOKEN",
+    "AXIOM_DATASET",
+    "RESEND_API_KEY",
+    "EMAIL_FROM",
+    "SENTRY_DSN"
   ],
   "tasks": {
     "build": {
@@ -22,8 +27,16 @@
         "BETTER_AUTH_SECRET",
         "BETTER_AUTH_URL",
         "CORS_ORIGIN",
-        "GOOGLE_GENERATIVE_AI_API_KEY"
+        "AI_GATEWAY_API_KEY",
+        "AXIOM_TOKEN",
+        "AXIOM_DATASET",
+        "RESEND_API_KEY",
+        "EMAIL_FROM",
+        "SENTRY_DSN"
       ]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
     },
     "lint": {
       "dependsOn": ["^lint"]
