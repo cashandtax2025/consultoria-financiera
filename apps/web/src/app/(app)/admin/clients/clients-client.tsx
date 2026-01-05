@@ -50,7 +50,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/utils/trpc";
-import { sectorClienteEnum, tipoEmpresaClienteEnum } from "@consultoria-financiera/db/schema/accounting";
 
 export function ClientsClient() {
   // Query for fetching clients

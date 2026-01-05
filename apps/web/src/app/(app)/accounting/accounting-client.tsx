@@ -82,8 +82,12 @@ export default function AccountingClient() {
       return;
     }
     createClient.mutate({
-      name: newClientName.trim(),
-      taxId: newClientTaxId.trim() || undefined,
+      cifCliente: newClientTaxId.trim(),
+      nombreCliente: newClientName.trim(),
+      sectorCliente: "Otros servicios profesionales", // Valor por defecto
+      tipoEmpresaCliente: "Servicios", // Valor por defecto
+      emailCliente: "placeholder@email.com", // TODO: Agregar campo de email
+      telefonoCliente: "600000000", // TODO: Agregar campo de teléfono
     });
   };
 
@@ -91,8 +95,8 @@ export default function AccountingClient() {
 
   const filteredClients = clients.data?.filter(
     (client: Client) =>
-      client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.taxId?.toLowerCase().includes(searchTerm.toLowerCase()),
+      client.nombreCliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.cifCliente?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -259,8 +263,8 @@ export default function AccountingClient() {
               <TableBody>
                 {filteredClients.map((client: Client) => (
                   <TableRow key={client.id}>
-                    <TableCell className="font-medium">{client.name}</TableCell>
-                    <TableCell>{client.taxId || "-"}</TableCell>
+                    <TableCell className="font-medium">{client.nombreCliente}</TableCell>
+                    <TableCell>{client.cifCliente}</TableCell>
                     <TableCell>
                       {client.onboardingCompleted ? (
                         <Badge variant="default" className="bg-green-500">
