@@ -1,16 +1,8 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm build",
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
   "framework": "nextjs",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- apps/web packages/",
-  "env": {
-    "DATABASE_URL": "${DATABASE_URL}",
-    "DATABASE_URL_POOLER": "${DATABASE_URL_POOLER}",
-    "BETTER_AUTH_SECRET": "${BETTER_AUTH_SECRET}",
-    "BETTER_AUTH_URL": "${BETTER_AUTH_URL}",
-    "CORS_ORIGIN": "${CORS_ORIGIN}",
-    "GOOGLE_GENERATIVE_AI_API_KEY": "${GOOGLE_GENERATIVE_AI_API_KEY}"
-  },
-  "$schema": "https://openapi.vercel.sh/vercel.json"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- apps/web packages/"
 }
